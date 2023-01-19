@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils.text import slugify
+from django.template.defaultfilters import slugify
 
 class AutoIncrementField(models.IntegerField):
     def __init__(self, *args, **kwargs):
@@ -8,49 +9,6 @@ class AutoIncrementField(models.IntegerField):
         kwargs['null'] = True
         kwargs['editable'] = False
         super().__init__(*args, **kwargs)
-
-class SalivaryGland(models.Model):
-    STATUS = (
-        ('Normal', 'Normal'),
-        ('Left Obstruction', 'Left Obstruction'),
-        ('Right Obstruction', 'Right Obstruction')
-    )
-    status = models.CharField(max_length=120, choices = STATUS)
-    sg_image = models.ImageField(blank=True)
-
-class BoneScan(models.Model):
-    METASTASIS_STATUS = (
-        ('Metastasis', 'Metastasis'),
-        ('No Metastasis', 'No Metastasis')
-    )
-    metastasis_status = models.CharField(max_length=120, choices = METASTASIS_STATUS)
-    sg_image = models.ImageField()
-
-
-
-class Gapsma(models.Model):
-    CHOICES = (
-        ('GA-68', 'GA-68'),
-        ('F-18 PSMA', 'F-18 PSMA')
-    )
-    choices = models.CharField(max_length=120, choices=CHOICES)
-    gapsma_img = models.ImageField(blank=True)
-    # lymph_node_lesion = models.OneToOneField(Lesion, on_delete=models.CASCADE)
-    # bone_lesion = models.OneToOneField(Lesion, on_delete=models.CASCADE)
-    # brain_lesion = models.OneToOneField(Lesion, on_delete=models.CASCADE)
-    # lung_lesion = models.OneToOneField(Lesion, on_delete=models.CASCADE)
-    # liver_lesion = models.OneToOneField(Lesion, on_delete=models.CASCADE)
-
-class Fdgpetct(models.Model):
-    fdgpetct_img = models.ImageField(blank=True)
-    # prostate_lesion = models.OneToOneField(Lesion, on_delete=models.CASCADE)
-    # lymph_node_lesion = models.OneToOneField(Lesion, on_delete=models.CASCADE)
-    # bone_lesion = models.OneToOneField(Lesion, on_delete=models.CASCADE)
-    # brain_lesion = models.OneToOneField(Lesion, on_delete=models.CASCADE)
-    # lung_lesion = models.OneToOneField(Lesion, on_delete=models.CASCADE)
-    # liver_lesion = models.OneToOneField(Lesion, on_delete=models.CASCADE)
-
-
 
 class Patient(models.Model):
     TYPE_TREATMENT = (
@@ -61,6 +19,7 @@ class Patient(models.Model):
     )
     #Test results and others are put to a different model
     name = models.CharField(max_length=120, blank= False, null=True)
+    slug = models.SlugField(null=True)
     patient_code = models.IntegerField(blank=True, null=True)
     age = models.IntegerField()
     address = models.CharField(max_length=300)
@@ -70,28 +29,35 @@ class Patient(models.Model):
     gleason_score = models.IntegerField(blank=True, null=True)
     date_of_treatment = models.DateField()
     type_of_treatment = models.CharField(max_length=120, choices=TYPE_TREATMENT)
-    ecog_score = models.IntegerField(blank=True, null=True)
-    height = models.IntegerField(blank=True, null=True)
-    weight = models.IntegerField(blank=True, null=True)
-    bmi = models.IntegerField(blank=True, null=True) # Body Mass Index
-    bp = models.IntegerField(blank=True, null=True) # Blood Pressure
-    hr = models.IntegerField(blank=True, null=True) # Heart Rate
-    pain_score = models.IntegerField(blank=True, null=True)
+
+    def __str__(self): 
+        return self.name
+
+    #auto-add slugs
+    def save(self, *args, **kwargs):  
+        if not self.slug:
+            self.slug = slugify(self.name)
+        return super().save(*args, **kwargs)
+
+class PhysicalExam(models.Model):
+    patient_name = models.ForeignKey(Patient, on_delete=models.CASCADE, blank=True, null=True)
+    ecog_score = models.IntegerField(blank=True)
+    height = models.IntegerField(blank=True)
+    weight = models.IntegerField(blank=True)
+    bmi = models.IntegerField(blank=True) # Body Mass Index
+    bp = models.IntegerField(blank=True) # Blood Pressure
+    hr = models.IntegerField(blank=True) # Heart Rate
+    pain_score = models.IntegerField(blank=True)
     local_symptoms = models.CharField(max_length=300, blank=True)
     systemic_symptoms = models.CharField(max_length=300, blank=True)
+
+class Screening(models.Model):
     ASSESSMENT = (
         ('Low Risk', 'Low Risk'),
         ('Intermediate Risk', 'Intermediate Risk'),
         ('High Risk', 'High Risk'),
     )
-    salivarygland = models.OneToOneField(SalivaryGland, on_delete=models.CASCADE, blank=True, null=True)
-    METASTASIS_STATUS = (
-        ('Metastasis', 'Metastasis'),
-        ('No Metastasis', 'No Metastasis')
-    )
-    metastasis_status = models.CharField(max_length=120, choices = METASTASIS_STATUS, blank=True, null=True)
-    sg_image = models.ImageField(blank=True, null=True)
-    rs = models.ImageField(blank=True, null=True)
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     psa = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
     creatinine = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
     wbc = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
@@ -104,7 +70,23 @@ class Patient(models.Model):
     sgpt = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
     sgot = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
     bilirubins = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
-    assessment = models.CharField(max_length=120, choices=ASSESSMENT, blank=True, null=True)
+
+    SALIVARY_GLAND_STATUS = (
+        ('Normal', 'Normal'),
+        ('Left Obstruction', 'Left Obstruction'),
+        ('Right Obstruction', 'Right Obstruction')
+    )
+    salivary_gland_status = models.CharField(max_length=120, choices = SALIVARY_GLAND_STATUS)
+    salivary_gland_image = models.ImageField(blank=True)
+
+    BONE_METASTASIS_STATUS = (
+        ('Metastasis', 'Metastasis'),
+        ('No Metastasis', 'No Metastasis')
+    )
+    bone_metastasis_status = models.CharField(max_length=120, choices = BONE_METASTASIS_STATUS, blank=True, null=True)
+    bone_scan_image = models.ImageField(blank=True, null=True)
+    renal_scintigraphy = models.ImageField(blank=True, null=True)
+
     GAPSMA = (
         ('GA-68', 'GA-68'),
         ('F-18 PSMA', 'F-18 PSMA')
@@ -181,56 +163,8 @@ class Patient(models.Model):
     fdgpetct_liver_location = models.CharField(max_length=50, null=True, blank=True)
     fdgpetct_liver_suv = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
     fdgpetct_liver_size = models.IntegerField(blank=True, null=True)
-    ##END OF SEGMENT##
-    # prostate_lesion lymph_node_lesion bone_lesion brain_lesion lung_lesion liver_lesion
 
-    def __str__(self): 
-        return self.name
-
-    # def save(self, *args, **kwargs):
-    #     if not self.patient_code:
-    #         qs = self.__class__.objects.filter(created__year=self.created.year)
-    #         if qs.exists():
-    #             self.patient_code = "{:04d}".format(qs.latest('created').patient_code + 1)
-    #         else:
-    #             self.patient_code = "{:04d}".format(1)
-    #     super(Patient, self).save(*args, **kwargs)
-
-# class PhysicalExam(models.Model):
-#     patient_name = models.ForeignKey(Patient, on_delete=models.CASCADE, blank=True, null=True)
-#     ecog_score = models.IntegerField(blank=True)
-#     height = models.IntegerField(blank=True)
-#     weight = models.IntegerField(blank=True)
-#     bmi = models.IntegerField(blank=True) # Body Mass Index
-#     bp = models.IntegerField(blank=True) # Blood Pressure
-#     hr = models.IntegerField(blank=True) # Heart Rate
-#     pain_score = models.IntegerField(blank=True)
-#     local_symptoms = models.CharField(max_length=300, blank=True)
-#     systemic_symptoms = models.CharField(max_length=300, blank=True)
-
-# class Screening(models.Model):
-#     ASSESSMENT = (
-#         ('Low Risk', 'Low Risk'),
-#         ('Intermediate Risk', 'Intermediate Risk'),
-#         ('High Risk', 'High Risk'),
-#     )
-#     patient_name = models.ForeignKey(Patient, on_delete=models.CASCADE, blank=True, null=True)
-#     salivarygland = models.OneToOneField(SalivaryGland, on_delete=models.CASCADE)
-#     bonescan = models.OneToOneField(BoneScan, on_delete=models.CASCADE)
-#     rs = models.ImageField(blank=True)
-#     psa = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
-#     creatinine = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
-#     wbc = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
-#     rbc = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
-#     hemoglobin = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
-#     hematocrit = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
-#     platelet = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
-#     lactate_hydrogenase = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
-#     alkaline_phosphatase = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
-#     sgpt = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
-#     sgot = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
-#     bilirubins = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
-#     gapsma = models.OneToOneField(Gapsma, on_delete=models.CASCADE)
-#     fdgpetct = models.OneToOneField(Fdgpetct, on_delete=models.CASCADE)
+    assessment = models.CharField(max_length=120, choices=ASSESSMENT, blank=True, null=True)
+    plan = models.CharField(max_length=120, blank=True, null=True)
     
     #other lesion!

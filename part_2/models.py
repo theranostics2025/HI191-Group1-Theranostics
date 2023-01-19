@@ -10,8 +10,6 @@ from part_1.models import *
 
 #CLASS THERAPY ONLY SUPPORTS ONE ENTRY PER PATIENT AS OF NOW. OPTIMIZE LATER    
 class Therapy(models.Model):
-    #patient_code = foreignkeyofpatientcode
-    #age = foreignkeyofpatientcode
     SIDE_EFFECTS = (
         ('Fatigue', 'Fatigue'),
         ('Nausea or Vomiting', 'Nausea or Vomiting'),
@@ -19,6 +17,7 @@ class Therapy(models.Model):
         ('Headache', 'Headache'),
         ('Bone Pain', 'Bone Pain')
     )
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     date_of_psma = models.DateField()
     premedications = models.CharField(max_length=120, null=True, blank=True)
     medications = models.CharField(max_length=120, null=True, blank=True)
