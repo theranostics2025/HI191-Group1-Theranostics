@@ -112,6 +112,7 @@ class Patient(models.Model):
     choices = models.CharField(max_length=120, choices=GAPSMA, blank=True, null=True)
     gapsma_img = models.ImageField(blank=True, null=True)
 
+##THIS SEGMENT NEEDS OPTIMIZATION##
     # GAPSMA Lesions
     LESION_STATUS = (
         ('Absent', 'Absent'),
@@ -180,7 +181,7 @@ class Patient(models.Model):
     fdgpetct_liver_location = models.CharField(max_length=50, null=True, blank=True)
     fdgpetct_liver_suv = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
     fdgpetct_liver_size = models.IntegerField(blank=True, null=True)
-    
+    ##END OF SEGMENT##
     # prostate_lesion lymph_node_lesion bone_lesion brain_lesion lung_lesion liver_lesion
 
     def __str__(self): 
