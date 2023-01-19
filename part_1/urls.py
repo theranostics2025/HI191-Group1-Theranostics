@@ -6,10 +6,10 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
-    # path('home/', views.homePage, name='homePage'),
+    path('', views.homePage, name='homePage'),
 
     # path('patient/', views.patientList, name = 'patientList'),
-    # path('patient/add-patient/', views.addPatient, name='addPatient'),
+    path('patient/add-patient/', views.addPatient, name='addPatient'),
     # path('patient/<slug:slug>', views.viewPatient, name='viewPatient'),
 
     # PHYSICAL EXAM

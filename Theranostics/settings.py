@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'part_1.apps.Part1Config',
     'part_2.apps.Part2Config',
     'part_3.apps.Part3Config',
-    'part_4.apps.Part4Config'
+    'part_4.apps.Part4Config',
+    'crispy_forms'
 ]
 
 MIDDLEWARE = [

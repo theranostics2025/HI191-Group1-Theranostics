@@ -91,7 +91,7 @@ class Screening(models.Model):
         ('GA-68', 'GA-68'),
         ('F-18 PSMA', 'F-18 PSMA')
     )
-    gapsma_ = models.CharField(max_length=120, choices=GAPSMA, blank=True, null=True)
+    gapsma = models.CharField(max_length=120, choices=GAPSMA, blank=True, null=True)
     gapsma_img = models.ImageField(blank=True, null=True)
 
 ##THIS SEGMENT NEEDS OPTIMIZATION##
