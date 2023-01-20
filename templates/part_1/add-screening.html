@@ -10,10 +10,10 @@
             <div class='container'>
                 <div class='card'>
                     <div class='card-header'>
-                        <h1>SCREENING/BASELINE</h1>
+                        <h1>FOLLOWUP/BASELINE</h1>
                         <br>
                         <div>
-                        <form method="POST" action =""></form>
+                        <form method="POST" action ="">
                             <table>
                                 <tr>
                                     {% csrf_token %}
@@ -104,7 +104,8 @@
 
                             <div><br>
                                 <span>FDGPETCT</span>
-                               
+                                {{ form.fdgpetct_img | as_crispy_field }}
+                                
                                 <div><br>
                                     <div>{{ form.fdgpetct_prostate_lesion_status | as_crispy_field }}</div>
                                     <div>{{ form.fdgpetct_prostate_location | as_crispy_field }}</div>

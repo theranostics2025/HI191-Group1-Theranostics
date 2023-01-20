@@ -3,13 +3,6 @@ from django.core.exceptions import ValidationError
 from django.utils.text import slugify
 from django.template.defaultfilters import slugify
 
-class AutoIncrementField(models.IntegerField):
-    def __init__(self, *args, **kwargs):
-        kwargs['blank'] = True
-        kwargs['null'] = True
-        kwargs['editable'] = False
-        super().__init__(*args, **kwargs)
-
 class Patient(models.Model):
     TYPE_TREATMENT = (
         ('Hormonal Treatment', 'Hormonal Treatment'),
@@ -20,7 +13,6 @@ class Patient(models.Model):
     #Test results and others are put to a different model
     name = models.CharField(max_length=120, blank= False, null=True)
     slug = models.SlugField(null=True)
-    patient_code = models.IntegerField(blank=True, null=True)
     age = models.IntegerField()
     address = models.CharField(max_length=300)
     diagnosis_date = models.DateField()
@@ -40,23 +32,17 @@ class Patient(models.Model):
         return super().save(*args, **kwargs)
 
 class PhysicalExam(models.Model):
-    slug = models.SlugField(null=True)
-    patient_name = models.ForeignKey(Patient, on_delete=models.CASCADE, blank=True, null=True)
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, blank=True, null=True)
     ecog_score = models.IntegerField(blank=True)
     height = models.IntegerField(blank=True)
     weight = models.IntegerField(blank=True)
     bmi = models.IntegerField(blank=True) # Body Mass Index
-    bp = models.IntegerField(blank=True) # Blood Pressure
+    bp = models.CharField(max_length=120, blank=True) # Blood Pressure
     hr = models.IntegerField(blank=True) # Heart Rate
     pain_score = models.IntegerField(blank=True)
     local_symptoms = models.CharField(max_length=300, blank=True)
     systemic_symptoms = models.CharField(max_length=300, blank=True)
 
-    #auto-add slugs
-    def save(self, *args, **kwargs):  
-        if not self.slug:
-            self.slug = slugify(self.name)
-        return super().save(*args, **kwargs)
 
 class Screening(models.Model):
     ASSESSMENT = (
@@ -64,7 +50,6 @@ class Screening(models.Model):
         ('Intermediate Risk', 'Intermediate Risk'),
         ('High Risk', 'High Risk'),
     )
-    slug = models.SlugField(null=True)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     psa = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
     creatinine = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
@@ -174,10 +159,4 @@ class Screening(models.Model):
 
     assessment = models.CharField(max_length=120, choices=ASSESSMENT, blank=True, null=True)
     plan = models.CharField(max_length=120, blank=True, null=True)
-    
-    #auto-add slugs
-    def save(self, *args, **kwargs):  
-        if not self.slug:
-            self.slug = slugify(self.name)
-        return super().save(*args, **kwargs)
-    #other lesion!
+ 

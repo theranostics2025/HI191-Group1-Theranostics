@@ -40,7 +40,7 @@ def addScreening(request, slug):
             build = form.save(False)
             build.patient = patient
             build.save()
-            return redirect(reverse('patientList',kwargs={'slug':slug}))
+            return redirect(reverse('viewScreening',kwargs={'slug':slug}))
 # def
     context={'form':form, 'patient': patient}
     return render(request,"part_1/add-screening.html",context)
@@ -54,7 +54,7 @@ def addPhysicalExam(request, slug):
             build = form.save(False)
             build.patient = patient
             build.save()
-            return redirect(reverse('patientList',kwargs={'slug':slug}))
+            return redirect(reverse('viewPhysicalExam',kwargs={'slug':slug}))
 
     context={'form':form, 'patient': patient}
     return render(request,"part_1/add-physical-exam.html",context)
@@ -97,7 +97,7 @@ def addPostTherapy(request, slug):
             build = form.save(False)
             build.patient = patient
             build.save()
-            return redirect(reverse('therapyList',kwargs={'slug':slug}))
+            return redirect(reverse('postTherapyList',kwargs={'slug':slug}))
 # def
     context={'form':form, 'patient': patient}
     return render(request,"part_3/add-post-therapy.html",context)
@@ -118,7 +118,28 @@ def addFollowUp(request, slug):
             build = form.save(False)
             build.patient = patient
             build.save()
-            return redirect(reverse('therapyList',kwargs={'slug':slug}))
+            return redirect(reverse('followUpList',kwargs={'slug':slug}))
 # def
     context={'form':form, 'patient': patient}
     return render(request,"part_4/add-follow-up.html",context)
+
+def viewPhysicalExam(request, slug):
+    patient = Patient.objects.get(slug=slug)
+    list = PhysicalExam.objects.filter(patient=patient).first()
+
+    context = {'list': list, 'patient': patient}
+    return render(request, 'part_1/view-physical-exam.html', context)
+
+def viewScreening(request, slug):
+    patient = Patient.objects.get(slug=slug)
+    list = Screening.objects.filter(patient=patient).first()
+
+    context = {'list': list, 'patient': patient}
+    return render(request, 'part_1/view-screening.html', context)
+
+def viewScreening(request, slug):
+    patient = Patient.objects.get(slug=slug)
+    list = Screening.objects.filter(patient=patient).first()
+
+    context = {'list': list, 'patient': patient}
+    return render(request, 'part_1/view-screening.html', context)

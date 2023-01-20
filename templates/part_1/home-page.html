@@ -1,4 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
-<p>hello</p>
+
+{% block content %}
+
+<h1>About</h1>
+<h5>This system aims to store records of patients with prostate cancer. It consists of capturing <b>patient demographics</b>, <b>therapy</b>, <b>post-therapy</b>, and <b>follow ups</b>,</h5>
+
+<h5>To start, please click on "Add Patient" to record a patient, and fill up their therapy information, post-therapy information, and follow ups</h5>
+{% endblock content %}

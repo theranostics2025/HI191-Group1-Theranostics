@@ -13,25 +13,14 @@
                         <h1>Physical Exam for {{patient.name | title}}</h1>
                         <br>
                         <div>
-                        <form method="POST" action ="">
+                        <form method="POST" action =""></form>
                             <table>
+                                
                                 <tr>
                                     {% csrf_token %}
                                     <td>{{ form.height | as_crispy_field }}</td>
                                     <td>{{ form.weight | as_crispy_field }}</td>
-                                    <td>{{ form.bmi | as_crispy_field }}</td>
-                                </tr>
-                                <tr>
-                                    <td>{{ form.bp | as_crispy_field }}</td>
-                                    <td>{{ form.hr | as_crispy_field }}</td>
-                                </tr>
-                                <tr>
-                                    <td>{{ form.ecog_score | as_crispy_field }}</td>
-                                    <td>{{ form.pain_score| as_crispy_field }}</td>
-                                </tr>
-                                <tr>
-                                    <td>{{ form.local_symptoms | as_crispy_field }}</td>
-                                    <td>{{ form.systemic_symptoms | as_crispy_field }}</td>
+                                    <!--ADD MORE FIELDS HERE-->
                                 </tr>
                             </table> 
                             <button style="margin-top: 20px;"class="btn btn-success" type="submit">Save Changes</button>

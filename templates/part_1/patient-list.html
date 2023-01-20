@@ -14,9 +14,9 @@
         </div>
 
         <div class="col-auto align-self-end text-end">
-            <a href="{% url 'addPhysicalExam' patient.slug %}" class="mr-1"><button type="button" class="btn btn-secondary btn-sm" href="{% url 'addPhysicalExam' patient.slug %}">View Physical Exam</button></a>
+            <a href="{% url 'viewPhysicalExam' patient.slug %}" class="mr-1"><button type="button" class="btn btn-secondary btn-sm" href="{% url 'viewPhysicalExam' patient.slug %}">View Physical Exam</button></a>
             {% comment %} <button type="button" class="update bs-modal btn btn-sm btn-success btn-sm mr-1" data-form-url="{% url 'editCollege' college.slug %}"><i class="fa-solid fa-pen"></i></button> {% endcomment %}
-            <a href="{% url 'addScreening' patient.slug %}" class="mr-1"><button type="button" class="btn btn-secondary btn-sm" href="{% url 'addScreening' patient.slug %}">View Screening</button></a>
+            <a href="{% url 'viewScreening' patient.slug %}" class="mr-1"><button type="button" class="btn btn-secondary btn-sm" href="{% url 'viewScreening' patient.slug %}">View Screening</button></a>
             <a href="{% url 'therapyList' patient.slug %}" class="mr-1"><button type="button" class="btn btn-secondary btn-sm" href="{% url 'therapyList' patient.slug %}">View Therapy</button></a>
             <a href="{% url 'postTherapyList' patient.slug %}" class="mr-1"><button type="button" class="btn btn-secondary btn-sm" href="{% url 'postTherapyList' patient.slug %}">View Post Therapy</button></a>
             <a href="{% url 'followUpList' patient.slug %}" class="mr-1"><button type="button" class="btn btn-secondary btn-sm" href="{% url 'followUpList' patient.slug %}">View Follow Ups</button></a>

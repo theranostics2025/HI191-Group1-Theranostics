@@ -22,3 +22,8 @@ class AddFollowUp(ModelForm):
         'fdgpetct_lung_lesion_status', 'fdgpetct_lung_location', 'fdgpetct_lung_suv', 'fdgpetct_lung_size',
         'fdgpetct_liver_lesion_status', 'fdgpetct_liver_location', 'fdgpetct_liver_suv', 'fdgpetct_liver_size',
         'assessment', 'plan']
+
+        widgets = {
+            'date_of_follow_up': forms.DateInput(attrs={'type': 'date'}),
+        }
+        

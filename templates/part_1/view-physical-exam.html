@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class = "container-fluid">
+    <h1 class="title">Physical Exam of {{patient.name | title}}</h1>
+    {% if list %}
+    {% else %}
+    <a href="{% url 'addPhysicalExam' patient.slug %}" class="mr-1"><button href="{% url 'addPhysicalExam' patient.slug %}" style="margin-top: 20px;"class="btn btn-success" type="button">Add Physical Exam</button></a>
+    {% endif %}
+    <div class = "container-fluid mt-4 table-container">
+        {% if list %}
+        Height: {{list.height}}
+        <br>
+        Weight: {{list.weight}}
+
+        BMI: {{list.weight}}
+        <br>
+        Blood Pressure (systolic/diastolic): {{list.bp}}
+        <br> 
+        Heart Rate: {{list.hr}}
+        <br>
+        ECOG Score: {{list.ecog_score}}
+        <br>
+        Pain Score: {{list.pain_score}}
+        <br>
+        Local Symptoms: {{list.local_symptoms}}
+        <br>
+        Systemic Symptoms: {{list.systemic_symptoms}}
+        {% endif %}
+      <div class="row border-bottom bg-white p-3 ">
+        </div>
+    </div>
+
+</div>
+{% endblock content %}

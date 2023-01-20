@@ -97,7 +97,6 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=120, null=True)),
-                ('patient_code', part_1.models.AutoIncrementField(blank=True, editable=False, null=True)),
                 ('age', models.IntegerField()),
                 ('address', models.CharField(max_length=300)),
                 ('diagnosis_date', models.DateField()),

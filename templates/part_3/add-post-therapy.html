@@ -10,19 +10,33 @@
             <div class='container'>
                 <div class='card'>
                     <div class='card-header'>
-                        <h1>ADD POST-THERAPY</h1>
+                        <h1>POST-THERAPY</h1>
                         <br>
                         <div>
-                        <form method="POST" action =""></form>
+                        <form method="POST" action ="">
                             <table>
-                                
                                 <tr>
                                     {% csrf_token %}
+                                    <td>{{ form.date_of_post_therapy | as_crispy_field }}</td>
+                                    <td>{{ form.post_therapy_scan | as_crispy_field }}</td>
+                                </tr>
+                                <tr>
                                     <td>{{ form.furosemide | as_crispy_field }}</td>
                                     <td>{{ form.lesions | as_crispy_field }}</td>
-                                    <!--ADD MORE FIELDS HERE-->
+                                </tr>
+                                <tr>
+                                    <td>{{ form.bone_lesion_details | as_crispy_field }}</td>
+                                    <td>{{ form.lesion_image | as_crispy_field }}</td>
                                 </tr>
                             </table> 
+
+                            <div><br>
+                                <span>Dosimetry</span>
+                                <div>{{ form.salivary_gland | as_crispy_field }}</div>
+                                <div>{{ form.kidney_left | as_crispy_field }}</div>
+                                <div>{{ form.kidney_right | as_crispy_field }}</div>
+                                <div>{{ form.dosimetry_image | as_crispy_field }}</div>
+                            </div>
                             <button style="margin-top: 20px;"class="btn btn-success" type="submit">Save Changes</button>
                         </form>
                 </div>

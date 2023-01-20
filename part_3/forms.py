@@ -7,3 +7,6 @@ class AddPostTherapy(ModelForm):
     class Meta:
         model = PostTherapy
         fields = ['date_of_post_therapy','post_therapy_scan','furosemide','lesions','bone_lesion_details', 'lesion_image', 'salivary_gland', 'kidney_left', 'kidney_right', 'dosimetry_image']
+        widgets = {
+            'date_of_post_therapy': forms.DateInput(attrs={'type': 'date'}),
+        }

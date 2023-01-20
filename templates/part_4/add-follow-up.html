@@ -13,10 +13,11 @@
                         <h1>SCREENING/BASELINE</h1>
                         <br>
                         <div>
-                        <form method="POST" action =""></form>
+                        <form method="POST" action ="">
                             <table>
                                 <tr>
                                     {% csrf_token %}
+                                    <td>{{ form.date_of_follow_up | as_crispy_field }}</td>
                                     <td>{{ form.psa | as_crispy_field }}</td>
                                     <td>{{ form.creatinine | as_crispy_field }}</td>
                                 </tr>
@@ -104,7 +105,7 @@
 
                             <div><br>
                                 <span>FDGPETCT</span>
-                               
+                                {{ form.fdgpetct_img | as_crispy_field }}
                                 <div><br>
                                     <div>{{ form.fdgpetct_prostate_lesion_status | as_crispy_field }}</div>
                                     <div>{{ form.fdgpetct_prostate_location | as_crispy_field }}</div>

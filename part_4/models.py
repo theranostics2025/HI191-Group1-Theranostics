@@ -119,8 +119,3 @@ class FollowUp(models.Model):
     assessment = models.CharField(max_length=120, choices=ASSESSMENT, blank=True, null=True)
     plan = models.CharField(max_length=120, blank=True, null=True)
     
-    #auto-add slugs
-    def save(self, *args, **kwargs):  
-        if not self.slug:
-            self.slug = slugify(self.name)
-        return super().save(*args, **kwargs)
