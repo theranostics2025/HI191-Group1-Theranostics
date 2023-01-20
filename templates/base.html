@@ -1,0 +1,71 @@
+{% load static %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %}{% endblock title  %}</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <!-- scripts and css -->
+        <link rel="stylesheet" href="{% static 'css/styleguide.css'%}">
+        {% include 'css_modules.html' %}
+
+        {% block extracss %}
+        {% endblock extracss %}
+
+    </head>
+    <style>
+        ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+ 
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+  background-color: #111;
+}
+
+    </style>
+    <body>
+        <div class="wrapper d-flex align-items-stretch"></div>
+        <ul>
+            <li><h1 style="color: white">UP Theranostics</h1></li>
+            <li><a href="{% url 'addPatient' %}">Add patient</a></li>
+            <li><a href="{% url 'patientList' %}">Patients</a></li>
+        </ul>
+            <!-- Page Content  -->
+            <div id="content" class="p-4 p-md-5 bg-body">
+
+                <main>
+                    <div class="app-title">
+                        {% block breadcrumb %}
+                        {% endblock breadcrumb %}
+                    </div>
+                    {% block content %}
+                    {% endblock content %}
+                </main>
+
+            </div>
+        </div>
+        {% include 'script_modules.html' %}
+
+        {% block extrascripts %}
+        {% endblock extrascripts %}
+    </body>
+</html>

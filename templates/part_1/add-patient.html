@@ -1,18 +1,11 @@
-<!DOCTYPE html>
-<html lang="en" >
-<head>
-  <meta charset="UTF-8">
-  <title>UP Theranostics Databank</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1"><link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css'><link rel="stylesheet" href="{% static './MainCSS.css' %}">
-
-</head>
-<body>
+{% extends 'base.html' %}
+{% load static %}
 {% load crispy_forms_tags %}
 <!-- partial:index.partial.html -->
+{% block content %}
 <div class='dashboard'>
 
     <div class='dashboard-app'>
-        <header class='dashboard-toolbar'><a href="#!" class="menu-toggle"><i class="fas fa-bars"></i></a></header>
         <div class='dashboard-content'>
             <div class='container'>
                 <div class='card'>
@@ -20,151 +13,27 @@
                         <h1>PATIENT DEMOGRAPHICS</h1>
                         <br>
                         <div>
-                            <table class="text_field">
-                                <tr>
-                                    <td><label class="form-label">Patient Code</td> 
-                                    <td> &nbsp;&nbsp;&nbsp;&nbsp;<input class="blank" type="text" placeholder="xxxx" required> </td>
-                                 </tr>
-                                 <tr>
-                                    <form method="POST" action ="">
+                            <form method="POST" action ="">
+                                <table>
+                                    <tr>
+                                        
                                         {% csrf_token %}
-                                        <td>{{ form.name | as_crispy_field }}</td>
-                                        <td>{{ form.age | as_crispy_field }}</td>
-                                    </form>
-                                    
-                                    <td> 
-                                        &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" placeholder="First Name">
-                                        <input class="blank" type="text" placeholder="Middle Name">
-                                        <input class="blank" type="text" placeholder="Last Name">
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td><label class="form-label"> Age</label></td>
-                                    <td>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" class="form-control"  placeholder="(in years)" min="1950-01-01"
-                                        max="2050-1-31" required>
-                                 </tr>
-                                 <tr>
-                                    <td><label for="address" class="form-label">City of Residence</label></td>
-                                    <td>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text"  placeholder="City"></td>
-                                 </tr>
-                                 <tr>
-                                    <td><label for="birthdate" class="form-label">Date of Diagnosis</label></td>
-                                    <td>&nbsp;&nbsp;&nbsp;&nbsp;<input type="date" class="form-control" id="birthdate" placeholder="" min="1950-01-01"
-                                        max="2050-1-31" required>
-                                 </tr>
-                                 <tr>
-                                    <td><label for="birthdate" class="form-label">Date of Surgery</label></td>
-                                    <td>&nbsp;&nbsp;&nbsp;&nbsp;<input type="date" class="form-control" id="birthdate" placeholder="" min="1950-01-01"
-                                        max="2050-1-31" required>
-                                 </tr>
-                                 <tr>
-                                    <td><label class="form-label">Histopath Result</label></td>
-                                    <td>&nbsp;&nbsp;&nbsp;&nbsp;<button>Upload File</button>
-                                 </tr>
-                                 <tr>
-                                    <td><label class="form-label"> Gleason Score</label></td>
-                                    <td>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" class="form-control"  placeholder="0" min="1950-01-01"
-                                        max="2050-1-31" required>
-                                 </tr>
-                                 <tr>
-                                    <td><label class="form-label">Date of Treatment </label></td>
-                                    <td>&nbsp;&nbsp;&nbsp;&nbsp;<input type="date" class="form-control"  placeholder="" min="1950-01-01"
-                                        max="2050-1-31" required>
-                                 </tr>
-                                 <tr>
-                                    <td><label class="form-label">Type of Treatment </label></td>
-                                    <td>&nbsp;&nbsp;&nbsp;&nbsp;<select class="form-select" id="state" required>
-                                        <option value="">Choose type of treatment...</option>
-                                        <option value="option1.1">Hormonal Therapy</option>
-                                        <option value="option2.1">Radiation Therapy</option>
-                                        <option value="option3.1">Chemotherapy</option>
-                                        <option value="option4.1">Others</option>
-                                    </select>
-                                 </tr>
-                            </table> 
+                                        <tr>{{ form.name | as_crispy_field }}</tr>
+                                        <tr>{{ form.age | as_crispy_field }}</tr>
+                                        <tr>{{ form.address | as_crispy_field }}</tr>
+                                        <tr>{{ form.diagnosis_date | as_crispy_field }}</tr>
+                                        <tr class="col-sm">{{ form.surgery_date | as_crispy_field }}</tr>
+                                        <tr>{{ form.histopath_result | as_crispy_field }}</tr>
+                                        <tr>{{ form.gleason_score | as_crispy_field }}</tr>
+                                        <tr>{{ form.date_of_treatment | as_crispy_field }}</tr>
+                                        <tr>{{ form.type_of_treatment | as_crispy_field }}</tr>
+                                    </tr>
+                                </table> 
+                                <button style="margin-top: 20px;"class="btn btn-success" type="submit">Save Changes</button>
+                            </form>
                 </div>
             </div>        
         </div>
     </div>
-    <button style ="margin-left: 200px" class="footer"> Reset </button>
-    <button style ="margin-left: 300px" class="footer"> Submit</button>
 </div>
-
-<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js'></script><script  src="./script.js"></script>
-
-
-<script>
-    const mobileScreen = window.matchMedia("(max-width: 990px )");
-    $(document).ready(function () {
-        $(".dashboard-nav-dropdown-toggle").click(function () {
-            $(this).closest(".dashboard-nav-dropdown")
-                .toggleClass("show")
-                .find(".dashboard-nav-dropdown")
-                .removeClass("show");
-            $(this).parent()
-                .siblings()
-                .removeClass("show");
-        });
-        $(".menu-toggle").click(function () {
-            if (mobileScreen.matches) {
-                $(".dashboard-nav").toggleClass("mobile-show");
-            } else {
-                $(".dashboard").toggleClass("dashboard-compact");
-            }
-        });
-    });
-</script>
-<script type="text/javascript">
-    (function () {
-        'use strict'
-        var forms = document.querySelectorAll('.needs-validation')
-        Array.prototype.slice.call(forms)
-
-            .forEach(function (form) {
-                form.addEventListener('submit', function (event) {
-                    if (!form.checkValidity()) {
-                        event.preventDefault()
-                        event.stopPropagation();
-                        form.classList.add('was-validated');
-                    } else {
-                        alert("Health Registration Submitted");
-                        return true;
-                       
-                    }
-                }, false)
-            });
-    })();
-
-    function EnableDisableTextBox(btnMedication) {
-        var medicationList = document.getElementById("medicationList");
-        if (btnMedication.value == "Yes") {
-            medicationList.removeAttribute("disabled");
-        } else {
-            medicationList.setAttribute("disabled", "");
-            medicationList.value = "";
-        }
-    }
-
-    document.querySelector('form').addEventListener('reset', function (event) {
-        if (!confirm('Are you sure you want to reset the field?')) {
-            event.preventDefault();
-        } else {
-            window.location.reload();
-        }
-    });
-
-    function patientIdGen() {
-        var timeSpan = Date.now();
-        document.getElementById("patientId").value = `ID-HOSP${timeSpan}`;
-    }
-
-    window.onload = function () {
-        patientIdGen()
-        window.scrollTo(0, 0);
-    }
-</script>
-    
-</body>
-</html>
-
+{% endblock content %}

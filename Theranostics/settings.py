@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'part_2.apps.Part2Config',
     'part_3.apps.Part3Config',
     'part_4.apps.Part4Config',
-    'crispy_forms'
+    'crispy_forms',
+    'bootstrap3'
 ]
 
 MIDDLEWARE = [
@@ -53,7 +54,10 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+BOOTSTRAP3 = {
+  'javascript_in_head': True,
+}
 ROOT_URLCONF = 'Theranostics.urls'
 
 TEMPLATES = [

@@ -3,25 +3,10 @@ from django import forms
 from django.forms import ModelChoiceField, ModelForm
 
 # ADDING DATA
-class AddPatient(ModelForm):
+class AddFollowUp(ModelForm):
     class Meta:
-        model = Patient
-        fields = ['name', 'age', 'address', 'diagnosis_date', 'surgery_date', 'histopath_result', 'gleason_score', 'date_of_treatment', 'type_of_treatment']
-        widgets = {
-            'diagnosis_date': forms.DateInput(attrs={'type': 'date'}),
-            'surgery_date': forms.DateInput(attrs={'type': 'date'}),
-            'date_of_treatment': forms.DateInput(attrs={'type': 'date'}),
-        }
-
-class AddPhysicalExam(ModelForm):
-    class Meta:
-        model = PhysicalExam
-        fields = ['ecog_score', 'height', 'weight', 'bmi', 'bp', 'hr', 'pain_score', 'local_symptoms', 'systemic_symptoms']
-
-class AddScreening(ModelForm):
-    class Meta:
-        model = Screening
-        fields = ['psa', 'creatinine', 'wbc', 'rbc', 'hemoglobin', 'hematocrit', 'platelet', 'lactate_hydrogenase', 'alkaline_phosphatase', 'sgpt', 'sgot', 'bilirubins', 
+        model = FollowUp
+        fields = ['date_of_follow_up', 'psa', 'creatinine', 'wbc', 'rbc', 'hemoglobin', 'hematocrit', 'platelet', 'lactate_hydrogenase', 'alkaline_phosphatase', 'sgpt', 'sgot', 'bilirubins', 
         'salivary_gland_status', 'salivary_gland_image', 'bone_metastasis_status', 'bone_scan_image', 'renal_scintigraphy', 'gapsma_choices', 'gapsma_img', 
         'gapsma_prostate_lesion_status', 'gapsma_prostate_location', 'gapsma_prostate_suv', 'gapsma_prostate_size',
         'gapsma_lymph_node_lesion_status', 'gapsma_lymph_node_location', 'gapsma_lymph_node_suv', 'gapsma_lymph_node_size',

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+<!-- partial:index.partial.html -->
+{% block content %}
+<div class='dashboard'>
+
+    <div class='dashboard-app'>
+        <div class='dashboard-content'>
+            <div class='container'>
+                <div class='card'>
+                    <div class='card-header'>
+                        <h1>ADD THERAPY</h1>
+                        <br>
+                        <div>
+                        <form method="POST" action ="">
+                            <table>
+                                
+                                <tr>
+                                    {% csrf_token %}
+                                    <tr>{{ form.date_of_psma | as_crispy_field }}</tr>
+                                    <tr>{{ form.premedications | as_crispy_field }}</tr>
+                                    <tr>{{ form.medications | as_crispy_field }}</tr>
+                                    <tr>{{ form.furosemide | as_crispy_field }}</tr>
+                                    <tr>{{ form.systolic | as_crispy_field }}</tr>
+                                    <tr>{{ form.diastolic | as_crispy_field }}</tr>
+                                    <tr>{{ form.hr | as_crispy_field }}</tr>
+                                    <tr>{{ form.rr | as_crispy_field }}</tr>
+                                    <tr>{{ form.saturation | as_crispy_field }}</tr>
+                                    <tr>{{ form.date_therapy | as_crispy_field }}</tr>
+                                    <tr>{{ form.radiopharm | as_crispy_field }}</tr>
+                                    <tr>{{ form.side_effects | as_crispy_field }}</tr>
+                                    <!--ADD MORE FIELDS HERE-->
+                                </tr>
+                            </table> 
+                            <button style="margin-top: 20px;"class="btn btn-success" type="submit">Save Changes</button>
+                        </form>
+                </div>
+            </div>        
+        </div>
+    </div>
+</div>
+{% endblock content %}
