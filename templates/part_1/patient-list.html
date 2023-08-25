@@ -3,27 +3,55 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class = "container-fluid">
-    <h1 class="title">List of Patients</h1>
-    <div class = "container-fluid mt-4 table-container">
+<div class = "w-50" >
+    <h4>Search for Patients</h4>
+    <form method = POST action="{% url 'patientSearch' %}">
+        {% csrf_token %}
+        
+        <input class = "w-50" type="text" placeholder = "Search Patients" name = "search">
+        <button class = "btn btn-secondary" type = "submit">Search</button>
+    </form>
+</div>
+<div class = "mt-4 container-fluid">
+    <h1 class="title">Patients</h1>
+    <a class="btn btn-success text-right" style="background-color: #871919; border-color: #871919;" href="{% url 'addPatient' %}">Add Patient</a>
+    <div class = "container-fluid mt-4 table-container w-75" style="border-bottom: none;">
       {% for patient in patients %}
       <div class="row border-bottom bg-white p-3 ">
-
         <div class="col align-self-center">
-            <h3>{{patient.name}}</h3>
+            <h5><a href="{% url 'patientDetails' patient.slug %}" style="text-decoration:  none; color: black">{{patient.name}}</a></h5>
         </div>
 
         <div class="col-auto align-self-end text-end">
-            <a href="{% url 'viewPhysicalExam' patient.slug %}" class="mr-1"><button type="button" class="btn btn-secondary btn-sm" href="{% url 'viewPhysicalExam' patient.slug %}">View Physical Exam</button></a>
-            {% comment %} <button type="button" class="update bs-modal btn btn-sm btn-success btn-sm mr-1" data-form-url="{% url 'editCollege' college.slug %}"><i class="fa-solid fa-pen"></i></button> {% endcomment %}
-            <a href="{% url 'viewScreening' patient.slug %}" class="mr-1"><button type="button" class="btn btn-secondary btn-sm" href="{% url 'viewScreening' patient.slug %}">View Screening</button></a>
-            <a href="{% url 'therapyList' patient.slug %}" class="mr-1"><button type="button" class="btn btn-secondary btn-sm" href="{% url 'therapyList' patient.slug %}">View Therapy</button></a>
-            <a href="{% url 'postTherapyList' patient.slug %}" class="mr-1"><button type="button" class="btn btn-secondary btn-sm" href="{% url 'postTherapyList' patient.slug %}">View Post Therapy</button></a>
-            <a href="{% url 'followUpList' patient.slug %}" class="mr-1"><button type="button" class="btn btn-secondary btn-sm" href="{% url 'followUpList' patient.slug %}">View Follow Ups</button></a>
+            <a href="{% url 'patientDetails' patient.slug %}" class="mr-1"><button type="button" class="btn btn-dark btn-sm" href="{% url 'patientDetails' patient.slug %}">Details</button></a>
+            <a href="{% url 'editPatient' patient.slug %}" class="mr-1"><button type="button" class="btn btn-secondary btn-sm" href="{% url 'editPatient' patient.slug %}">Edit</button></a>
+            <button type="button" class="btn btn-danger btn-sm mr-1" data-bs-toggle="modal" href="#deletePatientPopup{{patient.id}}">Delete</button>
+            <!--<a href="{% url 'therapyList' patient.slug %}" class="mr-1"><button type="button" class="btn btn-secondary btn-sm" href="{% url 'therapyList' patient.slug %}">Therapy</button></a>
+            <a href="{% url 'postTherapyList' patient.slug %}" class="mr-1"><button type="button" class="btn btn-secondary btn-sm" href="{% url 'postTherapyList' patient.slug %}">Post Therapy</button></a>
+            <a href="{% url 'followUpList' patient.slug %}" class="mr-1"><button type="button" class="btn btn-secondary btn-sm" href="{% url 'followUpList' patient.slug %}">Follow Ups</button></a>-->
         </div>
         </div>
+        <!-- Modal -->
+            <div class="modal fade" id="deletePatientPopup{{patient.id}}" tabindex="-1" role="dialog" aria-labelledby="deletePatientLabel" aria-hidden="true">
+                <div class="modal-dialog" style="display: flex; margin-top: 10%;" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete Patient?</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                    <div class="modal-body">
+                    Delete this patient?
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <a class="btn btn-danger" href="{% url 'deletePatient' patient.id %}">Delete</a>
+                    </div>
+                </div>
+                </div>
+            </div>
         {%endfor%}
     </div>
-
 </div>
 {% endblock content %}

@@ -1,0 +1,181 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<h1 class="title text-left" style="color: black; font-size: xx-large; margin-left: 0px;"><b>{{ patient.name }}</b></h1>
+<div class = "container-fluid mt-1 table-container" style="background-color: transparent; border-color: transparent;">
+    <div class="row">
+        <div class="col">
+            <h3>Patient Details</h3>
+            <ul style="display: grid; background-image: none;">
+                <li>Name: {{ patient.name }}</li>
+                <li>Age: {{ patient.age }}</li>
+                <li>Address: {{ patient.address }}</li>
+                <li>Diagnosis Date: {{ patient.diagnosis_date }}</li>
+                <li>Surgery Date: {{ patient.surgery_date }}</li>
+                <li>Gleason Score: {{ patient.gleason_score }}</li>
+                <li>Treatment Date: {{ patient.date_of_treatment }}</li>
+                <li>Treatment Type: {{ patient.type_of_treatment }}</li>
+            </ul>
+        </div>
+        <div class="col">
+            {% if patient.histopath_result %}
+            <h3>Histopath Result</h3> <img src="{{ patient.histopath_result.url }}" alt="" width="400" style="border-radius: 5px; border: solid maroon;"></li>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<div class = "container mt-1" style="display: inline;">
+    <div class = "row">
+        <div class = "col">
+            <h4 class="mt-2">Physical Exam</h4>
+                {% if physical_exam %}
+                {% else %}
+                    <a href="{% url 'addPhysicalExam' patient.slug %}" class="mr-1"><button href="{% url 'addPhysicalExam' patient.slug %}" style="margin-top: 20px;"class="btn btn-success" type="button">Add Physical Exam</button></a>
+                {% endif %}
+                {% if physical_exam %}
+                    Date of Physical Exam: {{ physical_exam.date_recorded }}
+                    <br>
+                    Height: {{physical_exam.height}}
+                    <br>
+                    Weight: {{physical_exam.weight}}
+                    <br>
+                    BMI: {{physical_exam.weight}}
+                    <br>
+                    Blood Pressure (systolic/diastolic): {{physical_exam.bp}}
+                    <br> 
+                    Heart Rate: {{physical_exam.hr}}
+                    <br>
+                    ECOG Score: {{physical_exam.ecog_score}}
+                    <br>
+                    Pain Score: {{physical_exam.pain_score}}
+                    <br>
+                    Local Symptoms: {{physical_exam.local_symptoms}}
+                    <br>
+                    Systemic Symptoms: {{physical_exam.systemic_symptoms}}
+                {% endif %}
+        </div>
+        <div class = "col">
+            <h4 class="mt-2">Therapy</h4>
+                {% if therapy %}
+                {% else %}
+                    <a href="{% url 'addTherapy' patient.slug %}" class="mr-1"><button href="{% url 'addTherapy' patient.slug %}" style="margin-top: 20px;"class="btn btn-success" type="button">Add Therapy</button></a>
+                {% endif %}
+                {% if therapy %}
+                    Date of PSMA: {{therapy.date_of_psma}}
+                    <br>
+                    Premedications: {{therapy.premedications}}
+                    <br>
+                    Medications: {{therapy.medications}}
+                    <br>
+                    Furosemide: {{therapy.furosemide}}
+                    <br> 
+                    Systolic: {{therapy.systolic}}
+                    <br>
+                    Diastolic: {{therapy.diastolic}}
+                    <br>
+                    Heart Rate: {{therapy.hr}}
+                    <br>
+                    Respiration Rate: {{therapy.rr}}
+                    <br>
+                    Saturation: {{therapy.saturation}}
+                    <br>
+                    Date of Therapy: {{therapy.date_therapy}}
+                    <br>
+                    Radiopharm: {{therapy.radioharm}}
+                    <br>
+                    Side Effects: {{therapy.side_effects}}
+                    <br>
+                {% endif %}
+        </div>
+    </div>
+    <div class = "row overflow-auto shadow mt-5" style="height: 500px">
+        <div class = "col">
+            <h4 class="mt-2">Screening</h4>
+                {% if screening %}
+                {% else %}
+                    <a href="{% url 'addScreening' patient.slug %}" class="mr-1"><button href="{% url 'addScreening' patient.slug %}" style="margin-top: 20px;"class="btn btn-success" type="button">Add Screening</button></a>
+                {% endif %}
+                {% if screening %}
+                    PSA: {{screening.psa}}
+                    <br>
+                    Creatinine: {{screening.creatinine}}           
+                    <br>    
+                    WBC: {{screening.wbc}}
+                    <br>
+                    RBC: {{screening.rbc}}
+                {% endif %}
+        </div>
+        <div class = "col">
+            <h4>Physical Exam</h4>
+                {% if physical_exam %}
+                {% else %}
+                    <a href="{% url 'addPhysicalExam' patient.slug %}" class="mr-1"><button href="{% url 'addPhysicalExam' patient.slug %}" style="margin-top: 20px;"class="btn btn-success" type="button">Add Physical Exam</button></a>
+                {% endif %}
+                {% if physical_exam %}
+                    Height: {{physical_exam.height}}
+                    <br>
+                    Weight: {{physical_exam.weight}}
+                    <br>
+                    BMI: {{physical_exam.weight}}
+                    <br>
+                    Blood Pressure (systolic/diastolic): {{physical_exam.bp}}
+                    <br> 
+                    Heart Rate: {{physical_exam.hr}}
+                    <br>
+                    ECOG Score: {{physical_exam.ecog_score}}
+                    <br>
+                    Pain Score: {{physical_exam.pain_score}}
+                    <br>
+                    Local Symptoms: {{physical_exam.local_symptoms}}
+                    <br>
+                    Systemic Symptoms: {{physical_exam.systemic_symptoms}}
+                {% endif %}
+        </div>
+    </div>  
+    <div class = "row overflow-auto shadow mt-5" style="height: 500px">
+        <div class = "col">
+            <h4 class="mt-2">Screening</h4>
+                {% if screening %}
+                {% else %}
+                    <a href="{% url 'addScreening' patient.slug %}" class="mr-1"><button href="{% url 'addScreening' patient.slug %}" style="margin-top: 20px;"class="btn btn-success" type="button">Add Screening</button></a>
+                {% endif %}
+                {% if screening %}
+                    PSA: {{screening.psa}}
+                    <br>
+                    Creatinine: {{screening.creatinine}}           
+                    <br>    
+                    WBC: {{screening.wbc}}
+                    <br>
+                    RBC: {{screening.rbc}}
+                {% endif %}
+        </div>
+        <div class = "col">
+            <h4 class="mt-2">Physical Exam</h4>
+                {% if physical_exam %}
+                {% else %}
+                    <a href="{% url 'addPhysicalExam' patient.slug %}" class="mr-1"><button href="{% url 'addPhysicalExam' patient.slug %}" style="margin-top: 20px;"class="btn btn-success" type="button">Add Physical Exam</button></a>
+                {% endif %}
+                {% if physical_exam %}
+                    Height: {{physical_exam.height}}
+                    <br>
+                    Weight: {{physical_exam.weight}}
+                    <br>
+                    BMI: {{physical_exam.weight}}
+                    <br>
+                    Blood Pressure (systolic/diastolic): {{physical_exam.bp}}
+                    <br> 
+                    Heart Rate: {{physical_exam.hr}}
+                    <br>
+                    ECOG Score: {{physical_exam.ecog_score}}
+                    <br>
+                    Pain Score: {{physical_exam.pain_score}}
+                    <br>
+                    Local Symptoms: {{physical_exam.local_symptoms}}
+                    <br>
+                    Systemic Symptoms: {{physical_exam.systemic_symptoms}}
+                {% endif %}
+        </div>
+    </div>  
+</div>
+{% endblock content %}

@@ -9,8 +9,11 @@ urlpatterns = [
     path('', views.homePage, name='homePage'),
 
     path('patient/', views.patientList, name = 'patientList'),
+    path('patient-search/', views.patientSearch, name = 'patientSearch'),
     path('patient/add-patient/', views.addPatient, name='addPatient'),
-    # path('patient/<slug:slug>', views.viewPatient, name='viewPatient'),
+    path('patient/edit-patient/<slug:slug>', views.editPatient, name='editPatient'),
+    path('patient/<slug:slug>', views.patientDetails, name='patientDetails'),
+    path('patient/delete/<int:pk>/', views.deletePatient, name='deletePatient'),
 
     # PHYSICAL EXAM
     path('patient/<slug:slug>/view-physical-exam', views.viewPhysicalExam, name='viewPhysicalExam'), # Displays list of physical exam done
@@ -42,5 +45,4 @@ urlpatterns = [
     path('patient/<slug:slug>/follow-up/add', views.addFollowUp, name='addFollowUp'),
     # path('patient/<slug:slug>/follow-up/edit/<slug:a>', views.editPostTherapy, name='editTherapy'),
     # path('patient/<slug:slug>/follow-up/view/<slug:a>', views.viewPostTherapy, name='viewPostTherapy'),
-
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

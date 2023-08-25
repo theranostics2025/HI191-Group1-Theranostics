@@ -18,10 +18,10 @@
                                 <tr>
                                     {% csrf_token %}
                                     <td>{{ form.date_of_post_therapy | as_crispy_field }}</td>
-                                    <td>{{ form.post_therapy_scan | as_crispy_field }}</td>
+                                    <td>{{ form.post_therapy_scan_hours | as_crispy_field }}</td>
                                 </tr>
                                 <tr>
-                                    <td>{{ form.furosemide | as_crispy_field }}</td>
+                                    <td>{{ form.with_spect_ct | as_crispy_field }}</td>
                                     <td>{{ form.lesions | as_crispy_field }}</td>
                                 </tr>
                                 <tr>

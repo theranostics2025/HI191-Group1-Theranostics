@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class = "w-50" >
+    <h4>Search for Patients</h4>
+    <form method = POST action="{% url 'patientSearch' %}">
+        {% csrf_token %}
+        
+        <input class = "w-50" type="text" placeholder = "Search Patients" name = "search">
+        <button class = "btn btn-secondary" type = "submit">Search</button>
+    </form>
+</div>
+<div class = "mt-4 container-fluid">
+    {% if search %}
+        <h4 class="title">Search Results for {{ search }}</h4>
+        <h1 class="title">Patients</h1>      
+        <div class = "container-fluid mt-4 table-container w-75">
+            {% for patient in results %}
+            <div class="row border-bottom bg-white p-3 ">
+              <div class="col align-self-center">
+                  <h5><a href="{% url 'patientDetails' patient.slug %}" style="text-decoration:  none; color: black">{{patient.name}}</a></h5>
+              </div>
+      
+              <div class="col-auto align-self-end text-end">
+                  <a href="{% url 'patientDetails' patient.slug %}" class="mr-1"><button type="button" class="btn btn-dark btn-sm" href="{% url 'patientDetails' patient.slug %}">Details</button></a> 
+                  <a href="{% url 'viewPhysicalExam' patient.slug %}" class="mr-1"><button type="button" class="btn btn-secondary btn-sm" href="{% url 'viewPhysicalExam' patient.slug %}">Physical Exam</button></a>
+                  {% comment %} <button type="button" class="update bs-modal btn btn-sm btn-success btn-sm mr-1" data-form-url="{% url 'editCollege' college.slug %}"><i class="fa-solid fa-pen"></i></button> {% endcomment %}
+                  <a href="{% url 'viewScreening' patient.slug %}" class="mr-1"><button type="button" class="btn btn-secondary btn-sm" href="{% url 'viewScreening' patient.slug %}">Screening</button></a>
+                  <a href="{% url 'therapyList' patient.slug %}" class="mr-1"><button type="button" class="btn btn-secondary btn-sm" href="{% url 'therapyList' patient.slug %}">Therapy</button></a>
+                  <a href="{% url 'postTherapyList' patient.slug %}" class="mr-1"><button type="button" class="btn btn-secondary btn-sm" href="{% url 'postTherapyList' patient.slug %}">Post Therapy</button></a>
+                  <a href="{% url 'followUpList' patient.slug %}" class="mr-1"><button type="button" class="btn btn-secondary btn-sm" href="{% url 'followUpList' patient.slug %}">Follow Ups</button></a>
+              </div>
+            </div>
+              {%endfor%}
+          </div>
+    {% else %}
+        <h1 class="title">Patients</h1>
+        <div class = "container-fluid mt-4 table-container w-75">
+            {% for patient in patients %}
+            <div class="row border-bottom bg-white p-3 ">
+              <div class="col align-self-center">
+                  <h5>{{patient.name}}</h5>
+              </div>
+      
+              <div class="col-auto align-self-end text-end">
+                  <a href="{% url 'viewPhysicalExam' patient.slug %}" class="mr-1"><button type="button" class="btn btn-secondary btn-sm" href="{% url 'viewPhysicalExam' patient.slug %}">Physical Exam</button></a>
+                  {% comment %} <button type="button" class="update bs-modal btn btn-sm btn-success btn-sm mr-1" data-form-url="{% url 'editCollege' college.slug %}"><i class="fa-solid fa-pen"></i></button> {% endcomment %}
+                  <a href="{% url 'viewScreening' patient.slug %}" class="mr-1"><button type="button" class="btn btn-secondary btn-sm" href="{% url 'viewScreening' patient.slug %}">Screening</button></a>
+                  <a href="{% url 'therapyList' patient.slug %}" class="mr-1"><button type="button" class="btn btn-secondary btn-sm" href="{% url 'therapyList' patient.slug %}">Therapy</button></a>
+                  <a href="{% url 'postTherapyList' patient.slug %}" class="mr-1"><button type="button" class="btn btn-secondary btn-sm" href="{% url 'postTherapyList' patient.slug %}">Post Therapy</button></a>
+                  <a href="{% url 'followUpList' patient.slug %}" class="mr-1"><button type="button" class="btn btn-secondary btn-sm" href="{% url 'followUpList' patient.slug %}">Follow Ups</button></a>
+              </div>
+            </div>
+              {%endfor%}
+          </div>
+    {% endif %}
+    
+    
+
+</div>
+{% endblock content %}

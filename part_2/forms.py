@@ -11,3 +11,12 @@ class AddTherapy(ModelForm):
             'date_of_psma': forms.DateInput(attrs={'type': 'date'}),
             'date_therapy': forms.DateInput(attrs={'type': 'date'}),
         }
+
+        labels = {
+            'date_of_psma' : 'Date of PSMA',
+            'systolic' : 'Systolic BP(mmHg)',
+            'diastolic' : 'Diastolic BP(mmHg)',
+            'hr' : 'Heart Rate(bpm)',
+            'rr' : 'Respiratory Rate(bpm)',
+            'saturation' : 'Oxygen Saturation(%)'
+        }

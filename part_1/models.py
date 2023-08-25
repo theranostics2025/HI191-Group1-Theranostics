@@ -2,6 +2,7 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils.text import slugify
 from django.template.defaultfilters import slugify
+from datetime import datetime
 
 class Patient(models.Model):
     TYPE_TREATMENT = (
@@ -17,7 +18,7 @@ class Patient(models.Model):
     address = models.CharField(max_length=300)
     diagnosis_date = models.DateField()
     surgery_date = models.DateField()
-    histopath_result = models.ImageField(blank=True, null=True)
+    histopath_result = models.ImageField(upload_to="images/")
     gleason_score = models.IntegerField(blank=True, null=True)
     date_of_treatment = models.DateField()
     type_of_treatment = models.CharField(max_length=120, choices=TYPE_TREATMENT)
@@ -32,6 +33,7 @@ class Patient(models.Model):
         return super().save(*args, **kwargs)
 
 class PhysicalExam(models.Model):
+    date_recorded = models.DateField(default=datetime.now)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, blank=True, null=True)
     ecog_score = models.IntegerField(blank=True)
     height = models.IntegerField(blank=True)

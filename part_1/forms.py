@@ -12,11 +12,29 @@ class AddPatient(ModelForm):
             'surgery_date': forms.DateInput(attrs={'type': 'date'}),
             'date_of_treatment': forms.DateInput(attrs={'type': 'date'}),
         }
+        
+
+class EditPatient(ModelForm):
+    class Meta:
+        model = Patient
+        fields = ['name', 'age', 'address', 'diagnosis_date', 'surgery_date', 'histopath_result', 'gleason_score', 'date_of_treatment', 'type_of_treatment']
+        widgets = {
+            'diagnosis_date': forms.DateInput(attrs={'type': 'date'}),
+            'surgery_date': forms.DateInput(attrs={'type': 'date'}),
+            'date_of_treatment': forms.DateInput(attrs={'type': 'date'}),
+        }
 
 class AddPhysicalExam(ModelForm):
     class Meta:
         model = PhysicalExam
         fields = ['ecog_score', 'height', 'weight', 'bmi', 'bp', 'hr', 'pain_score', 'local_symptoms', 'systemic_symptoms']
+        labels = {
+            'height': 'Height(cm)',
+            'weight': 'Weight(kg)',
+            'bmi': 'BMI',
+            'bp' : 'Blood Pressure(mmHg)',
+            'hr' : 'Heart Rate(bpm)'
+        }
 
 class AddScreening(ModelForm):
     class Meta:

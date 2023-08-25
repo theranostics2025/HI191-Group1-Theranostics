@@ -42,7 +42,10 @@ INSTALLED_APPS = [
     'part_3.apps.Part3Config',
     'part_4.apps.Part4Config',
     'crispy_forms',
-    'bootstrap3'
+    'bootstrap3',
+    'crispy_bootstrap4',
+    'bootstrap_modal_forms',
+    'multiselectfield'
 ]
 
 MIDDLEWARE = [
@@ -123,9 +126,13 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
+STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
 
-STATIC_URL = 'static/'
-
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 

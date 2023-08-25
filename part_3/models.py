@@ -13,8 +13,8 @@ class PostTherapy(models.Model):
     #count = id ng 
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     date_of_post_therapy = models.DateField()
-    post_therapy_scan = models.IntegerField(blank=True, null=True)
-    furosemide = models.BooleanField()
+    post_therapy_scan_hours = models.IntegerField(blank=True, null=True)
+    with_spect_ct = models.BooleanField()
     lesions = models.CharField(max_length=120, choices = LESIONS) #MAKE SURE MULTIPLE CHOICE FIELD FOR FORMS
     bone_lesion_details = models.TextField(blank=True, null=True)
     lesion_image = models.ImageField(blank=True)

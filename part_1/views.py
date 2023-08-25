@@ -21,15 +21,56 @@ def patientList(request):
     context = {'patients': patients}
     return render(request, 'part_1/patient-list.html', context)
 
+def patientDetails(request, slug):
+    patient = Patient.objects.get(slug=slug)
+    physical_exam = PhysicalExam.objects.filter(patient=patient).first()
+    screening = Screening.objects.filter(patient=patient).first()
+    therapy = Therapy.objects.filter(patient=patient).first()
+
+    context = {'patient' : patient, 'physical_exam' : physical_exam, 'screening' : screening, 'therapy' : therapy}
+    return render(request, 'part_1/patient-details.html', context)
+
+def patientSearch(request): 
+    patients = Patient.objects.all()
+    if request.method == "POST":
+        search = request.POST['search']
+        results = Patient.objects.filter(name__contains=search)
+        context = {'search': search, 'results': results}
+        return render(request, 'part_1/patient-search-results.html', context)
+    else:
+        context = {'patients': patients}
+        return render(request, 'part_1/patient-search-results.html', {})
+
 def addPatient(request):
     form = AddPatient()
     if request.method == "POST":
-        form = AddPatient(request.POST)
+        form = AddPatient(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('homePage')
     context={'form':form}
     return render(request,"part_1/add-patient.html", context)
+
+def editPatient(request, slug):
+    patient = Patient.objects.get(slug=slug)
+
+    if request.method == "POST":
+        form = EditPatient(request.POST, instance=patient)
+
+        if form.is_valid():
+            form.save()
+
+        return HttpResponseRedirect(reverse_lazy('patientList'))
+    else:
+        form = EditPatient(instance=patient)
+
+        context = {'form' : form}
+        return render(request, "part_1/edit-patient.html", context)
+
+def deletePatient(request, pk):
+    patient = Patient.objects.get(id=pk)
+    patient.delete()
+    return redirect('patientList')
 
 def addScreening(request, slug):
     patient = Patient.objects.get(slug=slug)
@@ -54,7 +95,7 @@ def addPhysicalExam(request, slug):
             build = form.save(False)
             build.patient = patient
             build.save()
-            return redirect(reverse('viewPhysicalExam',kwargs={'slug':slug}))
+            return redirect(reverse('patientDetails',kwargs={'slug':slug}))
 
     context={'form':form, 'patient': patient}
     return render(request,"part_1/add-physical-exam.html",context)
@@ -76,7 +117,7 @@ def addTherapy(request, slug):
             build = form.save(False)
             build.patient = patient
             build.save()
-            return redirect(reverse('therapyList',kwargs={'slug':slug}))
+            return redirect(reverse('patientDetails',kwargs={'slug':slug}))
 # def
     context={'form':form, 'patient': patient}
     return render(request,"part_2/add-therapy.html",context)
