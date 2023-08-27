@@ -8,6 +8,7 @@ class FollowUp(models.Model):
         ('Intermediate Risk', 'Intermediate Risk'),
         ('High Risk', 'High Risk'),
     )
+    id = models.AutoField(primary_key=True)
     slug = models.SlugField(null=True)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     psa = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)

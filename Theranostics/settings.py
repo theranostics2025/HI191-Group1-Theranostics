@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'bootstrap3',
     'crispy_bootstrap4',
     'bootstrap_modal_forms',
-    'multiselectfield'
+    'multiselectfield',
+    'django_extensions'
 ]
 
 MIDDLEWARE = [

@@ -20,7 +20,7 @@
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-image: linear-gradient(maroon, black);
+  background-image: linear-gradient(to right, maroon, rgb(37, 37, 37));
  
 }
 
@@ -45,7 +45,7 @@ li a:hover {
     <body>
         <div class="shadow wrapper w-100 align-items-stretch" style="z-index: 10; position: relative; border-bottom: none;">
         <ul>
-            <li><a href="{% url 'homePage' %}"><h1 style="color: white">Theranostics Databank</h1></a></li>
+            <li><a href="{% url 'homePage' %}"><h1 style="color: white"><b>Theranostics Databank</b></h1></a></li>
             <li style="padding-top: 10px;"><a href="{% url 'patientList' %}">Patients</a></li>
             <li style="padding-top: 10px;"><a href="{% url 'homePage' %}">About</a></li>
         </ul>

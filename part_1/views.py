@@ -25,9 +25,11 @@ def patientDetails(request, slug):
     patient = Patient.objects.get(slug=slug)
     physical_exam = PhysicalExam.objects.filter(patient=patient).first()
     screening = Screening.objects.filter(patient=patient).first()
-    therapy = Therapy.objects.filter(patient=patient).first()
+    therapy = Therapy.objects.filter(patient=patient)
+    post_therapy = PostTherapy.objects.filter(patient=patient)
+    follow_up = FollowUp.objects.filter(patient=patient)
 
-    context = {'patient' : patient, 'physical_exam' : physical_exam, 'screening' : screening, 'therapy' : therapy}
+    context = {'patient' : patient, 'physical_exam' : physical_exam, 'screening' : screening, 'therapy' : therapy, 'post_therapy': post_therapy, 'follow_up' : follow_up}
     return render(request, 'part_1/patient-details.html', context)
 
 def patientSearch(request): 
@@ -47,7 +49,7 @@ def addPatient(request):
         form = AddPatient(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('homePage')
+            return redirect('patientList')
     context={'form':form}
     return render(request,"part_1/add-patient.html", context)
 
@@ -100,6 +102,18 @@ def addPhysicalExam(request, slug):
     context={'form':form, 'patient': patient}
     return render(request,"part_1/add-physical-exam.html",context)
 
+def editPhysicalExam(request, slug, id):
+    physical_exam = PhysicalExam.objects.get(id=id)
+    if request.method == "POST":
+        form = EditPhysicalExam(request.POST, instance=physical_exam)
+        if form.is_valid():
+            form.save()
+        return HttpResponseRedirect(reverse_lazy('patientDetails', kwargs={"slug":slug}))
+    else:
+        form = EditPhysicalExam(instance=physical_exam)
+        context = {'form' : form}
+        return render(request, "part_1/edit-physical-exam.html", context)
+
 def therapyList(request, slug):
     patient = Patient.objects.get(slug=slug)
     list = Therapy.objects.filter(patient=patient).order_by('-pk')
@@ -122,6 +136,21 @@ def addTherapy(request, slug):
     context={'form':form, 'patient': patient}
     return render(request,"part_2/add-therapy.html",context)
 
+def editTherapy(request, slug, id):
+    therapy = Therapy.objects.get(id=id)
+    if request.method == "POST":
+        form = EditTherapy(request.POST, instance=therapy)
+        if form.is_valid():
+            form.save()
+        return HttpResponseRedirect(reverse_lazy('patientDetails', kwargs={"slug":slug}))
+    else:
+        form = EditTherapy(instance=therapy)
+        context = {'form' : form}
+        return render(request, "part_2/edit-therapy.html", context)
+
+def deleteTherapy(request, id):
+    pass
+
 def postTherapyList(request, slug):
     patient = Patient.objects.get(slug=slug)
     list = PostTherapy.objects.filter(patient=patient).order_by('-pk')
@@ -133,15 +162,27 @@ def addPostTherapy(request, slug):
     patient = Patient.objects.get(slug=slug)
     form = AddPostTherapy()
     if request.method == "POST":
-        form = AddPostTherapy(request.POST)
+        form = AddPostTherapy(request.POST, request.FILES)
         if form.is_valid():
             build = form.save(False)
             build.patient = patient
             build.save()
-            return redirect(reverse('postTherapyList',kwargs={'slug':slug}))
-# def
+            return redirect(reverse('patientDetails',kwargs={'slug':slug}))
+        
     context={'form':form, 'patient': patient}
     return render(request,"part_3/add-post-therapy.html",context)
+
+def editPostTherapy(request, slug, id):
+    post_therapy = PostTherapy.objects.get(id=id)
+    if request.method == "POST":
+        form = EditPostTherapy(request.POST, instance=post_therapy)
+        if form.is_valid():
+            form.save()
+        return HttpResponseRedirect(reverse_lazy('patientDetails', kwargs={"slug":slug}))
+    else:
+        form = EditPostTherapy(instance=post_therapy)
+        context = {'form' : form}
+        return render(request, "part_3/edit-post-therapy.html", context)
 
 def followUpList(request, slug):
     patient = Patient.objects.get(slug=slug)

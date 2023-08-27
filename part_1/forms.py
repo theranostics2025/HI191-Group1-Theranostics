@@ -23,6 +23,18 @@ class EditPatient(ModelForm):
             'surgery_date': forms.DateInput(attrs={'type': 'date'}),
             'date_of_treatment': forms.DateInput(attrs={'type': 'date'}),
         }
+        
+class EditPhysicalExam(ModelForm):
+    class Meta:
+        model = PhysicalExam
+        fields = ['ecog_score', 'height', 'weight', 'bmi', 'bp', 'hr', 'pain_score', 'local_symptoms', 'systemic_symptoms']
+        labels = {
+            'height': 'Height(cm)',
+            'weight': 'Weight(kg)',
+            'bmi': 'BMI',
+            'bp' : 'Blood Pressure(mmHg)',
+            'hr' : 'Heart Rate(bpm)'
+        }
 
 class AddPhysicalExam(ModelForm):
     class Meta:

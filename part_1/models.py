@@ -3,6 +3,7 @@ from django.core.exceptions import ValidationError
 from django.utils.text import slugify
 from django.template.defaultfilters import slugify
 from datetime import datetime
+from autoslug import AutoSlugField
 
 class Patient(models.Model):
     TYPE_TREATMENT = (
@@ -33,6 +34,8 @@ class Patient(models.Model):
         return super().save(*args, **kwargs)
 
 class PhysicalExam(models.Model):
+    id = models.AutoField(primary_key=True)
+    #slug = AutoSlugField(populate_from='id', unique=True, blank=True, null=True)
     date_recorded = models.DateField(default=datetime.now)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, blank=True, null=True)
     ecog_score = models.IntegerField(blank=True)
@@ -52,6 +55,7 @@ class Screening(models.Model):
         ('Intermediate Risk', 'Intermediate Risk'),
         ('High Risk', 'High Risk'),
     )
+    id = models.AutoField(primary_key=True)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     psa = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
     creatinine = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)

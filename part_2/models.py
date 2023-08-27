@@ -10,8 +10,6 @@ from multiselectfield import MultiSelectField
 #         return self.name
 
 #CLASS THERAPY ONLY SUPPORTS ONE ENTRY PER PATIENT AS OF NOW. OPTIMIZE LATER    
-class SideEffects(models.Model):
-    name = models.CharField(max_length=300,null=True)
 
 class Therapy(models.Model):
     SIDE_EFFECTS = (
@@ -21,6 +19,7 @@ class Therapy(models.Model):
         ('Headache', 'Headache'),
         ('Bone Pain', 'Bone Pain')
     )
+    id = models.AutoField(primary_key=True)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     date_of_psma = models.DateField()
     premedications = models.CharField(max_length=120, null=True, blank=True)

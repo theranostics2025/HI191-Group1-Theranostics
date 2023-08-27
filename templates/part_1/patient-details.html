@@ -26,7 +26,7 @@
     </div>
 </div>
 <div class = "container mt-1" style="display: inline;">
-    <div class = "row">
+    <div class = "row overflow-auto border border-dark pb-5 shadow" style="height: 500px; background-color: rgb(245, 245, 245);">
         <div class = "col">
             <h4 class="mt-2">Physical Exam</h4>
                 {% if physical_exam %}
@@ -34,6 +34,8 @@
                     <a href="{% url 'addPhysicalExam' patient.slug %}" class="mr-1"><button href="{% url 'addPhysicalExam' patient.slug %}" style="margin-top: 20px;"class="btn btn-success" type="button">Add Physical Exam</button></a>
                 {% endif %}
                 {% if physical_exam %}
+                    slug: {{ physical_exam.slug }}
+                    <br>
                     Date of Physical Exam: {{ physical_exam.date_recorded }}
                     <br>
                     Height: {{physical_exam.height}}
@@ -53,43 +55,59 @@
                     Local Symptoms: {{physical_exam.local_symptoms}}
                     <br>
                     Systemic Symptoms: {{physical_exam.systemic_symptoms}}
+                    <br>
+                    <a href="{% url 'editPhysicalExam' slug=patient.slug id=physical_exam.id %}" class="mr-1"><button href="{% url 'editPhysicalExam' slug=patient.slug id=physical_exam.id %}" style="margin-top: 20px;"class="btn btn-success" type="button">Edit</button></a>
                 {% endif %}
         </div>
         <div class = "col">
             <h4 class="mt-2">Therapy</h4>
-                {% if therapy %}
-                {% else %}
-                    <a href="{% url 'addTherapy' patient.slug %}" class="mr-1"><button href="{% url 'addTherapy' patient.slug %}" style="margin-top: 20px;"class="btn btn-success" type="button">Add Therapy</button></a>
-                {% endif %}
-                {% if therapy %}
-                    Date of PSMA: {{therapy.date_of_psma}}
-                    <br>
-                    Premedications: {{therapy.premedications}}
-                    <br>
-                    Medications: {{therapy.medications}}
-                    <br>
-                    Furosemide: {{therapy.furosemide}}
-                    <br> 
-                    Systolic: {{therapy.systolic}}
-                    <br>
-                    Diastolic: {{therapy.diastolic}}
-                    <br>
-                    Heart Rate: {{therapy.hr}}
-                    <br>
-                    Respiration Rate: {{therapy.rr}}
-                    <br>
-                    Saturation: {{therapy.saturation}}
-                    <br>
-                    Date of Therapy: {{therapy.date_therapy}}
-                    <br>
-                    Radiopharm: {{therapy.radioharm}}
-                    <br>
-                    Side Effects: {{therapy.side_effects}}
-                    <br>
-                {% endif %}
+            <a href="{% url 'addTherapy' patient.slug %}" class="mr-1 btn btn-success mt-1">Add Therapy</a>
+            <h4 class="mt-2">Therapies Done</h4>
+            <div class="accordion mt-2" id="accordionPanelsStayOpenExample" style="width: 90%;">
+                <div class="accordion-item">
+                    {% for therapy in therapy %}
+                        <h2 class="accordion-header" id="panelsStayOpen-heading{{forloop.counter}}">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse{{forloop.counter}}" aria-expanded="true" aria-controls="panelsStayOpen-collapse{{forloop.counter}}">
+                            <b>Therapy {{forloop.counter}}</b>
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapse{{forloop.counter}}" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-heading{{forloop.counter}}">
+                            <div class="accordion-body">
+                                {% if therapy %}
+                                    Date of PSMA: {{therapy.date_of_psma}}
+                                    <br>
+                                    Premedications: {{therapy.premedications}}
+                                    <br>
+                                    Medications: {{therapy.medications}}
+                                    <br>
+                                    Furosemide: {{therapy.furosemide}}
+                                    <br> 
+                                    Systolic: {{therapy.systolic}}
+                                    <br>
+                                    Diastolic: {{therapy.diastolic}}
+                                    <br>
+                                    Heart Rate: {{therapy.hr}}
+                                    <br>
+                                    Respiration Rate: {{therapy.rr}}
+                                    <br>
+                                    Saturation: {{therapy.saturation}}
+                                    <br>
+                                    Date of Therapy: {{therapy.date_therapy}}
+                                    <br>
+                                    Radiopharm: {{therapy.radioharm}}
+                                    <br>
+                                    Side Effects: {{therapy.side_effects}}
+                                    <br>
+                                    <a href="{% url 'editTherapy' slug=patient.slug id=therapy.id %}" class="mr-1"><button href="{% url 'editTherapy' slug=patient.slug id=therapy.id %}" style="margin-top: 20px;"class="btn btn-success" type="button">Edit</button></a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
     </div>
-    <div class = "row overflow-auto shadow mt-5" style="height: 500px">
+    <div class = "row overflow-auto shadow mt-5 rounded border border-dark pb-5" style="height: 500px; background-color: rgb(245, 245, 245);">
         <div class = "col">
             <h4 class="mt-2">Screening</h4>
                 {% if screening %}
@@ -107,54 +125,74 @@
                 {% endif %}
         </div>
         <div class = "col">
-            <h4>Physical Exam</h4>
-                {% if physical_exam %}
+            <h4 class="mt-2">Screening pt2</h4>
+                {% if Screening %}
                 {% else %}
-                    <a href="{% url 'addPhysicalExam' patient.slug %}" class="mr-1"><button href="{% url 'addPhysicalExam' patient.slug %}" style="margin-top: 20px;"class="btn btn-success" type="button">Add Physical Exam</button></a>
                 {% endif %}
                 {% if physical_exam %}
-                    Height: {{physical_exam.height}}
+                    PSA: {{screening.psa}}
                     <br>
-                    Weight: {{physical_exam.weight}}
+                    Creatinine: {{screening.creatinine}}           
+                    <br>    
+                    WBC: {{screening.wbc}}
                     <br>
-                    BMI: {{physical_exam.weight}}
-                    <br>
-                    Blood Pressure (systolic/diastolic): {{physical_exam.bp}}
-                    <br> 
-                    Heart Rate: {{physical_exam.hr}}
-                    <br>
-                    ECOG Score: {{physical_exam.ecog_score}}
-                    <br>
-                    Pain Score: {{physical_exam.pain_score}}
-                    <br>
-                    Local Symptoms: {{physical_exam.local_symptoms}}
-                    <br>
-                    Systemic Symptoms: {{physical_exam.systemic_symptoms}}
+                    RBC: {{screening.rbc}}
                 {% endif %}
         </div>
     </div>  
-    <div class = "row overflow-auto shadow mt-5" style="height: 500px">
+    <div class = "row overflow-auto shadow mt-5 rounded border border-dark pb-5" style="height: 500px; background-color: rgb(245, 245, 245);">
         <div class = "col">
-            <h4 class="mt-2">Screening</h4>
-                {% if screening %}
-                {% else %}
-                    <a href="{% url 'addScreening' patient.slug %}" class="mr-1"><button href="{% url 'addScreening' patient.slug %}" style="margin-top: 20px;"class="btn btn-success" type="button">Add Screening</button></a>
-                {% endif %}
-                {% if screening %}
-                    PSA: {{screening.psa}}
-                    <br>
-                    Creatinine: {{screening.creatinine}}           
-                    <br>    
-                    WBC: {{screening.wbc}}
-                    <br>
-                    RBC: {{screening.rbc}}
-                {% endif %}
+            <h4 class="mt-2">Post Therapy</h4>
+            <a href="{% url 'addPostTherapy' patient.slug %}" class="mr-1 btn btn-success mt-1">Add Therapy</a>
+            <h4 class="mt-2">Post Therapies Done</h4>
+            <div class="accordion mt-2" id="accordionPanelsStayOpenExample" style="width: 90%;">
+                <div class="accordion-item">
+                    {% for post_therapy in post_therapy %}
+                        <h2 class="accordion-header" id="panelsStayOpenpt-heading{{forloop.counter}}">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpenpt-collapse{{forloop.counter}}" aria-expanded="true" aria-controls="panelsStayOpenpt-collapse{{forloop.counter}}">
+                            <b>Post-therapy {{forloop.counter}}</b>
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpenpt-collapse{{forloop.counter}}" class="accordion-collapse collapse" aria-labelledby="panelsStayOpenpt-heading{{forloop.counter}}">
+                            <div class="accordion-body">
+                                {% if post_therapy %}
+                                    Date of Post Therapy: {{post_therapy.date_of_post_therapy}}
+                                    <br>
+                                    Scan Hours: {{post_therapy.post_therapy_scan_hours}}
+                                    <br>
+                                    with Spect/CT: {{post_therapy.with_spect_ct}}
+                                    <br>
+                                    Lesions: {{post_therapy.lesions}}
+                                    <br> 
+                                    Bone Lesion Details: {{post_therapy.bone_lesion_details}}
+                                    <br>
+                                    <h3>Lesion Image</h3> 
+                                    <img src="{{ post_therapy.lesion_image.url }}" alt="" width="200" style="border-radius: 5px; border: solid maroon;">
+                                    <br>
+                                    <br>
+                                    <h4>Dosimetry</h4>
+                                    Salivary Gland: {{post_therapy.salivary_gland}}
+                                    <br>
+                                    Left Kidney: {{post_therapy.kidney_left}}
+                                    <br>
+                                    Right Kidney: {{post_therapy.kidney_right}}
+                                    <br>
+                                    <h3>Dosimetry Image</h3>
+                                    <img src="{{ post_therapy.dosimetry_image.url }}" alt="" width="200" style="border-radius: 5px; border: solid maroon;">
+                                    <br>
+                                    <a href="{% url 'editPostTherapy' slug=patient.slug id=post_therapy.id %}" class="mr-1 mt-1"><button href="{% url 'editPostTherapy' slug=patient.slug id=post_therapy.id %}" style="margin-top: 20px;"class="btn btn-success" type="button">Edit</button></a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
         <div class = "col">
-            <h4 class="mt-2">Physical Exam</h4>
+            <h4 class="mt-2">Follow Up</h4>
                 {% if physical_exam %}
                 {% else %}
-                    <a href="{% url 'addPhysicalExam' patient.slug %}" class="mr-1"><button href="{% url 'addPhysicalExam' patient.slug %}" style="margin-top: 20px;"class="btn btn-success" type="button">Add Physical Exam</button></a>
+                    <a href="{% url 'addFollowUp' patient.slug %}" class="mr-1 mt-1 btn btn-success">Add Follow Up</a>
                 {% endif %}
                 {% if physical_exam %}
                     Height: {{physical_exam.height}}

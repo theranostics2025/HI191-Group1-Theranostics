@@ -18,7 +18,7 @@ urlpatterns = [
     # PHYSICAL EXAM
     path('patient/<slug:slug>/view-physical-exam', views.viewPhysicalExam, name='viewPhysicalExam'), # Displays list of physical exam done
     path('patient/<slug:slug>/physical-exam/add', views.addPhysicalExam, name='addPhysicalExam'),
-    # path('patient/<slug:slug>/physical-exam/edit', views.editPhysicalExam, name='editPhysicalExam'),
+    path('patient/<slug:slug>/physical-exam/edit/<int:id>', views.editPhysicalExam, name='editPhysicalExam'),
     # CREATE condition to remove add physical exam since 1 : 1
 
     # SCREENING
@@ -31,13 +31,13 @@ urlpatterns = [
     # THERAPY
     path('patient/<slug:slug>/therapy', views.therapyList, name='therapyList'),
     path('patient/<slug:slug>/therapy/add', views.addTherapy, name='addTherapy'),
-    # path('patient/<slug:slug>/therapy/edit/<slug:a>', views.editTherapy, name='editTherapy'),
+    path('patient/<slug:slug>/therapy/edit/<int:id>', views.editTherapy, name='editTherapy'),
     # path('patient/<slug:slug>/therapy/view/<slug:a>', views.viewTherapy, name='viewTherapy'),
 
     # POST-THERAPY
     path('patient/<slug:slug>/post-therapy', views.postTherapyList, name='postTherapyList'),
     path('patient/<slug:slug>/post-therapy/add', views.addPostTherapy, name='addPostTherapy'),
-    # path('patient/<slug:slug>/post-therapy/edit/<slug:a>', views.editPostTherapy, name='editPostTherapy'),
+    path('patient/<slug:slug>/post-therapy/edit/<int:id>', views.editPostTherapy, name='editPostTherapy'),
     # path('patient/<slug:slug>/post-therapy/view/<slug:a>', views.viewPostTherapy, name='viewPostTherapy'),
 
     # FOLLOW-UP
