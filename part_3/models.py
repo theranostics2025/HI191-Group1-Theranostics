@@ -12,7 +12,7 @@ class PostTherapy(models.Model):
         ('Liver', 'Liver')
     )
     id = models.AutoField(primary_key=True)
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='pt_patient')
     date_of_post_therapy = models.DateField()
     post_therapy_scan_hours = models.IntegerField(blank=True, null=True)
     with_spect_ct = models.BooleanField()

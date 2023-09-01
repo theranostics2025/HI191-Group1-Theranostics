@@ -20,7 +20,7 @@ class Therapy(models.Model):
         ('Bone Pain', 'Bone Pain')
     )
     id = models.AutoField(primary_key=True)
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='t_patient')
     date_of_psma = models.DateField()
     premedications = models.CharField(max_length=120, null=True, blank=True)
     medications = models.CharField(max_length=120, null=True, blank=True)

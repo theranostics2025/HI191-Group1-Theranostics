@@ -10,7 +10,7 @@ class FollowUp(models.Model):
     )
     id = models.AutoField(primary_key=True)
     slug = models.SlugField(null=True)
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='fu_patient')
     psa = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
     creatinine = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
     wbc = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
@@ -37,15 +37,15 @@ class FollowUp(models.Model):
         ('No Metastasis', 'No Metastasis')
     )
     bone_metastasis_status = models.CharField(max_length=120, choices = BONE_METASTASIS_STATUS, blank=True, null=True)
-    bone_scan_image = models.ImageField(blank=True, null=True)
-    renal_scintigraphy = models.ImageField(blank=True, null=True)
+    bone_scan_image = models.ImageField(upload_to="images/")
+    renal_scintigraphy = models.ImageField(upload_to="images/")
 
     GAPSMA = (
         ('GA-68', 'GA-68'),
         ('F-18 PSMA', 'F-18 PSMA')
     )
     gapsma_choices = models.CharField(max_length=120, choices=GAPSMA, blank=True, null=True)
-    gapsma_img = models.ImageField(blank=True, null=True)
+    gapsma_img = models.ImageField(upload_to="images/")
 
 ##THIS SEGMENT NEEDS OPTIMIZATION##
     # GAPSMA Lesions
@@ -83,7 +83,7 @@ class FollowUp(models.Model):
     gapsma_liver_suv = models.DecimalField(verbose_name="Liver SUV", max_digits=5, decimal_places=2, blank=True, null=True)
     gapsma_liver_size = models.IntegerField(verbose_name="Liver Lesion Size", blank=True, null=True)
 
-    fdgpetct_img = models.ImageField(blank=True)
+    fdgpetct_img = models.ImageField(upload_to="images/")
 
     # For fdgpetct
 
@@ -118,5 +118,5 @@ class FollowUp(models.Model):
     fdgpetct_liver_size = models.IntegerField(verbose_name="Liver Lesion Size", blank=True, null=True)
 
     assessment = models.CharField(max_length=120, choices=ASSESSMENT, blank=True, null=True)
-    plan = models.CharField(max_length=120, blank=True, null=True)
+    plan = models.TextField(max_length=120, blank=True, null=True)
     
