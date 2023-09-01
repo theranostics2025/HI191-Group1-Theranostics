@@ -1,0 +1,676 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<h1 class="title text-left" style="color: black; font-size: xx-large; margin-left: 0px;"><b>{{ patient.name }}</b></h1>
+<div class = "container-fluid mt-1 table-container" style="background-color: transparent; border-color: transparent;">
+    <div class="row">
+        <div class="col">
+            <h3>Patient Details</h3>
+            <ul style="display: grid; background-image: none;">
+                <li>Name: {{ patient.name }}</li>
+                <li>Age: {{ patient.age }}</li>
+                <li>Address: {{ patient.address }}</li>
+                <li>Diagnosis Date: {{ patient.diagnosis_date }}</li>
+                <li>Surgery Date: {{ patient.surgery_date }}</li>
+                <li>Gleason Score: {{ patient.gleason_score }}</li>
+                <li>Treatment Date: {{ patient.date_of_treatment }}</li>
+                <li>Treatment Type: {{ patient.type_of_treatment }}</li>
+            </ul>
+        </div>
+        <div class="col">
+            {% if patient.histopath_result %}
+            <h3>Histopath Result</h3> <img src="{{ patient.histopath_result.url }}" alt="" width="400" style="border-radius: 5px; border: solid maroon;"></li>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<div class = "container mt-1" style="display: inline;">
+    <div class = "row overflow-auto border border-dark pb-5 shadow" style="height: 500px; background-color: rgb(245, 245, 245);">
+        <div class = "col">
+            <h4 class="mt-2"><b>Physical Exam</b></h4>
+                {% if physical_exam %}
+                {% else %}
+                    <a href="{% url 'addPhysicalExam' patient.slug %}" class="mr-1"><button href="{% url 'addPhysicalExam' patient.slug %}" style="margin-top: 20px;"class="btn btn-success" type="button">Add Physical Exam</button></a>
+                {% endif %}
+                {% if physical_exam %}
+                    slug: {{ physical_exam.slug }}
+                    <br>
+                    Date of Physical Exam: {{ physical_exam.date_recorded }}
+                    <br>
+                    Height: {{physical_exam.height}}
+                    <br>
+                    Weight: {{physical_exam.weight}}
+                    <br>
+                    BMI: {{physical_exam.weight}}
+                    <br>
+                    Blood Pressure (systolic/diastolic): {{physical_exam.bp}}
+                    <br> 
+                    Heart Rate: {{physical_exam.hr}}
+                    <br>
+                    ECOG Score: {{physical_exam.ecog_score}}
+                    <br>
+                    Pain Score: {{physical_exam.pain_score}}
+                    <br>
+                    Local Symptoms: {{physical_exam.local_symptoms}}
+                    <br>
+                    Systemic Symptoms: {{physical_exam.systemic_symptoms}}
+                    <br>
+                    <a href="{% url 'editPhysicalExam' slug=patient.slug id=physical_exam.id %}" class="mr-1"><button href="{% url 'editPhysicalExam' slug=patient.slug id=physical_exam.id %}" style="margin-top: 20px;"class="btn btn-success" type="button">Edit</button></a>
+                    <button type="button" class="btn btn-danger mr-1" style="margin-top: 20px;" data-bs-toggle="modal" href="#deletePEPopup{{physical_exam.id}}">Delete</button>
+                    <div class="modal fade" id="deletePEPopup{{physical_exam.id}}" tabindex="-1" role="dialog" aria-labelledby="deletePatientLabel" aria-hidden="true">
+                        <div class="modal-dialog" style="display: flex; margin-top: 10%;" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Delete Record?</h5>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            <div class="modal-body">
+                            Delete this record?
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <a class="btn btn-danger" href="{% url 'deletePhysicalExam' slug=patient.slug id=physical_exam.id %}">Delete</a>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                {% endif %}
+        </div>
+        <div class = "col">
+            <h4 class="mt-2"><b>Therapy</b></h4>
+            <a href="{% url 'addTherapy' patient.slug %}" class="mr-1 btn btn-success mt-1">Add Therapy</a>
+            <h4 class="mt-2">Therapies Done</h4>
+            <div class="accordion mt-2" id="accordionPanelsStayOpenExample" style="width: 90%;">
+                <div class="accordion-item">
+                    {% for therapy in therapy %}
+                        <h2 class="accordion-header" id="panelsStayOpen-heading{{forloop.counter}}">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse{{forloop.counter}}" aria-expanded="true" aria-controls="panelsStayOpen-collapse{{forloop.counter}}">
+                            <b>Therapy {{forloop.counter}}</b>
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapse{{forloop.counter}}" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-heading{{forloop.counter}}">
+                            <div class="accordion-body">
+                                {% if therapy %}
+                                    Date of PSMA: {{therapy.date_of_psma}}
+                                    <br>
+                                    Premedications: {{therapy.premedications}}
+                                    <br>
+                                    Medications: {{therapy.medications}}
+                                    <br>
+                                    Furosemide: {{therapy.furosemide}}
+                                    <br> 
+                                    Systolic: {{therapy.systolic}}
+                                    <br>
+                                    Diastolic: {{therapy.diastolic}}
+                                    <br>
+                                    Heart Rate: {{therapy.hr}}
+                                    <br>
+                                    Respiration Rate: {{therapy.rr}}
+                                    <br>
+                                    Saturation: {{therapy.saturation}}
+                                    <br>
+                                    Date of Therapy: {{therapy.date_therapy}}
+                                    <br>
+                                    Radiopharm: {{therapy.radioharm}}
+                                    <br>
+                                    Side Effects: {{therapy.side_effects}}
+                                    <br>
+                                    <a href="{% url 'editTherapy' slug=patient.slug id=therapy.id %}" class="mr-1"><button href="{% url 'editTherapy' slug=patient.slug id=therapy.id %}" style="margin-top: 20px;"class="btn btn-success" type="button">Edit</button></a>
+                                    <button type="button" class="btn btn-danger mr-1" style="margin-top: 20px;" data-bs-toggle="modal" href="#deleteTPopup{{therapy.id}}">Delete</button>
+                                    <div class="modal fade" id="deleteTPopup{{therapy.id}}" tabindex="-1" role="dialog" aria-labelledby="deletePatientLabel" aria-hidden="true">
+                                        <div class="modal-dialog" style="display: flex; margin-top: 10%;" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Delete Record?</h5>
+                                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                            </div>
+                                            <div class="modal-body">
+                                            Delete this record?
+                                            </div>
+                                            <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <a class="btn btn-danger" href="{% url 'deleteTherapy' slug=patient.slug id=therapy.id %}">Delete</a>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class = "row overflow-auto shadow mt-5 rounded border border-dark pb-5" style="height: 500px; background-color: rgb(245, 245, 245);">
+        <div class = "col">
+            <h2 class="mt-1"><b>Screening</b></h2>
+                {% if screening %}
+                {% else %}
+                    <a href="{% url 'addScreening' patient.slug %}" class="mr-1"><button href="{% url 'addScreening' patient.slug %}" style="margin-top: 20px;"class="btn btn-success" type="button">Add Screening</button></a>
+                {% endif %}
+                {% if screening %}
+                    PSA: {{screening.psa}}
+                    <br>
+                    Creatinine: {{screening.creatinine}}           
+                    <br>    
+                    WBC: {{screening.wbc}}
+                    <br>
+                    RBC: {{screening.rbc}}
+                    <br>
+                    Hemoglobin Levels: {{ screening.hemoglobin }}
+                    <br>
+                    Hematrocrit: {{screening.hematocrit}}
+                    <br>
+                    Platelet: {{screening.platelet}}
+                    <br>
+                    Lactate Hydrogenase: {{screening.lactate_hydrogenase}}
+                    <br>
+                    Alkaline Phophatase: {{screening.alkaline_phosphatase}}
+                    <br>
+                    SGPT: {{screening.sgpt}}
+                    <br>
+                    SGOT: {{screening.sgot}}
+                    <br>
+                    Bilirubins: {{screening.bilirubins}}
+                    <br>
+                    <h5><b>Salivary Glands</b></h5>
+                    Salivary Gland Status: {{screening.salivary_gland_status}}
+                    <h5><b>Bone Metastasis</b></h5>
+                    Bone Metastasis Status: {{screening.bone_metastasis_status}}
+                    <h2><b>ASSESSMENT</b></h2>
+                    {{screening.assessment}}
+                    <h2><b>PLAN</b></h2>
+                    {{screening.plan}}
+                    <br>
+                    <a href="{% url 'editScreening' slug=patient.slug id=screening.id %}" class="mr-1 mt-1"><button href="{% url 'editScreening' slug=patient.slug id=screening.id %}" style="margin-top: 20px;"class="btn btn-success" type="button">Edit Screening</button></a>
+                    <br>
+                    <button type="button" class="btn btn-danger mr-1" style="margin-top: 10px;" data-bs-toggle="modal" href="#deleteSPopup{{screening.id}}">Delete Screening</button>
+                    <div class="modal fade" id="deleteSPopup{{screening.id}}" tabindex="-1" role="dialog" aria-labelledby="deletePatientLabel" aria-hidden="true">
+                        <div class="modal-dialog" style="display: flex; margin-top: 10%;" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Delete Record?</h5>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            <div class="modal-body">
+                            Delete this record?
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <a class="btn btn-danger" href="{% url 'deleteScreening' slug=patient.slug id=screening.id %}">Delete</a>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                {% endif %}
+        </div>
+        <div class="col">
+            {% if screening %}
+                <h4 class="mt-2"><b>GAPSMA</b></h4>
+                GAPSMA: {{screening.gapsma_choices}}
+
+                <h5><b>Prostate Glands</b></h5>
+                Lesion Status: {{screening.gapsma_prostate_lesion_status}}
+                <br>
+                Location: {{screening.gapsma_prostate_location}}           
+                <br>    
+                SUV: {{screening.gapsma_prostate_suv}}
+                <br>
+                Size: {{screening.gapsma_prostate_size}}
+                <br>
+
+                <h5><b>Lymph Nodes</b></h5>
+                Lesion Status: {{screening.gapsma_lymph_node_lesion_status}}
+                <br>
+                Lesion Location: {{screening.gapsma_lymph_node_location}}           
+                <br>    
+                SUV: {{screening.gapsma_lymph_node_suv}}
+                <br>
+                Size: {{screening.gapsma_lymph_node_size}}
+                <br>
+
+                <h5><b>Bones</b></h5>
+                Lesion Status: {{screening.gapsma_bone_lesion_status}}
+                <br>
+                Lesion Location: {{screening.gapsma_bone_location}}           
+                <br>    
+                SUV: {{screening.gapsma_bone_suv}}
+                <br>
+                Size: {{screening.gapsma_bone_size}}
+                <br>
+
+                <h5><b>Brain</b></h5>
+                Lesion Status: {{screening.gapsma_brain_lesion_status}}
+                <br>
+                Lesion Location: {{screening.gapsma_brain_location}}           
+                <br>    
+                SUV: {{screening.gapsma_brain_suv}}
+                <br>
+                Size: {{screening.gapsma_brain_size}}
+                <br>
+
+                <h5><b>Lungs</b></h5>
+                Lesion Status: {{screening.gapsma_lung_lesion_status}}
+                <br>
+                Lesion Location: {{screening.gapsma_lung_location}}           
+                <br>    
+                SUV: {{screening.gapsma_lung_suv}}
+                <br>
+                Size: {{screening.gapsma_lung_size}}
+                <br>
+
+                <h5><b>Liver</b></h5>
+                Lesion Status: {{screening.gapsma_liver_lesion_status}}
+                <br>
+                Lesion Location: {{screening.gapsma_liver_location}}           
+                <br>    
+                SUV: {{screening.gapsma_liver_suv}}
+                <br>
+                Size: {{screening.gapsma_liver_size}}
+                <br>
+            {% endif %}
+        </div>
+        <div class = "col">
+                {% if screening %}
+                    <h4 class="mt-2"><b>FDG PET/CT</b></h4>
+                    <h5><b>Prostate Glands</b></h5>
+                    Lesion Status: {{screening.fdgpetct_prostate_lesion_status}}
+                    <br>
+                    Location: {{screening.fdgpetct_prostate_location}}           
+                    <br>    
+                    SUV: {{screening.fdgpetct_prostate_suv}}
+                    <br>
+                    Size: {{screening.fdgpetct_prostate_size}}
+                    <br>
+
+                    <h5><b>Lymph Nodes</b></h5>
+                    Lesion Status: {{screening.fdgpetct_lymph_node_lesion_status}}
+                    <br>
+                    Lesion Location: {{screening.fdgpetct_lymph_node_location}}           
+                    <br>    
+                    SUV: {{screening.fdgpetct_lymph_node_suv}}
+                    <br>
+                    Size: {{screening.fdgpetct_lymph_node_size}}
+                    <br>
+
+                    <h5><b>Bones</b></h5>
+                    Lesion Status: {{screening.fdgpetct_bone_lesion_status}}
+                    <br>
+                    Lesion Location: {{screening.fdgpetct_bone_location}}           
+                    <br>    
+                    SUV: {{screening.fdgpetct_bone_suv}}
+                    <br>
+                    Size: {{screening.fdgpetct_bone_size}}
+                    <br>
+
+                    <h5><b>Brain</b></h5>
+                    Lesion Status: {{screening.fdgpetct_brain_lesion_status}}
+                    <br>
+                    Lesion Location: {{screening.fdgpetct_brain_location}}           
+                    <br>    
+                    SUV: {{screening.fdgpetct_brain_suv}}
+                    <br>
+                    Size: {{screening.fdgpetct_brain_size}}
+                    <br>
+
+                    <h5><b>Lungs</b></h5>
+                    Lesion Status: {{screening.fdgpetct_lung_lesion_status}}
+                    <br>
+                    Lesion Location: {{screening.fdgpetct_lung_location}}           
+                    <br>    
+                    SUV: {{screening.fdgpetct_lung_suv}}
+                    <br>
+                    Size: {{screening.fdgpetct_lung_size}}
+                    <br>
+
+                    <h5><b>Liver</b></h5>
+                    Lesion Status: {{screening.fdgpetct_liver_lesion_status}}
+                    <br>
+                    Lesion Location: {{screening.fdgpetct_liver_location}}           
+                    <br>    
+                    SUV: {{screening.fdgpetct_liver_suv}}
+                    <br>
+                    Size: {{screening.fdgpetct_liver_size}}
+                    <br>
+                {% endif %}
+        </div>
+        <div class = "col">
+                {% if screening %}
+                    <h4 class="mt-2">Salivary Gland</h4>
+                    <img src="{{ screening.salivary_gland_image.url }}" alt="" width="200" style="border-radius: 5px; border: solid maroon;">
+
+                    <h4 class="mt-2">Bone Scan</h4>
+                    <img src="{{ screening.bone_scan_image.url }}" alt="" width="200" style="border-radius: 5px; border: solid maroon;">
+
+                    <h4 class="mt-2">Renal Scintigraphy</h4>
+                    <img src="{{ screening.renal_scintigraphy.url }}" alt="" width="200" style="border-radius: 5px; border: solid maroon;">
+
+                    <h4 class="mt-2">GAPSMA</h4>
+                    <img src="{{ screening.gapsma_img.url }}" alt="" width="200" style="border-radius: 5px; border: solid maroon;">
+
+                    <h4 class="mt-2">FDG PET/CT</h4>
+                    <img src="{{ screening.fdgpetct_img.url }}" alt="" width="200" style="border-radius: 5px; border: solid maroon;">
+
+                    
+                
+                {% endif %}
+        </div>
+    </div>  
+    <div class = "row overflow-auto shadow mt-5 rounded border border-dark pb-5" style="height: 500px; background-color: rgb(245, 245, 245);">
+        <div class = "col">
+            <h4 class="mt-2"><b>Post Therapy</b></h4>
+            <a href="{% url 'addPostTherapy' patient.slug %}" class="mr-1 btn btn-success mt-1">Add Therapy</a>
+            <h4 class="mt-2 text-center font-weight-bold">Post Therapies Done</h4>
+            <div class="accordion mx-auto" id="accordionPanelsStayOpenExample" style="width: 90%;">
+                <div class="accordion-item">
+                    {% for post_therapy in post_therapy %}
+                        <h2 class="accordion-header" id="panelsStayOpenpt-heading{{forloop.counter}}">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpenpt-collapse{{forloop.counter}}" aria-expanded="true" aria-controls="panelsStayOpenpt-collapse{{forloop.counter}}">
+                            <b>Post-therapy {{forloop.counter}}</b>
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpenpt-collapse{{forloop.counter}}" class="accordion-collapse collapse" aria-labelledby="panelsStayOpenpt-heading{{forloop.counter}}">
+                            <div class="accordion-body">
+                                {% if post_therapy %}
+                                    <div class="row">
+                                        <div class="col">
+                                            Date of Post Therapy: {{post_therapy.date_of_post_therapy}}
+                                            <br>
+                                            Scan Hours: {{post_therapy.post_therapy_scan_hours}}
+                                            <br>
+                                            with Spect/CT: {{post_therapy.with_spect_ct}}
+                                            <br>
+                                            Lesions: {{post_therapy.lesions}}
+                                            <br> 
+                                            Bone Lesion Details: {{post_therapy.bone_lesion_details}}
+                                            <br>
+                                            <h4>Dosimetry</h4>
+                                            Salivary Gland: {{post_therapy.salivary_gland}}
+                                            <br>
+                                            Left Kidney: {{post_therapy.kidney_left}}
+                                            <br>
+                                            Right Kidney: {{post_therapy.kidney_right}}
+                                            <br>
+                                            
+                                            <a href="{% url 'editPostTherapy' slug=patient.slug id=post_therapy.id %}" class="mr-1 mt-1"><button href="{% url 'editPostTherapy' slug=patient.slug id=post_therapy.id %}" style="margin-top: 20px;"class="btn btn-success" type="button">Edit</button></a>
+                                            <button type="button" class="btn btn-danger mr-1" style="margin-top: 20px;" data-bs-toggle="modal" href="#deletePTPopup{{post_therapy.id}}">Delete</button>
+                                            <div class="modal fade" id="deletePTPopup{{post_therapy.id}}" tabindex="-1" role="dialog" aria-labelledby="deletePatientLabel" aria-hidden="true">
+                                                <div class="modal-dialog" style="display: flex; margin-top: 10%;" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Delete Record?</h5>
+                                                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                    Delete this record?
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <a class="btn btn-danger" href="{% url 'deletePostTherapy' slug=patient.slug id=post_therapy.id %}">Delete</a>
+                                                    </div>
+                                                </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <h5>Lesion Image</h5> 
+                                            <img src="{{ post_therapy.lesion_image.url }}" alt="" width="200" style="border-radius: 5px; border: solid maroon;">
+                                            <h5>Dosimetry Image</h5>
+                                            <img src="{{ post_therapy.dosimetry_image.url }}" alt="" width="200" style="border-radius: 5px; border: solid maroon;">
+                                            <br>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                    
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>  
+    <div class = "row overflow-auto shadow mt-5 rounded border border-dark pb-5" style="height: 500px; background-color: rgb(245, 245, 245);">
+        <div class = "col">
+            <h4 class="mt-2"><b>Follow Up</b></h4>
+            <a href="{% url 'addFollowUp' patient.slug %}" class="flex-direction mr-1 btn btn-success mt-1">Add Follow Up</a>
+            <h4 class="mt-2 text-center font-weight-bold">Follow Ups Done</h4>
+            <div class="accordion mx-auto" id="accordionPanelsStayOpenExample" style="width: 100%;">
+                <div class="accordion-item">
+                    {% for follow_up in follow_up %}
+                        <h2 class="accordion-header" id="panelsStayOpenfu-heading{{forloop.counter}}">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpenfu-collapse{{forloop.counter}}" aria-expanded="true" aria-controls="panelsStayOpenfu-collapse{{forloop.counter}}">
+                            <b>Follow-up {{forloop.counter}}</b>
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpenfu-collapse{{forloop.counter}}" class="accordion-collapse collapse" aria-labelledby="panelsStayOpenfu-heading{{forloop.counter}}">
+                            <div class="accordion-body">
+                                {% if follow_up %}
+                                    <div class="row">
+                                        <div class = "col">
+                                                {% if follow_up %}
+                                                    PSA: {{follow_up.psa}}
+                                                    <br>
+                                                    Creatinine: {{follow_up.creatinine}}           
+                                                    <br>    
+                                                    WBC: {{follow_up.wbc}}
+                                                    <br>
+                                                    RBC: {{follow_up.rbc}}
+                                                    <br>
+                                                    Hemoglobin Levels: {{ follow_up.hemoglobin }}
+                                                    <br>
+                                                    Hematrocrit: {{follow_up.hematocrit}}
+                                                    <br>
+                                                    Platelet: {{follow_up.platelet}}
+                                                    <br>
+                                                    Lactate Hydrogenase: {{follow_up.lactate_hydrogenase}}
+                                                    <br>
+                                                    Alkaline Phophatase: {{follow_up.alkaline_phosphatase}}
+                                                    <br>
+                                                    SGPT: {{follow_up.sgpt}}
+                                                    <br>
+                                                    SGOT: {{follow_up.sgot}}
+                                                    <br>
+                                                    Bilirubins: {{follow_up.bilirubins}}
+                                                    <br>
+                                                    <h5><b>Salivary Glands</b></h5>
+                                                    Salivary Gland Status: {{follow_up.salivary_gland_status}}
+                                                    <h5><b>Bone Metastasis</b></h5>
+                                                    Bone Metastasis Status: {{follow_up.bone_metastasis_status}}
+                                                    <h2><b>ASSESSMENT</b></h2>
+                                                    {{follow_up.assessment}}
+                                                    <h2><b>PLAN</b></h2>
+                                                    {{follow_up.plan}}
+                                                    <br>
+                                                    <a href="{% url 'editFollowUp' slug=patient.slug id=follow_up.id %}" class="mr-1 mt-1"><button href="{% url 'editFollowUp' slug=patient.slug id=follow_up.id %}" style="margin-top: 20px;"class="btn btn-success" type="button">Edit Follow Up</button></a>
+                                                    <br>
+                                                    <button type="button" class="btn btn-danger mr-1" style="margin-top: 10px;" data-bs-toggle="modal" href="#deleteFUPopup{{follow_up.id}}">Delete Follow Up</button>
+                                                    <div class="modal fade" id="deleteFUPopup{{follow_up.id}}" tabindex="-1" role="dialog" aria-labelledby="deletePatientLabel" aria-hidden="true">
+                                                        <div class="modal-dialog" style="display: flex; margin-top: 10%;" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Delete Record?</h5>
+                                                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                            Delete this record?
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                            <a class="btn btn-danger" href="{% url 'deleteFollowUp' slug=patient.slug id=follow_up.id %}">Delete</a>
+                                                            </div>
+                                                        </div>
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+                                        </div>
+                                        <div class="col">
+                                            {% if follow_up %}
+                                                <h4 class="mt-2"><b>GAPSMA</b></h4>
+                                                GAPSMA: {{follow_up.gapsma_choices}}
+                                
+                                                <h5><b>Prostate Glands</b></h5>
+                                                Lesion Status: {{follow_up.gapsma_prostate_lesion_status}}
+                                                <br>
+                                                Location: {{follow_up.gapsma_prostate_location}}           
+                                                <br>    
+                                                SUV: {{follow_up.gapsma_prostate_suv}}
+                                                <br>
+                                                Size: {{follow_up.gapsma_prostate_size}}
+                                                <br>
+                                
+                                                <h5><b>Lymph Nodes</b></h5>
+                                                Lesion Status: {{follow_up.gapsma_lymph_node_lesion_status}}
+                                                <br>
+                                                Lesion Location: {{follow_up.gapsma_lymph_node_location}}           
+                                                <br>    
+                                                SUV: {{follow_up.gapsma_lymph_node_suv}}
+                                                <br>
+                                                Size: {{follow_up.gapsma_lymph_node_size}}
+                                                <br>
+                                
+                                                <h5><b>Bones</b></h5>
+                                                Lesion Status: {{follow_up.gapsma_bone_lesion_status}}
+                                                <br>
+                                                Lesion Location: {{follow_up.gapsma_bone_location}}           
+                                                <br>    
+                                                SUV: {{follow_up.gapsma_bone_suv}}
+                                                <br>
+                                                Size: {{follow_up.gapsma_bone_size}}
+                                                <br>
+                                
+                                                <h5><b>Brain</b></h5>
+                                                Lesion Status: {{follow_up.gapsma_brain_lesion_status}}
+                                                <br>
+                                                Lesion Location: {{follow_up.gapsma_brain_location}}           
+                                                <br>    
+                                                SUV: {{follow_up.gapsma_brain_suv}}
+                                                <br>
+                                                Size: {{follow_up.gapsma_brain_size}}
+                                                <br>
+                                
+                                                <h5><b>Lungs</b></h5>
+                                                Lesion Status: {{follow_up.gapsma_lung_lesion_status}}
+                                                <br>
+                                                Lesion Location: {{follow_up.gapsma_lung_location}}           
+                                                <br>    
+                                                SUV: {{follow_up.gapsma_lung_suv}}
+                                                <br>
+                                                Size: {{follow_up.gapsma_lung_size}}
+                                                <br>
+                                
+                                                <h5><b>Liver</b></h5>
+                                                Lesion Status: {{follow_up.gapsma_liver_lesion_status}}
+                                                <br>
+                                                Lesion Location: {{follow_up.gapsma_liver_location}}           
+                                                <br>    
+                                                SUV: {{follow_up.gapsma_liver_suv}}
+                                                <br>
+                                                Size: {{follow_up.gapsma_liver_size}}
+                                                <br>
+                                            {% endif %}
+                                        </div>
+                                        <div class = "col">
+                                                {% if follow_up %}
+                                                    <h4 class="mt-2"><b>FDG PET/CT</b></h4>
+                                                    <h5><b>Prostate Glands</b></h5>
+                                                    Lesion Status: {{follow_up.fdgpetct_prostate_lesion_status}}
+                                                    <br>
+                                                    Location: {{follow_up.fdgpetct_prostate_location}}           
+                                                    <br>    
+                                                    SUV: {{follow_up.fdgpetct_prostate_suv}}
+                                                    <br>
+                                                    Size: {{follow_up.fdgpetct_prostate_size}}
+                                                    <br>
+                                
+                                                    <h5><b>Lymph Nodes</b></h5>
+                                                    Lesion Status: {{follow_up.fdgpetct_lymph_node_lesion_status}}
+                                                    <br>
+                                                    Lesion Location: {{follow_up.fdgpetct_lymph_node_location}}           
+                                                    <br>    
+                                                    SUV: {{follow_up.fdgpetct_lymph_node_suv}}
+                                                    <br>
+                                                    Size: {{follow_up.fdgpetct_lymph_node_size}}
+                                                    <br>
+                                
+                                                    <h5><b>Bones</b></h5>
+                                                    Lesion Status: {{follow_up.fdgpetct_bone_lesion_status}}
+                                                    <br>
+                                                    Lesion Location: {{follow_up.fdgpetct_bone_location}}           
+                                                    <br>    
+                                                    SUV: {{follow_up.fdgpetct_bone_suv}}
+                                                    <br>
+                                                    Size: {{follow_up.fdgpetct_bone_size}}
+                                                    <br>
+                                
+                                                    <h5><b>Brain</b></h5>
+                                                    Lesion Status: {{follow_up.fdgpetct_brain_lesion_status}}
+                                                    <br>
+                                                    Lesion Location: {{follow_up.fdgpetct_brain_location}}           
+                                                    <br>    
+                                                    SUV: {{follow_up.fdgpetct_brain_suv}}
+                                                    <br>
+                                                    Size: {{follow_up.fdgpetct_brain_size}}
+                                                    <br>
+                                
+                                                    <h5><b>Lungs</b></h5>
+                                                    Lesion Status: {{follow_up.fdgpetct_lung_lesion_status}}
+                                                    <br>
+                                                    Lesion Location: {{follow_up.fdgpetct_lung_location}}           
+                                                    <br>    
+                                                    SUV: {{follow_up.fdgpetct_lung_suv}}
+                                                    <br>
+                                                    Size: {{follow_up.fdgpetct_lung_size}}
+                                                    <br>
+                                
+                                                    <h5><b>Liver</b></h5>
+                                                    Lesion Status: {{follow_up.fdgpetct_liver_lesion_status}}
+                                                    <br>
+                                                    Lesion Location: {{follow_up.fdgpetct_liver_location}}           
+                                                    <br>    
+                                                    SUV: {{follow_up.fdgpetct_liver_suv}}
+                                                    <br>
+                                                    Size: {{follow_up.fdgpetct_liver_size}}
+                                                    <br>
+                                                {% endif %}
+                                        </div>
+                                        <div class = "col">
+                                                {% if follow_up %}
+                                                    <h4 class="mt-2">Salivary Gland</h4>
+                                                    <img src="{{ follow_up.salivary_gland_image.url }}" alt="" width="200" style="border-radius: 5px; border: solid maroon;">
+                                
+                                                    <h4 class="mt-2">Bone Scan</h4>
+                                                    <img src="{{ follow_up.bone_scan_image.url }}" alt="" width="200" style="border-radius: 5px; border: solid maroon;">
+                                
+                                                    <h4 class="mt-2">Renal Scintigraphy</h4>
+                                                    <img src="{{ follow_up.renal_scintigraphy.url }}" alt="" width="200" style="border-radius: 5px; border: solid maroon;">
+                                
+                                                    <h4 class="mt-2">GAPSMA</h4>
+                                                    <img src="{{ follow_up.gapsma_img.url }}" alt="" width="200" style="border-radius: 5px; border: solid maroon;">
+                                
+                                                    <h4 class="mt-2">FDG PET/CT</h4>
+                                                    <img src="{{ follow_up.fdgpetct_img.url }}" alt="" width="200" style="border-radius: 5px; border: solid maroon;">
+                                                {% endif %}
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>  
+</div>
+{% endblock content %}

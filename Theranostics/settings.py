@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -37,10 +37,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'part_1.Part1Config',
-    'part_2.Part2Config',
-    'part_3.Part3Config',
-    'part_4.Part4Config'
+    'part_1.apps.Part1Config',
+    'part_2.apps.Part2Config',
+    'part_3.apps.Part3Config',
+    'part_4.apps.Part4Config',
+    'crispy_forms',
+    'bootstrap3',
+    'crispy_bootstrap4',
+    'bootstrap_modal_forms',
+    'multiselectfield',
+    'django_extensions'
 ]
 
 MIDDLEWARE = [
@@ -52,13 +58,16 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+BOOTSTRAP3 = {
+  'javascript_in_head': True,
+}
 ROOT_URLCONF = 'Theranostics.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, "templates")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -118,9 +127,13 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
+STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
 
-STATIC_URL = 'static/'
-
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 

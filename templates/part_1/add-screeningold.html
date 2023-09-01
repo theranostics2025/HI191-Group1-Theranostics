@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+<!-- partial:index.partial.html -->
+{% block content %}
+<div class='dashboard'>
+
+    <div class='dashboard-app'>
+        <div class='dashboard-content'>
+            <div class='container'>
+                <div class='card'>
+                    <div class='card-header'>
+                        <h1>SCREENING</h1>
+                        <br>
+                        <div>
+                        <form method="POST" action =""></form>
+                            <table>
+                                
+                                <tr>
+                                    {% csrf_token %}
+                                    <td>{{ form.psa | as_crispy_field }}</td>
+                                    <td>{{ form.wbc | as_crispy_field }}</td>
+                                    <!--ADD MORE FIELDS HERE-->
+                                </tr>
+                            </table> 
+                            <button style="margin-top: 20px;"class="btn btn-success" type="submit">Save Changes</button>
+                        </form>
+                </div>
+            </div>        
+        </div>
+    </div>
+</div>
+{% endblock content %}

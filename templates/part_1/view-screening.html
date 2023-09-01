@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class = "container-fluid">
+    <h1 class="title">Screening of {{patient.name | title}}</h1>
+    {% if list %}
+    {% else %}
+    <a href="{% url 'addScreening' patient.slug %}" class="mr-1"><button href="{% url 'addPhysicalExam' patient.slug %}" style="margin-top: 20px;"class="btn btn-success" type="button">Add Screening</button></a>
+    {% endif %}
+    <div class = "container-fluid mt-4 table-container">
+        {% if list %}
+        PSA: {{list.psa}}
+        <br>
+        Creatinine: {{list.creatinine}}
+
+        WBC: {{list.wbc}}
+        <br>
+
+        {% endif %}
+      <div class="row border-bottom bg-white p-3 ">
+        </div>
+    </div>
+
+</div>
+{% endblock content %}

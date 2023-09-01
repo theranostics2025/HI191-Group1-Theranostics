@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+<!-- partial:index.partial.html -->
+{% block content %}
+<div class='dashboard'>
+
+    <div class='dashboard-app'>
+        <div class='dashboard-content'>
+            <div class='container'>
+                <div class='card'>
+                    <div class='card-header'>
+                        <h1>Edit Physical Exam</h1>
+                        <br>
+                        <div>
+                        <form method="POST" action ="">
+                            <table>
+                                <tr>
+                                    {% csrf_token %}
+                                    <td>{{ form.height | as_crispy_field }}</td>
+                                    <td>{{ form.weight | as_crispy_field }}</td>
+                                    <td>{{ form.bmi | as_crispy_field }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ form.bp | as_crispy_field }}</td>
+                                    <td>{{ form.hr | as_crispy_field }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ form.ecog_score | as_crispy_field }}</td>
+                                    <td>{{ form.pain_score| as_crispy_field }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ form.local_symptoms | as_crispy_field }}</td>
+                                    <td>{{ form.systemic_symptoms | as_crispy_field }}</td>
+                                </tr>
+                            </table> 
+                            <button style="margin-top: 20px;"class="btn btn-success" type="submit">Save Changes</button>
+                        </form>
+                </div>
+            </div>        
+        </div>
+    </div>
+</div>
+{% endblock content %}
