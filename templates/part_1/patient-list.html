@@ -163,13 +163,18 @@
                 </div>
             </div>
         </div>
-        <button type="submit" class="btn btn-danger mt-4">Submit</button>
+        <button type="submit" href="{% url 'patientList' %}" class="btn btn-danger mt-4">Submit</button>
     </form>
 </div>
 <div class = "mt-4 container-fluid">
     <h1 class="title">Patients</h1>
     <a class="btn btn-success text-right" style="background-color: #871919; border-color: #871919;" href="{% url 'addPatient' %}">Add Patient</a>
-    <div class = "container-fluid mt-4 table-container w-75" style="border-bottom: none;">
+    <div class = "container-fluid mt-4 table-container" style="border-bottom: none; width: 80%;">
+        {% if patient_count == 1 %}
+        <h3 style="color: white;">Showing {{ patient_count }} patient</h3>
+        {% else %}
+        <h3 style="color: white;">Showing {{ patient_count }} patients</h3>
+        {% endif %}
       {% for patient in patients %}
       <div class="row border-bottom bg-white p-3 ">
         <div class="col align-self-center">
