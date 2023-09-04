@@ -43,21 +43,39 @@ li a:hover {
 
     </style>
     <body>
-        <div class="shadow wrapper w-100 align-items-stretch" style="z-index: 10; position: relative; border-bottom: none;">
+        <div class="fixed-top shadow wrapper w-100 align-items-stretch" style="z-index: 10; border-bottom: none;">
         <ul>
             <li><a href="{% url 'homePage' %}"><h1 style="color: white"><b>Theranostics Databank</b></h1></a></li>
+            {% if user.is_authenticated %}
             <li style="padding-top: 10px;"><a href="{% url 'patientList' %}">Patients</a></li>
+            {% endif %}
             <li style="padding-top: 10px;"><a href="{% url 'homePage' %}">About</a></li>
+            {% if user.is_superuser %}
+                <li style="padding-top: 10px;"><a href="{% url 'register' %}">Create Account</a></li>
+            {% endif %}
+            {% if user.is_authenticated %}
+                <li style="padding-top: 10px; float: right; margin-right: 10px;"><a href="{% url 'logout' %}">Log Out</a></li>
+                <li style="padding-top: 10px; float: right;"><h5 style="color: white; padding: 14px 16px">Welcome, <b>{{user.username}}</b>!</h5></li>          
+            {% else %}
+                <li style="padding-top: 10px; float: right; margin-right: 10px;"><a href="{% url 'login' %}">Log in</a></li>
+            {% endif %}
         </ul>
         </div>
             <!-- Page Content  -->
-            <div id="content" class="p-4 p-md-5 bg-body">
+            <div id="content" class="p-4 p-md-5 bg-body" style="margin-top: 5rem;">
 
                 <main>
                     <div class="app-title">
                         {% block breadcrumb %}
                         {% endblock breadcrumb %}
                     </div>
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{message.tags}}">
+                                {{message}}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
                     {% block content %}
                     {% endblock content %}
                 </main>

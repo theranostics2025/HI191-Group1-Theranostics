@@ -8,6 +8,7 @@ from django.conf import settings
 urlpatterns = [
     path('', views.homePage, name='homePage'),
 
+    path('register/', views.register, name='register'),
     path('patient/', views.patientList, name = 'patientList'),
     path('patient-search/', views.patientSearch, name = 'patientSearch'),
     path('patient/add-patient/', views.addPatient, name='addPatient'),
