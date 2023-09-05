@@ -15,7 +15,7 @@
 <div class="table-container mt-2 container-fluid py-4" style="background-color: rgb(231, 231, 231); border: none;">
     <h4><b>Filters</b></h4>
     <form method="GET" action=".">
-        <div class="row">
+        <div class="row custom-header">
             <div class="col">
                 <h5>Assessment Type</h5>
                 <div class="form-check">
@@ -163,7 +163,9 @@
                 </div>
             </div>
         </div>
-        <button type="submit" class="btn btn-danger mt-4">Submit</button>
+        <div class="d-flex justify-content-center">
+            <button type="submit" href="{% url 'patientList' %}" class="btn btn-danger mt-4">Submit</button>
+        </div>
     </form>
 </div>
 <div class = "mt-4 container-fluid">
