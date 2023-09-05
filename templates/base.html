@@ -2,89 +2,127 @@
 {% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>{% block title %}{% endblock title  %}</title>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <!-- scripts and css -->
-        <link rel="stylesheet" href="{% static 'css/styleguide.css'%}">
-        {% include 'css_modules.html' %}
 
-        {% block extracss %}
-        {% endblock extracss %}
+<head>
+    <title>{% block title %}{% endblock title %}</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- scripts and css -->
+    <link rel="stylesheet" href="{% static 'css/styleguide.css'%}">
+    {% include 'css_modules.html' %}
 
-    </head>
-    <style>
-        ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  background-image: linear-gradient(to right, maroon, rgb(37, 37, 37));
- 
-}
+    {% block extracss %}
+    {% endblock extracss %}
 
-li {
-  float: left;
-}
+</head>
+<style>
+    ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+    }
 
-li a {
-  display: block;
-  color: white;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-}
+    .custom-header>*>h5 {
+        font-weight: bold;
+    }
 
-/* Change the link color to #111 (black) on hover */
-li a:hover {
+    .title {
+        color: black;
+        font-size: xx-large;
+    }
+
+    label {
+        font-weight: normal;
+    }
+
+    li {
+        float: left;
+    }
+
+    li a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+    }
+
+    .custom-nav {
+        background-image: linear-gradient(to right, maroon, rgb(37, 37, 37));
+        box-shadow: 0px 5px 5px rgba(0,0,0,0.15);
+    }
+
+    .custom-creds {
+        gap: 1.5rem;
+    }
+
+    .nav-button {
+        transition: 0.25s;
+    }
+
+    .nav-button:hover {
+        font-weight: bold;
+        color: #f8f9fa;
+    }
+    
+    /* Change the link color to #111 (black) on hover */
+    /*li a:hover {
   background-image: linear-gradient(maroon, rgb(41, 41, 41));
-}
+}*/
+</style>
 
-    </style>
-    <body>
-        <div class="fixed-top shadow wrapper w-100 align-items-stretch" style="z-index: 10; border-bottom: none;">
-        <ul>
-            <li><a href="{% url 'homePage' %}"><h1 style="color: white"><b>Theranostics Databank</b></h1></a></li>
-            {% if user.is_authenticated %}
-            <li style="padding-top: 10px;"><a href="{% url 'patientList' %}">Patients</a></li>
-            {% endif %}
-            <li style="padding-top: 10px;"><a href="{% url 'homePage' %}">About</a></li>
-            {% if user.is_superuser %}
-                <li style="padding-top: 10px;"><a href="{% url 'register' %}">Create Account</a></li>
-            {% endif %}
-            {% if user.is_authenticated %}
-                <li style="padding-top: 10px; float: right; margin-right: 10px;"><a href="{% url 'logout' %}">Log Out</a></li>
-                <li style="padding-top: 10px; float: right;"><h5 style="color: white; padding: 14px 16px">Welcome, <b>{{user.username}}</b>!</h5></li>          
-            {% else %}
-                <li style="padding-top: 10px; float: right; margin-right: 10px;"><a href="{% url 'login' %}">Log in</a></li>
-            {% endif %}
-        </ul>
-        </div>
-            <!-- Page Content  -->
-            <div id="content" class="p-4 p-md-5 bg-body" style="margin-top: 5rem;">
-
-                <main>
-                    <div class="app-title">
-                        {% block breadcrumb %}
-                        {% endblock breadcrumb %}
-                    </div>
-                    {% if messages %}
-                        {% for message in messages %}
-                            <div class="alert alert-{{message.tags}}">
-                                {{message}}
-                            </div>
-                        {% endfor %}
-                    {% endif %}
-                    {% block content %}
-                    {% endblock content %}
-                </main>
-
+<body>
+    <div class="py-2 px-4 custom-nav">
+        <div class="d-flex justify-content-between align-items-center">
+            <a href="{% url 'homePage' %}">
+                <h1 style="color: white"><b>Theranostics Databank</b></h1>
+            </a>
+            <ul>
+                {% if user.is_authenticated %}
+                <li><a href="{% url 'patientList' %}" class="nav-button">Patients</a></li>
+                {% endif %}
+                <li><a href="{% url 'homePage' %}" class="nav-button">About</a></li>
+                {% if user.is_superuser %}
+                <li><a href="{% url 'register' %}" class="nav-button">Create Account</a></li>
+                {% endif %}
+            </ul>
+            <div class="d-flex align-items-center custom-creds">
+                {% if user.is_authenticated %}
+                <h5 class="me-2 text-light">Welcome, <b>{{user.username}}</b>!</h5>
+                <a href="{% url 'logout' %}" class="text-light nav-button">Log Out</a>
+                {% else %}
+                <a href="{% url 'login' %}" class="text-light nav-button">Log in</a></li>
+                {% endif %}
             </div>
         </div>
-        {% include 'script_modules.html' %}
 
-        {% block extrascripts %}
-        {% endblock extrascripts %}
-    </body>
+    </div>
+    <!-- Page Content  -->
+    <div id="content" class="p-4 p-md-5 bg-body">
+
+        <main>
+            <div class="app-title">
+                {% block breadcrumb %}
+                {% endblock breadcrumb %}
+            </div>
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{message.tags}}">
+                {{message}}
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% block content %}
+            {% endblock content %}
+        </main>
+
+    </div>
+    </div>
+    {% include 'script_modules.html' %}
+
+    {% block extrascripts %}
+    {% endblock extrascripts %}
+</body>
+
 </html>
