@@ -119,7 +119,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-ALLOWED_HOSTS = ['web-production-3640.up.railway.app', '127.0.0.1']
+#ALLOWED_HOSTS = ['web-production-3640.up.railway.app', '127.0.0.1']
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
