@@ -3,7 +3,6 @@ from django.core.exceptions import ValidationError
 from django.utils.text import slugify
 from django.template.defaultfilters import slugify
 from datetime import datetime
-from autoslug import AutoSlugField
 
 class Patient(models.Model):
     TYPE_TREATMENT = (
