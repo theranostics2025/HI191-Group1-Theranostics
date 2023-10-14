@@ -6,7 +6,7 @@ from django.forms import ModelChoiceField, ModelForm
 class AddPatient(ModelForm):
     class Meta:
         model = Patient
-        fields = ['name', 'age', 'address', 'diagnosis_date', 'surgery_date', 'histopath_result', 'gleason_score', 'date_of_treatment', 'type_of_treatment']
+        fields = ['name', 'age', 'address', 'diagnosis_date', 'surgery_date', 'histopath_result', 'histopath_details', 'gleason_score', 'date_of_treatment', 'type_of_treatment']
         widgets = {
             'diagnosis_date': forms.DateInput(attrs={'type': 'date'}),
             'surgery_date': forms.DateInput(attrs={'type': 'date'}),
@@ -17,7 +17,7 @@ class AddPatient(ModelForm):
 class EditPatient(ModelForm):
     class Meta:
         model = Patient
-        fields = ['name', 'age', 'address', 'diagnosis_date', 'surgery_date', 'histopath_result', 'gleason_score', 'date_of_treatment', 'type_of_treatment']
+        fields = ['name', 'age', 'address', 'diagnosis_date', 'surgery_date', 'histopath_result', 'histopath_details', 'gleason_score', 'date_of_treatment', 'type_of_treatment']
         widgets = {
             'diagnosis_date': forms.DateInput(attrs={'type': 'date'}),
             'surgery_date': forms.DateInput(attrs={'type': 'date'}),
