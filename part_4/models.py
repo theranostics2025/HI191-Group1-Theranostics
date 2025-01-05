@@ -178,7 +178,7 @@ class Screening(models.Model):
 
     gapsma_brain_lesion_status = models.CharField(verbose_name="Brain Lesion Status", max_length=120, choices = LESION_STATUS, null=True, blank=True)
     gapsma_brain_location = models.CharField(verbose_name="Brain Lesion Location", max_length=50, null=True, blank=True)
-    gapsma_brain_suv = models.DecimalField(verbose_name="Brain SUV", max_digits=5, decimal_places=2, blank=True, null=True)
+    gapsma_brain_suv = models.DecimalField(verbose_name="Brain SUV", blank=True, null=True)
     gapsma_brain_size = models.IntegerField(verbose_name="Brain Lesion Size", blank=True, null=True)
 
     gapsma_lung_lesion_status = models.CharField(verbose_name="Lung Lesion Status", max_length=120, choices = LESION_STATUS, null=True, blank=True)
