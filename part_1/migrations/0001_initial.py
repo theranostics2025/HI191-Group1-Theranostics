@@ -65,7 +65,7 @@ class Migration(migrations.Migration):
                 ('gapsma_bone_size', models.IntegerField(blank=True, null=True, verbose_name='Bone Lesion Size')),
                 ('gapsma_brain_lesion_status', models.CharField(blank=True, choices=[('Absent', 'Absent'), ('Present', 'Present')], max_length=120, null=True, verbose_name='Brain Lesion Status')),
                 ('gapsma_brain_location', models.CharField(blank=True, max_length=50, null=True, verbose_name='Brain Lesion Location')),
-                ('gapsma_brain_suv', models.DecimalField(blank=True, decimal_places=2, max_digits=5, null=True, verbose_name='Brain SUV')),
+                ('gapsma_brain_suv', models.DecimalField(blank=True, null=True, verbose_name='Brain SUV')),
                 ('gapsma_brain_size', models.IntegerField(blank=True, null=True, verbose_name='Brain Lesion Size')),
                 ('gapsma_lung_lesion_status', models.CharField(blank=True, choices=[('Absent', 'Absent'), ('Present', 'Present')], max_length=120, null=True, verbose_name='Lung Lesion Status')),
                 ('gapsma_lung_location', models.CharField(blank=True, max_length=50, null=True, verbose_name='Lung Lesion Location')),
