@@ -33,7 +33,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('psa', models.DecimalField(blank=True, decimal_places=2, max_digits=5, null=True)),
-                ('creatinine', models.DecimalField(blank=True, decimal_places=2, max_digits=5, null=True)),
+                ('creatinine', models.DecimalField(blank=True, decimal_places=2, max_digits=4, null=True)),
                 ('wbc', models.DecimalField(blank=True, decimal_places=2, max_digits=5, null=True)),
                 ('rbc', models.DecimalField(blank=True, decimal_places=2, max_digits=5, null=True)),
                 ('hemoglobin', models.DecimalField(blank=True, decimal_places=2, max_digits=5, null=True)),

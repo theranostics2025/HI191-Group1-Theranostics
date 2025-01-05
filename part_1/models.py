@@ -58,7 +58,7 @@ class Screening(models.Model):
     id = models.AutoField(primary_key=True)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='screening_patient')
     psa = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
-    creatinine = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
+    creatinine = models.DecimalField(max_digits=4, decimal_places=2, blank=True, null=True)
     wbc = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
     rbc = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
     hemoglobin = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
