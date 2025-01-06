@@ -467,5 +467,3 @@ class EditScreening(AddScreening):
         
     class Meta(AddScreening.Meta):
         model = Screening
-        # This will inherit all fields and widgets from AddScreening.Meta
-        # but specifically set the model to Screening for editing existing records
