@@ -58,7 +58,7 @@ class Screening(models.Model):
     id = models.AutoField(primary_key=True)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='screening_patient')
     psa = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
-    creatinine = models.DecimalField(max_digits=4, decimal_places=2, blank=True, null=True)
+    creatinine = models.DecimalField(max_digits=5, decimal_places=1, blank=True, null=True)
     wbc = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
     rbc = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
     hemoglobin = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
@@ -116,7 +116,7 @@ class Screening(models.Model):
 
     gapsma_brain_lesion_status = models.CharField(verbose_name="Brain Lesion Status", max_length=120, choices = LESION_STATUS, null=True, blank=True)
     gapsma_brain_location = models.CharField(verbose_name="Brain Lesion Location", max_length=50, null=True, blank=True)
-    gapsma_brain_suv = models.DecimalField(verbose_name="Brain SUV", blank=True, null=True)
+    gapsma_brain_suv = models.DecimalField(verbose_name="Brain SUV", max_digits=10, decimal_places=3, blank=True, null=True)
     gapsma_brain_size = models.IntegerField(verbose_name="Brain Lesion Size", blank=True, null=True)
 
     gapsma_lung_lesion_status = models.CharField(verbose_name="Lung Lesion Status", max_length=120, choices = LESION_STATUS, null=True, blank=True)
