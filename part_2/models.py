@@ -25,11 +25,11 @@ class Therapy(models.Model):
     premedications = models.CharField(max_length=120, null=True, blank=True)
     medications = models.CharField(max_length=120, null=True, blank=True)
     furosemide = models.BooleanField()
-    systolic = models.IntegerField(blank=True, null=True)
-    diastolic = models.IntegerField(blank=True, null=True)
-    hr = models.IntegerField(blank=True, null=True)
-    rr = models.IntegerField(blank=True, null=True)
-    saturation = models.IntegerField(blank=True, null=True)
+    systolic = models.PositiveIntegerField(blank=True, null=True) # accept only positive integers only
+    diastolic = models.PositiveIntegerField(blank=True, null=True) # accept only positive integers only
+    hr = models.PositiveIntegerField(blank=True, null=True) # accept only positive integers only
+    rr = models.PositiveIntegerField(blank=True, null=True) # accept only positive integers only
+    saturation = models.PositiveIntegerField(blank=True, null=True) # accept only positive integers only
     date_therapy = models.DateField()
     radiopharm = models.CharField(max_length=120, null=True, blank=True)
     side_effects = MultiSelectField(max_length=120, choices = SIDE_EFFECTS)
