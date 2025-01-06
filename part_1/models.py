@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.core.exceptions import ValidationError
 from django.utils.text import slugify
 from django.template.defaultfilters import slugify
@@ -14,13 +15,31 @@ class Patient(models.Model):
     #Test results and others are put to a different model
     name = models.CharField(max_length=120, blank= False, null=True)
     slug = models.SlugField(null=True)
-    age = models.IntegerField()
+    age = models.IntegerField(validators=[MinValueValidator(0, message="Age cannot be negative")])
     address = models.CharField(max_length=300)
     diagnosis_date = models.DateField()
     surgery_date = models.DateField()
     histopath_result = models.ImageField(upload_to="images/")
     histopath_details = models.TextField(max_length=200, blank=False, null=True)
-    gleason_score = models.IntegerField(blank=True, null=True)
+    
+    GLEASON_CHOICES = [
+        ('', '----------'),
+        ('<6', 'Less than 6'),
+        ('6', '6'),
+        ('7', '7'),
+        ('8', '8'),
+        ('9', '9'),
+        ('10', '10')
+    ]
+    
+    gleason_score = models.CharField(
+        max_length=2,
+        choices=GLEASON_CHOICES,
+        default='',
+        blank=True,
+        null=True
+    )
+    
     date_of_treatment = models.DateField()
     type_of_treatment = models.CharField(max_length=120, choices=TYPE_TREATMENT)
 
@@ -28,25 +47,63 @@ class Patient(models.Model):
         return self.name
 
     #auto-add slugs
-    def save(self, *args, **kwargs):  
+    def save(self, *args1, **args2):  
         if not self.slug:
             self.slug = slugify(self.name)
-        return super().save(*args, **kwargs)
+        return super().save(*args1, **args2)
 
 class PhysicalExam(models.Model):
+    ECOG_CHOICES = [
+        (0, '0 - Fully active'),
+        (1, '1 - Restricted but ambulatory'),
+        (2, '2 - Ambulatory but unable to work'),
+        (3, '3 - Limited self-care'),
+        (4, '4 - Completely disabled'),
+        (5, '5 - Dead')
+    ]
+
     id = models.AutoField(primary_key=True)
-    #slug = AutoSlugField(populate_from='id', unique=True, blank=True, null=True)
     date_recorded = models.DateField(default=datetime.now)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, blank=True, null=True)
-    ecog_score = models.IntegerField(blank=True)
-    height = models.IntegerField(blank=True)
-    weight = models.IntegerField(blank=True)
-    bmi = models.IntegerField(blank=True) # Body Mass Index
-    bp = models.CharField(max_length=120, blank=True) # Blood Pressure
-    hr = models.IntegerField(blank=True) # Heart Rate
-    pain_score = models.IntegerField(blank=True)
+    
+    ecog_score = models.IntegerField(
+        choices=ECOG_CHOICES,
+        validators=[MinValueValidator(0), MaxValueValidator(5)],
+    )
+    
+    height = models.FloatField(
+        validators=[MinValueValidator(0)],
+    )
+    weight = models.FloatField(
+        validators=[MinValueValidator(0)],
+    )
+    bmi = models.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        blank=True
+    )
+    
+    bp = models.CharField(
+        max_length=120,
+    )
+    hr = models.IntegerField(
+        validators=[MinValueValidator(0)],
+    )
+    
+    pain_score = models.IntegerField(
+        validators=[MinValueValidator(0), MaxValueValidator(10)],
+    )
     local_symptoms = models.CharField(max_length=300, blank=True)
     systemic_symptoms = models.CharField(max_length=300, blank=True)
+
+    def save(self, *args1, **args2):
+        if self.height and self.weight:
+            height_in_meters = self.height / 100
+            self.bmi = round(self.weight / (height_in_meters ** 2), 2)
+        super().save(*args1, **args2)
+
+    def __str__(self):
+        return f"Physical Exam for {self.patient} on {self.date_recorded}"
 
 
 class Screening(models.Model):
@@ -58,7 +115,7 @@ class Screening(models.Model):
     id = models.AutoField(primary_key=True)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='screening_patient')
     psa = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
-    creatinine = models.DecimalField(max_digits=5, decimal_places=1, blank=True, null=True)
+    creatinine = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
     wbc = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
     rbc = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
     hemoglobin = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
@@ -76,7 +133,7 @@ class Screening(models.Model):
         ('Right Obstruction', 'Right Obstruction')
     )
     salivary_gland_status = models.CharField(max_length=120, choices = SALIVARY_GLAND_STATUS)
-    salivary_gland_image = models.ImageField(upload_to="images/")
+    salivary_gland_image = models.ImageField(upload_to="images/", null=True)
 
     BONE_METASTASIS_STATUS = (
         ('Metastasis', 'Metastasis'),
@@ -116,7 +173,7 @@ class Screening(models.Model):
 
     gapsma_brain_lesion_status = models.CharField(verbose_name="Brain Lesion Status", max_length=120, choices = LESION_STATUS, null=True, blank=True)
     gapsma_brain_location = models.CharField(verbose_name="Brain Lesion Location", max_length=50, null=True, blank=True)
-    gapsma_brain_suv = models.DecimalField(verbose_name="Brain SUV", max_digits=10, decimal_places=3, blank=True, null=True)
+    gapsma_brain_suv = models.DecimalField(verbose_name="Brain SUV", max_digits=10, decimal_places=2, blank=True, null=True)
     gapsma_brain_size = models.IntegerField(verbose_name="Brain Lesion Size", blank=True, null=True)
 
     gapsma_lung_lesion_status = models.CharField(verbose_name="Lung Lesion Status", max_length=120, choices = LESION_STATUS, null=True, blank=True)
@@ -150,7 +207,7 @@ class Screening(models.Model):
 
     fdgpetct_brain_lesion_status = models.CharField(verbose_name="Brain Lesion Status", max_length=120, choices = LESION_STATUS, null=True, blank=True)
     fdgpetct_brain_location = models.CharField(verbose_name="Brain Lesion Location", max_length=50, null=True, blank=True)
-    fdgpetct_brain_suv = models.DecimalField(verbose_name="Brain SUV", max_digits=5, decimal_places=2, blank=True, null=True)
+    fdgpetct_brain_suv = models.DecimalField(verbose_name="Brain SUV", max_digits=10, decimal_places=2, blank=True, null=True)
     fdgpetct_brain_size = models.IntegerField(verbose_name="Brain Lesion Size", blank=True, null=True)
 
     fdgpetct_lung_lesion_status = models.CharField(verbose_name="Lung Lesion Status", max_length=120, choices = LESION_STATUS, null=True, blank=True)
@@ -165,4 +222,3 @@ class Screening(models.Model):
 
     assessment = models.CharField(max_length=120, choices=ASSESSMENT, blank=True, null=True)
     plan = models.TextField(max_length=120, blank=True, null=True)
- 
