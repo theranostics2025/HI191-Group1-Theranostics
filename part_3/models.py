@@ -21,7 +21,6 @@ class PostTherapy(models.Model):
     lesions = MultiSelectField(max_length=120, choices = LESIONS) #MAKE SURE MULTIPLE CHOICE FIELD FOR FORMS
     bone_lesion_details = models.TextField(blank=True, null=True)
     lesion_image = models.ImageField(upload_to="images/")#image
-    
 
     #Dosimetry
     salivary_gland = models.DecimalField(max_digits=12, decimal_places=2, blank=True, null=True, validators=[MinValueValidator(Decimal('0.01'))]) # accept positive real numbers only (at least 0.01)
