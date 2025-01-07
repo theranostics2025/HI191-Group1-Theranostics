@@ -105,7 +105,6 @@ class PhysicalExam(models.Model):
     def __str__(self):
         return f"Physical Exam for {self.patient} on {self.date_recorded}"
 
-
 class Screening(models.Model):
     ASSESSMENT = (
         ('Low Risk', 'Low Risk'),
