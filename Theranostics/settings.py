@@ -29,7 +29,11 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '$rgwk-p!8^kw#51!zz-svqix09akmq
 #DEBUG = False
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    'hi191-group1-theranostics-production.up.railway.app'
+]
 
 
 # Application definition
