@@ -35,6 +35,10 @@ ALLOWED_HOSTS = [
     'hi191-group1-theranostics-production.up.railway.app'
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://hi191-group1-theranostics-production.up.railway.app',
+    'https://*.railway.app'
+]
 
 # Application definition
 
