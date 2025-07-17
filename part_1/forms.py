@@ -4,6 +4,7 @@ from django.forms import ModelChoiceField, ModelForm
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Column, Field
 
+from Theranostics import units as u
 
 # ADDING DATA
 class AddPatient(ModelForm):
@@ -86,14 +87,14 @@ class PhysicalExamFormBase(ModelForm):
         fields = ['ecog_score', 'height', 'weight', 'bmi', 'bp', 'hr', 'pain_score', 'local_symptoms', 'systemic_symptoms']
         labels = {
             'ecog_score': 'ECOG Performance Status Score',
-            'height': 'Height (cm)',
-            'weight': 'Weight (kg)',
-            'bmi': 'Body Mass Index (BMI)',
-            'bp': 'Blood Pressure (mmHg)',
-            'hr': 'Heart Rate (bpm)',
-            'pain_score': 'Pain Score (0-10)',
+            'height': f'Height ({u.height_unit})',
+            'weight': f'Weight ({u.weight_unit})',
+            'bmi': f'Body Mass Index (BMI) ({u.bmi_unit})',
+            'bp': f'Blood Pressure ({u.bp_unit})',
+            'hr': f'Heart Rate ({u.hr_unit})',
+            'pain_score': 'Pain Score',
             'local_symptoms': 'Local Symptoms',
-            'systemic_symptoms': 'Systemic Symptoms'
+            'systemic_symptoms': 'Systemic Symptoms',
         }
         widgets = {
             'ecog_score': forms.Select(attrs={'class': 'form-control'}),

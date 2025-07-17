@@ -39,23 +39,23 @@
                     <br>
                     Date of Physical Exam: {{ physical_exam.date_recorded }}
                     <br>
-                    Height: {{physical_exam.height}}
+                    Height ({{ units.height }}): {{ physical_exam.height }}
                     <br>
-                    Weight: {{physical_exam.weight}}
+                    Weight ({{ units.weight }}): {{ physical_exam.weight }}
                     <br>
-                    BMI: {{physical_exam.weight}}
+                    BMI ({{ units.bmi }}): {{ physical_exam.bmi }}
                     <br>
-                    Blood Pressure (systolic/diastolic): {{physical_exam.bp}}
-                    <br> 
-                    Heart Rate: {{physical_exam.hr}}
+                    Blood Pressure ({{ units.bp }}): {{ physical_exam.bp }}
                     <br>
-                    ECOG Score: {{physical_exam.ecog_score}}
+                    Heart Rate ({{ units.hr }}): {{ physical_exam.hr }}
                     <br>
-                    Pain Score: {{physical_exam.pain_score}}
+                    ECOG Score: {{ physical_exam.ecog_score }}
                     <br>
-                    Local Symptoms: {{physical_exam.local_symptoms}}
+                    Pain Score ({{ units.pain_score }}): {{ physical_exam.pain_score }}
                     <br>
-                    Systemic Symptoms: {{physical_exam.systemic_symptoms}}
+                    Local Symptoms: {{ physical_exam.local_symptoms }}
+                    <br>
+                    Systemic Symptoms: {{ physical_exam.systemic_symptoms }}
                     <br>
                     <a href="{% url 'editPhysicalExam' slug=patient.slug id=physical_exam.id %}" class="mr-1"><button href="{% url 'editPhysicalExam' slug=patient.slug id=physical_exam.id %}" style="margin-top: 20px;"class="btn btn-success" type="button">Edit</button></a>
                     <button type="button" class="btn btn-danger mr-1" style="margin-top: 20px;" data-bs-toggle="modal" href="#deletePEPopup{{physical_exam.id}}">Delete</button>
