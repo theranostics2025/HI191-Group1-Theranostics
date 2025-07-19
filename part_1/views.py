@@ -16,8 +16,6 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test as userPassesTest
 
-from Theranostics import units as u
-
 def isSuperuser(user):
     return user.is_superuser
 
@@ -160,17 +158,6 @@ def patientList(request):
     context = {'patients': patients, 'patient_count' : count}
     return render(request, 'part_1/patient-list.html', context)
 
-# get units
-def get_units_context():
-    return {
-        'height': u.height_unit,
-        'weight': u.weight_unit,
-        'bmi': u.bmi_unit,
-        'bp': u.bp_unit,
-        'hr': u.hr_unit,
-        'pain_score': u.pain_score_unit,
-    }
-
 @login_required
 def patientDetails(request, slug):
     
@@ -181,8 +168,7 @@ def patientDetails(request, slug):
     post_therapy = PostTherapy.objects.filter(patient=patient)
     follow_up = FollowUp.objects.filter(patient=patient)
 
-    context = {'patient' : patient, 'physical_exam' : physical_exam, 'screening' : screening, 'therapy' : therapy, 'post_therapy': post_therapy, 'follow_up' : follow_up,
-               'units' : get_units_context()}
+    context = {'patient' : patient, 'physical_exam' : physical_exam, 'screening' : screening, 'therapy' : therapy, 'post_therapy': post_therapy, 'follow_up' : follow_up}
     return render(request, 'part_1/patient-details.html', context)
 
 @login_required

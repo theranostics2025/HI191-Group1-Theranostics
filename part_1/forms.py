@@ -4,8 +4,6 @@ from django.forms import ModelChoiceField, ModelForm
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Column, Field
 
-from Theranostics import units as u
-
 # ADDING DATA
 class AddPatient(ModelForm):
     def __init__(self, *args1, **args2):
@@ -87,28 +85,32 @@ class PhysicalExamFormBase(ModelForm):
         fields = ['ecog_score', 'height', 'weight', 'bmi', 'bp', 'hr', 'pain_score', 'local_symptoms', 'systemic_symptoms']
         labels = {
             'ecog_score': 'ECOG Performance Status Score',
-            'height': f'Height ({u.height_unit})',
-            'weight': f'Weight ({u.weight_unit})',
-            'bmi': f'Body Mass Index (BMI) ({u.bmi_unit})',
-            'bp': f'Blood Pressure ({u.bp_unit})',
-            'hr': f'Heart Rate ({u.hr_unit})',
+            'height': 'Height (cm)',
+            'weight': 'Weight (kg)',
+            'bmi': 'Body Mass Index (BMI) (kg/m²)',
+            'bp': 'Blood Pressure (mmHg)',
+            'hr': 'Heart Rate (bpm)',
             'pain_score': 'Pain Score',
             'local_symptoms': 'Local Symptoms',
             'systemic_symptoms': 'Systemic Symptoms',
         }
         widgets = {
             'ecog_score': forms.Select(attrs={'class': 'form-control'}),
-            'height': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.1', 'min': '0'}),
-            'weight': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.1', 'min': '0'}),
+            'height': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01', 'min': '0'}),
+            'weight': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01', 'min': '0'}),
             'bmi': forms.NumberInput(attrs={'class': 'form-control', 'readonly': 'readonly', 'step': '0.01'}),
-            'bp': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '120/80'}),
+            'bp': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'systolic/diastolic (i.e. 120/80)',
+                                         'onkeypress': (
+                                                "if (event.charCode === 47 && this.value.includes('/')) return false; "
+                                                "return (event.charCode === 0 || (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 47);"
+                                            )}),
             'hr': forms.NumberInput(attrs={'class': 'form-control', 'min': '0'}),
             'pain_score': forms.NumberInput(attrs={'class': 'form-control', 'min': '0', 'max': '10'}),
             'local_symptoms': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
             'systemic_symptoms': forms.Textarea(attrs={'class': 'form-control', 'rows': 3})
         }
         help_texts = {
-            'bp': 'Systolic/diastolic (e.g., 120/80)',
+            # 'bp': 'Systolic/diastolic (e.g., 120/80)',
             'pain_score': '0 (no pain) to 10 (worst pain)',
         }
         
@@ -404,62 +406,62 @@ class AddScreening(ModelForm):
         'fdgpetct_liver_lesion_status', 'fdgpetct_liver_location', 'fdgpetct_liver_suv', 'fdgpetct_liver_size',
         'assessment', 'plan']
         labels = {
-            'psa': 'PSA',
-            'creatinine': 'Creatinine(mg/dL)',
-            'wbc': 'WBC',
-            'rbc' : 'RBC',
-            'hemoglobin' : 'Hemogoblin(g/dL)',
-            'hematocrit' : 'Hematocrit(%)',
-            'platelet' : 'Platelet Count(mcL)',
-            'lactate_hydrogenase' : 'Lactate Hydrogenase(units/L)',
-            'alkaline_phosphatase' : 'Alkaline Phosphatase(units/L)', 
-            'sgpt' : 'SGPT(units/L)', 
-            'sgot' : 'SGOT(units/L)', 
-            'bilirubins' : 'Bilirubins(mg/dL)',
+            'psa': 'PSA (ng/mL)',
+            'creatinine': 'Creatinine (mg/dL)',
+            'wbc': 'WBC (billion cells/L)',
+            'rbc' : 'RBC (trillion cells/L)',
+            'hemoglobin' : 'Hemogoblin (g/L)',
+            'hematocrit' : 'Hematocrit (%)',
+            'platelet' : 'Platelet Count (billion/L)',
+            'lactate_hydrogenase' : 'Lactate Hydrogenase (IU/L)',
+            'alkaline_phosphatase' : 'Alkaline Phosphatase (IU/L)', 
+            'sgpt' : 'SGPT (U/L)', 
+            'sgot' : 'SGOT (U/L)', 
+            'bilirubins' : 'Bilirubins (mg/dL)',
         }
         widgets = {
-            'psa': forms.NumberInput(attrs={'min': '0', 'step': '0.1'}),
-            'creatinine': forms.NumberInput(attrs={'min': '0', 'step': '0.1'}),
-            'wbc': forms.NumberInput(attrs={'min': '0', 'step': '0.1'}),
-            'rbc': forms.NumberInput(attrs={'min': '0', 'step': '0.1'}),
-            'hemoglobin': forms.NumberInput(attrs={'min': '0', 'step': '0.1'}),
-            'hematocrit': forms.NumberInput(attrs={'min': '0', 'step': '0.1'}),
-            'platelet': forms.NumberInput(attrs={'min': '0', 'step': '1'}),
-            'lactate_hydrogenase': forms.NumberInput(attrs={'min': '0', 'step': '1'}),
-            'alkaline_phosphatase': forms.NumberInput(attrs={'min': '0', 'step': '1'}),
-            'sgpt': forms.NumberInput(attrs={'min': '0', 'step': '1'}),
-            'sgot': forms.NumberInput(attrs={'min': '0', 'step': '1'}),
-            'bilirubins': forms.NumberInput(attrs={'min': '0', 'step': '0.1'}),
+            'psa': forms.NumberInput(attrs={'min': '0', 'step': '0.01'}),
+            'creatinine': forms.NumberInput(attrs={'min': '0', 'step': '0.01'}),
+            'wbc': forms.NumberInput(attrs={'min': '0', 'step': '0.01'}),
+            'rbc': forms.NumberInput(attrs={'min': '0', 'step': '0.01'}),
+            'hemoglobin': forms.NumberInput(attrs={'min': '0', 'step': '0.01'}),
+            'hematocrit': forms.NumberInput(attrs={'min': '0', 'step': '0.01'}),
+            'platelet': forms.NumberInput(attrs={'min': '0', 'step': '0.01'}),
+            'lactate_hydrogenase': forms.NumberInput(attrs={'min': '0', 'step': '0.01'}),
+            'alkaline_phosphatase': forms.NumberInput(attrs={'min': '0', 'step': '0.01'}),
+            'sgpt': forms.NumberInput(attrs={'min': '0', 'step': '0.01'}),
+            'sgot': forms.NumberInput(attrs={'min': '0', 'step': '0.01'}),
+            'bilirubins': forms.NumberInput(attrs={'min': '0', 'step': '0.01'}),
             
             # SUV fields with specific validation
-            'gapsma_prostate_suv': forms.NumberInput(attrs={'min': '0', 'step': '0.1'}),
-            'gapsma_lymph_node_suv': forms.NumberInput(attrs={'min': '0', 'step': '0.1'}),
-            'gapsma_bone_suv': forms.NumberInput(attrs={'min': '0', 'step': '0.1'}),
-            'gapsma_brain_suv': forms.NumberInput(attrs={'min': '0', 'step': '0.1'}),
-            'gapsma_lung_suv': forms.NumberInput(attrs={'min': '0', 'step': '0.1'}),
-            'gapsma_liver_suv': forms.NumberInput(attrs={'min': '0', 'step': '0.1'}),
+            'gapsma_prostate_suv': forms.NumberInput(attrs={'min': '0', 'step': '0.01'}),
+            'gapsma_lymph_node_suv': forms.NumberInput(attrs={'min': '0', 'step': '0.01'}),
+            'gapsma_bone_suv': forms.NumberInput(attrs={'min': '0', 'step': '0.01'}),
+            'gapsma_brain_suv': forms.NumberInput(attrs={'min': '0', 'step': '0.01'}),
+            'gapsma_lung_suv': forms.NumberInput(attrs={'min': '0', 'step': '0.01'}),
+            'gapsma_liver_suv': forms.NumberInput(attrs={'min': '0', 'step': '0.01'}),
             
-            'fdgpetct_prostate_suv': forms.NumberInput(attrs={'min': '0', 'step': '0.1'}),
-            'fdgpetct_lymph_node_suv': forms.NumberInput(attrs={'min': '0', 'step': '0.1'}),
-            'fdgpetct_bone_suv': forms.NumberInput(attrs={'min': '0', 'step': '0.1'}),
-            'fdgpetct_brain_suv': forms.NumberInput(attrs={'min': '0', 'step': '0.1'}),
-            'fdgpetct_lung_suv': forms.NumberInput(attrs={'min': '0', 'step': '0.1'}),
-            'fdgpetct_liver_suv': forms.NumberInput(attrs={'min': '0', 'step': '0.1'}),
+            'fdgpetct_prostate_suv': forms.NumberInput(attrs={'min': '0', 'step': '0.01'}),
+            'fdgpetct_lymph_node_suv': forms.NumberInput(attrs={'min': '0', 'step': '0.01'}),
+            'fdgpetct_bone_suv': forms.NumberInput(attrs={'min': '0', 'step': '0.01'}),
+            'fdgpetct_brain_suv': forms.NumberInput(attrs={'min': '0', 'step': '0.01'}),
+            'fdgpetct_lung_suv': forms.NumberInput(attrs={'min': '0', 'step': '0.01'}),
+            'fdgpetct_liver_suv': forms.NumberInput(attrs={'min': '0', 'step': '0.01'}),
 
             # size fields with specific validation
-            'gapsma_prostate_size': forms.NumberInput(attrs={'min': '0', 'step': '1'}),
-            'gapsma_lymph_node_size': forms.NumberInput(attrs={'min': '0', 'step': '1'}),
-            'gapsma_bone_size': forms.NumberInput(attrs={'min': '0', 'step': '1'}),
-            'gapsma_brain_size': forms.NumberInput(attrs={'min': '0', 'step': '1'}),
-            'gapsma_lung_size': forms.NumberInput(attrs={'min': '0', 'step': '1'}),
-            'gapsma_liver_size': forms.NumberInput(attrs={'min': '0', 'step': '1'}),
+            'gapsma_prostate_size': forms.NumberInput(attrs={'min': '0', 'step': '0.01'}),
+            'gapsma_lymph_node_size': forms.NumberInput(attrs={'min': '0', 'step': '0.01'}),
+            'gapsma_bone_size': forms.NumberInput(attrs={'min': '0', 'step': '0.01'}),
+            'gapsma_brain_size': forms.NumberInput(attrs={'min': '0', 'step': '0.01'}),
+            'gapsma_lung_size': forms.NumberInput(attrs={'min': '0', 'step': '0.01'}),
+            'gapsma_liver_size': forms.NumberInput(attrs={'min': '0', 'step': '0.01'}),
             
-            'fdgpetct_prostate_size': forms.NumberInput(attrs={'min': '0', 'step': '1'}),
-            'fdgpetct_lymph_node_size': forms.NumberInput(attrs={'min': '0', 'step': '1'}),
-            'fdgpetct_bone_size': forms.NumberInput(attrs={'min': '0', 'step': '1'}),
-            'fdgpetct_brain_size': forms.NumberInput(attrs={'min': '0', 'step': '1'}),
-            'fdgpetct_lung_size': forms.NumberInput(attrs={'min': '0', 'step': '1'}),
-            'fdgpetct_liver_size': forms.NumberInput(attrs={'min': '0', 'step': '1'}),
+            'fdgpetct_prostate_size': forms.NumberInput(attrs={'min': '0', 'step': '0.01'}),
+            'fdgpetct_lymph_node_size': forms.NumberInput(attrs={'min': '0', 'step': '0.01'}),
+            'fdgpetct_bone_size': forms.NumberInput(attrs={'min': '0', 'step': '0.01'}),
+            'fdgpetct_brain_size': forms.NumberInput(attrs={'min': '0', 'step': '0.01'}),
+            'fdgpetct_lung_size': forms.NumberInput(attrs={'min': '0', 'step': '0.01'}),
+            'fdgpetct_liver_size': forms.NumberInput(attrs={'min': '0', 'step': '0.01'}),
         }
 
 class EditScreening(AddScreening):

@@ -29,7 +29,8 @@ class Therapy(models.Model):
     diastolic = models.PositiveIntegerField(blank=True, null=True) # accept only positive integers only
     hr = models.PositiveIntegerField(blank=True, null=True) # accept only positive integers only
     rr = models.PositiveIntegerField(blank=True, null=True) # accept only positive integers only
-    saturation = models.PositiveIntegerField(blank=True, null=True) # accept only positive integers only
+    # saturation = models.PositiveIntegerField(blank=True, null=True) # accept only positive integers only
+    saturation = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
     date_therapy = models.DateField()
     radiopharm = models.CharField(max_length=120, null=True, blank=True)
     side_effects = MultiSelectField(max_length=120, choices = SIDE_EFFECTS)

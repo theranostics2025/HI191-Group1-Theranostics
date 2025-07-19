@@ -39,19 +39,19 @@
                     <br>
                     Date of Physical Exam: {{ physical_exam.date_recorded }}
                     <br>
-                    Height ({{ units.height }}): {{ physical_exam.height }}
+                    Height (cm): {{ physical_exam.height }}
                     <br>
-                    Weight ({{ units.weight }}): {{ physical_exam.weight }}
+                    Weight (kg): {{ physical_exam.weight }}
                     <br>
-                    BMI ({{ units.bmi }}): {{ physical_exam.bmi }}
+                    BMI (kg/m²): {{ physical_exam.bmi }}
                     <br>
-                    Blood Pressure ({{ units.bp }}): {{ physical_exam.bp }}
+                    Blood Pressure (mmHg): {{ physical_exam.bp }}
                     <br>
-                    Heart Rate ({{ units.hr }}): {{ physical_exam.hr }}
+                    Heart Rate (bpm): {{ physical_exam.hr }}
                     <br>
                     ECOG Score: {{ physical_exam.ecog_score }}
                     <br>
-                    Pain Score ({{ units.pain_score }}): {{ physical_exam.pain_score }}
+                    Pain Score (0-10): {{ physical_exam.pain_score }}
                     <br>
                     Local Symptoms: {{ physical_exam.local_symptoms }}
                     <br>
@@ -103,19 +103,19 @@
                                     <br>
                                     Furosemide: {{therapy.furosemide}}
                                     <br> 
-                                    Systolic: {{therapy.systolic}}
+                                    Systolic (mmHg): {{therapy.systolic}}
                                     <br>
-                                    Diastolic: {{therapy.diastolic}}
+                                    Diastolic (mmHg): {{therapy.diastolic}}
                                     <br>
-                                    Heart Rate: {{therapy.hr}}
+                                    Heart Rate (bpm): {{therapy.hr}}
                                     <br>
-                                    Respiration Rate: {{therapy.rr}}
+                                    Respiration Rate (breaths/min): {{therapy.rr}}
                                     <br>
-                                    Saturation: {{therapy.saturation}}
+                                    Oxygen Saturation (%): {{therapy.saturation}}
                                     <br>
                                     Date of Therapy: {{therapy.date_therapy}}
                                     <br>
-                                    Radiopharm: {{therapy.radioharm}}
+                                    Radiopharm: {{therapy.radiopharm}}
                                     <br>
                                     Side Effects: {{therapy.side_effects}}
                                     <br>
@@ -156,29 +156,29 @@
                     <a href="{% url 'addScreening' patient.slug %}" class="mr-1"><button href="{% url 'addScreening' patient.slug %}" style="margin-top: 20px;"class="btn btn-success" type="button">Add Screening</button></a>
                 {% endif %}
                 {% if screening %}
-                    PSA: {{screening.psa}}
+                    PSA (ng/mL): {{screening.psa}}
                     <br>
-                    Creatinine: {{screening.creatinine}}           
+                    Creatinine (mg/dL): {{screening.creatinine}}           
                     <br>    
-                    WBC: {{screening.wbc}}
+                    WBC (billion cells/L): {{screening.wbc}}
                     <br>
-                    RBC: {{screening.rbc}}
+                    RBC (trillion cells/L): {{screening.rbc}}
                     <br>
-                    Hemoglobin Levels: {{ screening.hemoglobin }}
+                    Hemoglobin Levels (g/L): {{ screening.hemoglobin }}
                     <br>
-                    Hematrocrit: {{screening.hematocrit}}
+                    Hematrocrit (%): {{screening.hematocrit}}
                     <br>
-                    Platelet: {{screening.platelet}}
+                    Platelet (billion/L): {{screening.platelet}}
                     <br>
-                    Lactate Hydrogenase: {{screening.lactate_hydrogenase}}
+                    Lactate Hydrogenase (IU/L): {{screening.lactate_hydrogenase}}
                     <br>
-                    Alkaline Phophatase: {{screening.alkaline_phosphatase}}
+                    Alkaline Phophatase (IU/L): {{screening.alkaline_phosphatase}}
                     <br>
-                    SGPT: {{screening.sgpt}}
+                    SGPT (U/L): {{screening.sgpt}}
                     <br>
-                    SGOT: {{screening.sgot}}
+                    SGOT (U/L): {{screening.sgot}}
                     <br>
-                    Bilirubins: {{screening.bilirubins}}
+                    Bilirubins (mg/dL): {{screening.bilirubins}}
                     <br>
                     <h5><b>Salivary Glands</b></h5>
                     Salivary Gland Status: {{screening.salivary_gland_status}}
@@ -225,7 +225,7 @@
                 <br>    
                 SUV: {{screening.gapsma_prostate_suv}}
                 <br>
-                Size: {{screening.gapsma_prostate_size}}
+                Size (cm): {{screening.gapsma_prostate_size}}
                 <br>
 
                 <h5><b>Lymph Nodes</b></h5>
@@ -235,7 +235,7 @@
                 <br>    
                 SUV: {{screening.gapsma_lymph_node_suv}}
                 <br>
-                Size: {{screening.gapsma_lymph_node_size}}
+                Size (cm): {{screening.gapsma_lymph_node_size}}
                 <br>
 
                 <h5><b>Bones</b></h5>
@@ -245,7 +245,7 @@
                 <br>    
                 SUV: {{screening.gapsma_bone_suv}}
                 <br>
-                Size: {{screening.gapsma_bone_size}}
+                Size (cm): {{screening.gapsma_bone_size}}
                 <br>
 
                 <h5><b>Brain</b></h5>
@@ -255,7 +255,7 @@
                 <br>    
                 SUV: {{screening.gapsma_brain_suv}}
                 <br>
-                Size: {{screening.gapsma_brain_size}}
+                Size (cm): {{screening.gapsma_brain_size}}
                 <br>
 
                 <h5><b>Lungs</b></h5>
@@ -265,7 +265,7 @@
                 <br>    
                 SUV: {{screening.gapsma_lung_suv}}
                 <br>
-                Size: {{screening.gapsma_lung_size}}
+                Size (cm): {{screening.gapsma_lung_size}}
                 <br>
 
                 <h5><b>Liver</b></h5>
@@ -275,7 +275,7 @@
                 <br>    
                 SUV: {{screening.gapsma_liver_suv}}
                 <br>
-                Size: {{screening.gapsma_liver_size}}
+                Size (cm): {{screening.gapsma_liver_size}}
                 <br>
             {% endif %}
         </div>
@@ -289,7 +289,7 @@
                     <br>    
                     SUV: {{screening.fdgpetct_prostate_suv}}
                     <br>
-                    Size: {{screening.fdgpetct_prostate_size}}
+                    Size (cm): {{screening.fdgpetct_prostate_size}}
                     <br>
 
                     <h5><b>Lymph Nodes</b></h5>
@@ -299,7 +299,7 @@
                     <br>    
                     SUV: {{screening.fdgpetct_lymph_node_suv}}
                     <br>
-                    Size: {{screening.fdgpetct_lymph_node_size}}
+                    Size (cm): {{screening.fdgpetct_lymph_node_size}}
                     <br>
 
                     <h5><b>Bones</b></h5>
@@ -309,7 +309,7 @@
                     <br>    
                     SUV: {{screening.fdgpetct_bone_suv}}
                     <br>
-                    Size: {{screening.fdgpetct_bone_size}}
+                    Size (cm): {{screening.fdgpetct_bone_size}}
                     <br>
 
                     <h5><b>Brain</b></h5>
@@ -319,7 +319,7 @@
                     <br>    
                     SUV: {{screening.fdgpetct_brain_suv}}
                     <br>
-                    Size: {{screening.fdgpetct_brain_size}}
+                    Size (cm): {{screening.fdgpetct_brain_size}}
                     <br>
 
                     <h5><b>Lungs</b></h5>
@@ -329,7 +329,7 @@
                     <br>    
                     SUV: {{screening.fdgpetct_lung_suv}}
                     <br>
-                    Size: {{screening.fdgpetct_lung_size}}
+                    Size (cm): {{screening.fdgpetct_lung_size}}
                     <br>
 
                     <h5><b>Liver</b></h5>
@@ -339,7 +339,7 @@
                     <br>    
                     SUV: {{screening.fdgpetct_liver_suv}}
                     <br>
-                    Size: {{screening.fdgpetct_liver_size}}
+                    Size (cm): {{screening.fdgpetct_liver_size}}
                     <br>
                 {% endif %}
         </div>
