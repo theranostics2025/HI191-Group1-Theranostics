@@ -105,13 +105,13 @@ class PhysicalExamFormBase(ModelForm):
                                                 "return (event.charCode === 0 || (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 47);"
                                             )}),
             'hr': forms.NumberInput(attrs={'class': 'form-control', 'min': '0'}),
-            'pain_score': forms.NumberInput(attrs={'class': 'form-control', 'min': '0', 'max': '10'}),
+            'pain_score': forms.NumberInput(attrs={'class': 'form-control', 'min': '0', 'max': '10', 'placeholder': '0 (no pain) to 10 (worst pain)'}),
             'local_symptoms': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
             'systemic_symptoms': forms.Textarea(attrs={'class': 'form-control', 'rows': 3})
         }
         help_texts = {
             # 'bp': 'Systolic/diastolic (e.g., 120/80)',
-            'pain_score': '0 (no pain) to 10 (worst pain)',
+            # 'pain_score': '0 (no pain) to 10 (worst pain)',
         }
         
     def clean_ecog_score(self):
@@ -243,150 +243,6 @@ class AddScreening(ModelForm):
             raise forms.ValidationError("Bilirubins must be a non-negative value.")
         return bilirubins
 
-    def clean_gapsma_prostate_suv(self):
-        suv = self.cleaned_data.get('gapsma_prostate_suv')
-        if suv is not None:
-            if suv < 0:
-                raise forms.ValidationError("SUV must be a non-negative value.")
-            # Check for more than 3 digits before decimal
-            suv_str = str(suv)
-            integer_part = suv_str.split('.')[0]
-            if len(integer_part) > 3:
-                raise forms.ValidationError("Ensure that there are no more than 3 digits before the decimal point.")
-        return suv
-
-    def clean_gapsma_lymph_node_suv(self):
-        suv = self.cleaned_data.get('gapsma_lymph_node_suv')
-        if suv is not None:
-            if suv < 0:
-                raise forms.ValidationError("SUV must be a non-negative value.")
-            # Check for more than 3 digits before decimal
-            suv_str = str(suv)
-            integer_part = suv_str.split('.')[0]
-            if len(integer_part) > 3:
-                raise forms.ValidationError("Ensure that there are no more than 3 digits before the decimal point.")
-        return suv
-
-    def clean_gapsma_bone_suv(self):
-        suv = self.cleaned_data.get('gapsma_bone_suv')
-        if suv is not None:
-            if suv < 0:
-                raise forms.ValidationError("SUV must be a non-negative value.")
-            # Check for more than 3 digits before decimal
-            suv_str = str(suv)
-            integer_part = suv_str.split('.')[0]
-            if len(integer_part) > 3:
-                raise forms.ValidationError("Ensure that there are no more than 3 digits before the decimal point.")
-        return suv
-
-    def clean_gapsma_brain_suv(self):
-        suv = self.cleaned_data.get('gapsma_brain_suv')
-        if suv is not None:
-            if suv < 0:
-                raise forms.ValidationError("SUV must be a non-negative value.")
-            # Check for more than 3 digits before decimal
-            suv_str = str(suv)
-            integer_part = suv_str.split('.')[0]
-            if len(integer_part) > 3:
-                raise forms.ValidationError("Ensure that there are no more than 3 digits before the decimal point.")
-        return suv
-
-    def clean_gapsma_lung_suv(self):
-        suv = self.cleaned_data.get('gapsma_lung_suv')
-        if suv is not None:
-            if suv < 0:
-                raise forms.ValidationError("SUV must be a non-negative value.")
-            # Check for more than 3 digits before decimal
-            suv_str = str(suv)
-            integer_part = suv_str.split('.')[0]
-            if len(integer_part) > 3:
-                raise forms.ValidationError("Ensure that there are no more than 3 digits before the decimal point.")
-        return suv
-
-    def clean_gapsma_liver_suv(self):
-        suv = self.cleaned_data.get('gapsma_liver_suv')
-        if suv is not None:
-            if suv < 0:
-                raise forms.ValidationError("SUV must be a non-negative value.")
-            # Check for more than 3 digits before decimal
-            suv_str = str(suv)
-            integer_part = suv_str.split('.')[0]
-            if len(integer_part) > 3:
-                raise forms.ValidationError("Ensure that there are no more than 3 digits before the decimal point.")
-        return suv
-
-    def clean_fdgpetct_prostate_suv(self):
-        suv = self.cleaned_data.get('fdgpetct_prostate_suv')
-        if suv is not None:
-            if suv < 0:
-                raise forms.ValidationError("SUV must be a non-negative value.")
-            # Check for more than 3 digits before decimal
-            suv_str = str(suv)
-            integer_part = suv_str.split('.')[0]
-            if len(integer_part) > 3:
-                raise forms.ValidationError("Ensure that there are no more than 3 digits before the decimal point.")
-        return suv
-
-    def clean_fdgpetct_lymph_node_suv(self):
-        suv = self.cleaned_data.get('fdgpetct_lymph_node_suv')
-        if suv is not None:
-            if suv < 0:
-                raise forms.ValidationError("SUV must be a non-negative value.")
-            # Check for more than 3 digits before decimal
-            suv_str = str(suv)
-            integer_part = suv_str.split('.')[0]
-            if len(integer_part) > 3:
-                raise forms.ValidationError("Ensure that there are no more than 3 digits before the decimal point.")
-        return suv
-
-    def clean_fdgpetct_bone_suv(self):
-        suv = self.cleaned_data.get('fdgpetct_bone_suv')
-        if suv is not None:
-            if suv < 0:
-                raise forms.ValidationError("SUV must be a non-negative value.")
-            # Check for more than 3 digits before decimal
-            suv_str = str(suv)
-            integer_part = suv_str.split('.')[0]
-            if len(integer_part) > 3:
-                raise forms.ValidationError("Ensure that there are no more than 3 digits before the decimal point.")
-        return suv
-
-    def clean_fdgpetct_brain_suv(self):
-        suv = self.cleaned_data.get('fdgpetct_brain_suv')
-        if suv is not None:
-            if suv < 0:
-                raise forms.ValidationError("SUV must be a non-negative value.")
-            # Check for more than 3 digits before decimal
-            suv_str = str(suv)
-            integer_part = suv_str.split('.')[0]
-            if len(integer_part) > 3:
-                raise forms.ValidationError("Ensure that there are no more than 3 digits before the decimal point.")
-        return suv
-
-    def clean_fdgpetct_lung_suv(self):
-        suv = self.cleaned_data.get('fdgpetct_lung_suv')
-        if suv is not None:
-            if suv < 0:
-                raise forms.ValidationError("SUV must be a non-negative value.")
-            # Check for more than 3 digits before decimal
-            suv_str = str(suv)
-            integer_part = suv_str.split('.')[0]
-            if len(integer_part) > 3:
-                raise forms.ValidationError("Ensure that there are no more than 3 digits before the decimal point.")
-        return suv
-
-    def clean_fdgpetct_liver_suv(self):
-        suv = self.cleaned_data.get('fdgpetct_liver_suv')
-        if suv is not None:
-            if suv < 0:
-                raise forms.ValidationError("SUV must be a non-negative value.")
-            # Check for more than 3 digits before decimal
-            suv_str = str(suv)
-            integer_part = suv_str.split('.')[0]
-            if len(integer_part) > 3:
-                raise forms.ValidationError("Ensure that there are no more than 3 digits before the decimal point.")
-        return suv
-
     class Meta:
         model = Screening
         fields = ['psa', 'creatinine', 'wbc', 'rbc', 'hemoglobin', 'hematocrit', 'platelet', 'lactate_hydrogenase', 'alkaline_phosphatase', 'sgpt', 'sgot', 'bilirubins', 
@@ -425,7 +281,7 @@ class AddScreening(ModelForm):
             'wbc': forms.NumberInput(attrs={'min': '0', 'step': '0.01'}),
             'rbc': forms.NumberInput(attrs={'min': '0', 'step': '0.01'}),
             'hemoglobin': forms.NumberInput(attrs={'min': '0', 'step': '0.01'}),
-            'hematocrit': forms.NumberInput(attrs={'min': '0', 'step': '0.01'}),
+            'hematocrit': forms.NumberInput(attrs={'min': '0', 'max': '100', 'step': '0.01'}),
             'platelet': forms.NumberInput(attrs={'min': '0', 'step': '0.01'}),
             'lactate_hydrogenase': forms.NumberInput(attrs={'min': '0', 'step': '0.01'}),
             'alkaline_phosphatase': forms.NumberInput(attrs={'min': '0', 'step': '0.01'}),

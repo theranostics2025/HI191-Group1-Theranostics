@@ -3,6 +3,12 @@
 {% load crispy_forms_tags %}
 <!-- partial:index.partial.html -->
 {% block content %}
+<style>
+    h5 {
+        margin-bottom: 3px;
+    }
+</style>
+
 <div class='dashboard'>
 
     <div class='dashboard-app'>
@@ -10,7 +16,7 @@
             <div class='container'>
                 <div class='card'>
                     <div class='card-header'>
-                        <h1>POST-THERAPY</h1>
+                        <h1><b>ADD POST-THERAPY</b></h1>
                         <br>
                         <div>
                         <form method="POST" action ="" enctype="multipart/form-data">
@@ -31,7 +37,7 @@
                             </table> 
 
                             <div><br>
-                                <span>Dosimetry</span>
+                                <h5><b>Dosimetry (Gy)</b></h5>
                                 <div>{{ form.salivary_gland | as_crispy_field }}</div>
                                 <div>{{ form.kidney_left | as_crispy_field }}</div>
                                 <div>{{ form.kidney_right | as_crispy_field }}</div>

@@ -3,6 +3,22 @@
 {% load crispy_forms_tags %}
 <!-- partial:index.partial.html -->
 {% block content %}
+<style>
+    h5 {
+        margin-bottom: 3px;
+    }
+
+    .lesion-details {
+        background: #f4f4f4;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 10px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+</style>
+
 <div class='dashboard'>
 
     <div class='dashboard-app'>
@@ -10,7 +26,7 @@
             <div class='container'>
                 <div class='card'>
                     <div class='card-header'>
-                        <h1>EDIT FOLLOW-UP</h1>
+                        <h1><b>EDIT FOLLOW-UP</b></h1>
                         <br>
                         <div>
                         <form method="POST" action ="" enctype="multipart/form-data">
@@ -18,134 +34,171 @@
                                 <tr>
                                     {% csrf_token %}
                                     <td>{{ form.date_of_follow_up | as_crispy_field }}</td>
+                                </tr>
+                                <tr>
                                     <td>{{ form.psa | as_crispy_field }}</td>
                                     <td>{{ form.creatinine | as_crispy_field }}</td>
                                 </tr>
                                 <tr>
-                                    <td>{{ form.wbc | as_crispy_field }}</td>
-                                    <td>{{ form.rbc | as_crispy_field }}</td>
+                                    <td colspan="2" style="padding: 0;">
+                                        <div style="background: #f4f4f4; border: 1px solid #ccc; border-radius: 8px; padding: 15px; margin-bottom: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.05);">
+                                            <h5 style="margin-bottom: 8px;"><b>Complete Blood Count</b></h5>
+                                            <table>
+                                                <tr>
+                                                    <td>{{ form.wbc | as_crispy_field }}</td>
+                                                    <td>{{ form.rbc | as_crispy_field }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>{{ form.hemoglobin | as_crispy_field }}</td>
+                                                    <td>{{ form.hematocrit | as_crispy_field }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>{{ form.platelet | as_crispy_field }}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td>{{ form.hemoglobin | as_crispy_field }}</td>
-                                    <td>{{ form.hematocrit | as_crispy_field }}</td>
-                                </tr>
-                                <tr>
-                                    <td>{{ form.platelet | as_crispy_field }}</td>
                                     <td>{{ form.lactate_hydrogenase | as_crispy_field }}</td>
-                                </tr>
-                                <tr>
                                     <td>{{ form.alkaline_phosphatase | as_crispy_field }}</td>
-                                    <td>{{ form.sgpt | as_crispy_field }}</td>
                                 </tr>
                                 <tr>
+                                    <td>{{ form.sgpt | as_crispy_field }}</td>
                                     <td>{{ form.sgot | as_crispy_field }}</td>
                                     <td>{{ form.bilirubins | as_crispy_field }}</td>
                                 </tr>
                             </table> 
 
                             <div><br>
-                                <span>Salivary Gland Status</span>
+                                <h5><b>Salivary Gland Status</b></h5>
                                 <div>{{ form.salivary_gland_status | as_crispy_field }}</div>
                                 <div>{{ form.salivary_gland_image | as_crispy_field }}</div>
                             </div>
 
                             <div><br>
-                                <span>Bone Metastasis Status </span>
+                                <h5><b>Bone Metastasis Status</b></h5>
                                 <div>{{ form.bone_metastasis_status | as_crispy_field }}</div>
-                                <div>{{ form.bone_scan_image| as_crispy_field }}</div>
+                                <div>{{ form.bone_scan_image| as_crispy_field }}</div><br>
                                 <div>{{ form.renal_scintigraphy| as_crispy_field }}</div>
                             </div>
 
                             <div><br>
-                                <span>GAPSMA<span>
+                                <h5><b>GAPSMA</b></h5>
                                 <div>{{ form.gapsma_choices | as_crispy_field }}</div>
-                                <div>{{ form.gapsma_img| as_crispy_field }}</div>
+                                <div>{{ form.gapsma_img | as_crispy_field }}</div>
+
                                 <div><br>
                                     <div>{{ form.gapsma_prostate_lesion_status | as_crispy_field }}</div>
-                                    <div>{{ form.gapsma_prostate_location | as_crispy_field }}</div>
-                                    <div>{{ form.gapsma_prostate_suv | as_crispy_field }}</div>
-                                    <div>{{ form.gapsma_prostate_size| as_crispy_field }}</div>
+                                    <div class="lesion-details" id="details-gapsma_prostate">
+                                        <div>{{ form.gapsma_prostate_location | as_crispy_field }}</div>
+                                        <div>{{ form.gapsma_prostate_suv | as_crispy_field }}</div>
+                                        <div>{{ form.gapsma_prostate_size | as_crispy_field }}</div>
+                                    </div>
                                 </div>
 
                                 <div><br>
-                                    <div>{{ form.gapsma_lymph_node_lesion_status| as_crispy_field }}</div>
-                                    <div>{{ form.gapsma_lymph_node_location | as_crispy_field }}</div>
-                                    <div>{{ form.gapsma_lymph_node_suv | as_crispy_field }}</div>
-                                    <div>{{ form.gapsma_lymph_node_size | as_crispy_field }}</div>
+                                    <div>{{ form.gapsma_lymph_node_lesion_status | as_crispy_field }}</div>
+                                    <div class="lesion-details" id="details-gapsma_lymph_node">
+                                        <div>{{ form.gapsma_lymph_node_location | as_crispy_field }}</div>
+                                        <div>{{ form.gapsma_lymph_node_suv | as_crispy_field }}</div>
+                                        <div>{{ form.gapsma_lymph_node_size | as_crispy_field }}</div>
+                                    </div>
                                 </div>
 
                                 <div><br>
-                                    <div>{{ form.gapsma_bone_lesion_status| as_crispy_field }}</div>
-                                    <div>{{ form.gapsma_bone_location | as_crispy_field }}</div>
-                                    <div>{{ form.gapsma_bone_suv | as_crispy_field }}</div>
-                                    <div>{{ form.gapsma_bone_size | as_crispy_field }}</div>
+                                    <div>{{ form.gapsma_bone_lesion_status | as_crispy_field }}</div>
+                                    <div class="lesion-details" id="details-gapsma_bone">
+                                        <div>{{ form.gapsma_bone_location | as_crispy_field }}</div>
+                                        <div>{{ form.gapsma_bone_suv | as_crispy_field }}</div>
+                                        <div>{{ form.gapsma_bone_size | as_crispy_field }}</div>
+                                    </div>
                                 </div>
 
                                 <div><br>
-                                    <div>{{ form.gapsma_brain_lesion_status| as_crispy_field }}</div>
-                                    <div>{{ form.gapsma_brain_location | as_crispy_field }}</div>
-                                    <div>{{ form.gapsma_brain_suv | as_crispy_field }}</div>
-                                    <div>{{ form.gapsma_brain_size | as_crispy_field }}</div>
+                                    <div>{{ form.gapsma_brain_lesion_status | as_crispy_field }}</div>
+                                    <div class="lesion-details" id="details-gapsma_brain">
+                                        <div>{{ form.gapsma_brain_location | as_crispy_field }}</div>
+                                        <div>{{ form.gapsma_brain_suv | as_crispy_field }}</div>
+                                        <div>{{ form.gapsma_brain_size | as_crispy_field }}</div>
+                                    </div>
                                 </div>
 
                                 <div><br>
                                     <div>{{ form.gapsma_lung_lesion_status | as_crispy_field }}</div>
-                                    <div>{{ form.gapsma_lung_location | as_crispy_field }}</div>
-                                    <div>{{ form.gapsma_lung_suv | as_crispy_field }}</div>
-                                    <div>{{ form.gapsma_lung_size | as_crispy_field }}</div>
+                                    <div class="lesion-details" id="details-gapsma_lung">
+                                        <div>{{ form.gapsma_lung_location | as_crispy_field }}</div>
+                                        <div>{{ form.gapsma_lung_suv | as_crispy_field }}</div>
+                                        <div>{{ form.gapsma_lung_size | as_crispy_field }}</div>
+                                    </div>
                                 </div>
 
                                 <div><br>
                                     <div>{{ form.gapsma_liver_lesion_status | as_crispy_field }}</div>
-                                    <div>{{ form.gapsma_liver_location | as_crispy_field }}</div>
-                                    <div>{{ form.gapsma_liver_suv | as_crispy_field }}</div>
-                                    <div>{{ form.gapsma_liver_size | as_crispy_field }}</div>
+                                    <div class="lesion-details" id="details-gapsma_liver">
+                                        <div>{{ form.gapsma_liver_location | as_crispy_field }}</div>
+                                        <div>{{ form.gapsma_liver_suv | as_crispy_field }}</div>
+                                        <div>{{ form.gapsma_liver_size | as_crispy_field }}</div>
+                                    </div>
                                 </div>
                             </div>
 
                             <div><br>
-                                <span>FDGPETCT</span>
+                                <h5><b>FDGPETCT</b></h5>
                                 {{ form.fdgpetct_img | as_crispy_field }}
+
                                 <div><br>
                                     <div>{{ form.fdgpetct_prostate_lesion_status | as_crispy_field }}</div>
-                                    <div>{{ form.fdgpetct_prostate_location | as_crispy_field }}</div>
-                                    <div>{{ form.fdgpetct_prostate_suv | as_crispy_field }}</div>
-                                    <div>{{ form.fdgpetct_prostate_size | as_crispy_field }}</div>
+                                    <div class="lesion-details" id="details-fdgpetct_prostate">
+                                        <div>{{ form.fdgpetct_prostate_location | as_crispy_field }}</div>
+                                        <div>{{ form.fdgpetct_prostate_suv | as_crispy_field }}</div>
+                                        <div>{{ form.fdgpetct_prostate_size | as_crispy_field }}</div>
+                                    </div>
                                 </div>
 
                                 <div><br>
-                                    <div>{{ form.fdgpetct_lymph_node_lesion_status| as_crispy_field }}</div>
-                                    <div>{{ form.fdgpetct_lymph_node_location | as_crispy_field }}</div>
-                                    <div>{{ form.fdgpetct_lymph_node_suv | as_crispy_field }}</div>
-                                    <div>{{ form.fdgpetct_lymph_node_size | as_crispy_field }}</div>
+                                    <div>{{ form.fdgpetct_lymph_node_lesion_status | as_crispy_field }}</div>
+                                    <div class="lesion-details" id="details-fdgpetct_lymph_node">
+                                        <div>{{ form.fdgpetct_lymph_node_location | as_crispy_field }}</div>
+                                        <div>{{ form.fdgpetct_lymph_node_suv | as_crispy_field }}</div>
+                                        <div>{{ form.fdgpetct_lymph_node_size | as_crispy_field }}</div>
+                                    </div>
                                 </div>
 
                                 <div><br>
-                                    <div>{{ form.fdgpetct_bone_lesion_status| as_crispy_field }}</div>
-                                    <div>{{ form.fdgpetct_bone_location | as_crispy_field }}</div>
-                                    <div>{{ form.fdgpetct_bone_suv | as_crispy_field }}</div>
-                                    <div>{{ form.fdgpetct_bone_size | as_crispy_field }}</div>
+                                    <div>{{ form.fdgpetct_bone_lesion_status | as_crispy_field }}</div>
+                                    <div class="lesion-details" id="details-fdgpetct_bone">
+                                        <div>{{ form.fdgpetct_bone_location | as_crispy_field }}</div>
+                                        <div>{{ form.fdgpetct_bone_suv | as_crispy_field }}</div>
+                                        <div>{{ form.fdgpetct_bone_size | as_crispy_field }}</div>
+                                    </div>
                                 </div>
 
                                 <div><br>
-                                    <div>{{ form.fdgpetct_brain_lesion_status| as_crispy_field }}</div>
-                                    <div>{{ form.fdgpetct_brain_location | as_crispy_field }}</div>
-                                    <div>{{ form.fdgpetct_brain_suv | as_crispy_field }}</div>
-                                    <div>{{ form.fdgpetct_brain_size | as_crispy_field }}</div>
+                                    <div>{{ form.fdgpetct_brain_lesion_status | as_crispy_field }}</div>
+                                    <div class="lesion-details" id="details-fdgpetct_brain">
+                                        <div>{{ form.fdgpetct_brain_location | as_crispy_field }}</div>
+                                        <div>{{ form.fdgpetct_brain_suv | as_crispy_field }}</div>
+                                        <div>{{ form.fdgpetct_brain_size | as_crispy_field }}</div>
+                                    </div>
                                 </div>
 
                                 <div><br>
                                     <div>{{ form.fdgpetct_lung_lesion_status | as_crispy_field }}</div>
-                                    <div>{{ form.fdgpetct_lung_location | as_crispy_field }}</div>
-                                    <div>{{ form.fdgpetct_lung_suv | as_crispy_field }}</div>
-                                    <div>{{ form.fdgpetct_lung_size | as_crispy_field }}</div>
+                                    <div class="lesion-details" id="details-fdgpetct_lung">
+                                        <div>{{ form.fdgpetct_lung_location | as_crispy_field }}</div>
+                                        <div>{{ form.fdgpetct_lung_suv | as_crispy_field }}</div>
+                                        <div>{{ form.fdgpetct_lung_size | as_crispy_field }}</div>
+                                    </div>
                                 </div>
 
                                 <div><br>
                                     <div>{{ form.fdgpetct_liver_lesion_status | as_crispy_field }}</div>
-                                    <div>{{ form.fdgpetct_liver_location | as_crispy_field }}</div>
-                                    <div>{{ form.fdgpetct_liver_suv | as_crispy_field }}</div>
-                                    <div>{{ form.fdgpetct_liver_size | as_crispy_field }}</div>
+                                    <div class="lesion-details" id="details-fdgpetct_liver">
+                                        <div>{{ form.fdgpetct_liver_location | as_crispy_field }}</div>
+                                        <div>{{ form.fdgpetct_liver_suv | as_crispy_field }}</div>
+                                        <div>{{ form.fdgpetct_liver_size | as_crispy_field }}</div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -160,4 +213,33 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const organs = ["prostate", "lymph_node", "bone", "brain", "lung", "liver"];
+
+        function toggleDetails(modality, organ) {
+            const statusField = document.querySelector(`[name="` + modality + `_${organ}_lesion_status"]`);
+            const details = document.getElementById(`details-${modality}_${organ}`);
+
+            if (!statusField || !details) return;
+
+            const update = () => {
+                if (statusField.value === "Present") {
+                    details.style.display = "block";
+                } else {
+                    details.style.display = "none";
+                }
+            };
+
+            statusField.addEventListener("change", update);
+            update(); // initial check
+        }
+
+        ["gapsma", "fdgpetct"].forEach(modality => {
+            organs.forEach(organ => toggleDetails(modality, organ));
+        });
+    });
+</script>
+
 {% endblock content %}

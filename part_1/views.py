@@ -16,6 +16,8 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test as userPassesTest
 
+from django.db.models import Exists, OuterRef, Q
+
 def isSuperuser(user):
     return user.is_superuser
 
@@ -41,8 +43,10 @@ def patientList(request):
     low_risk = request.GET.get('flexCheckLowRisk')
     intermediate_risk = request.GET.get('flexCheckIntermediateRisk')
     high_risk = request.GET.get('flexCheckHighRisk')
-    bone_metastasis = request.GET.get('flexCheckMetastasis')
-    side_effects = request.GET.get('flexCheckSideEffect')
+    has_bone_metastasis = request.GET.get('flexHasMetastasis')
+    no_bone_metastasis = request.GET.get('flexNoMetastasis')
+    has_side_effects = request.GET.get('flexHasSideEffect')
+    no_side_effects = request.GET.get('flexNoSideEffect')
     #Screening fields
     prostateLS = request.GET.get('flexCheckProstateL')
     nodeLS = request.GET.get('flexCheckLNL')
@@ -67,36 +71,56 @@ def patientList(request):
 
     #Risk Assessment
     if low_risk == 'on':
-        if intermediate_risk == 'on':
-            patients = Patient.objects.prefetch_related('screening_patient').filter(screening_patient__assessment__exact = 'Low Risk') | Patient.objects.prefetch_related('screening_patient').filter(screening_patient__assessment__exact = 'Intermediate Risk')
-        elif high_risk == 'on':
-            patients = Patient.objects.prefetch_related('screening_patient').filter(screening_patient__assessment__exact = 'Low Risk') | Patient.objects.prefetch_related('screening_patient').filter(screening_patient__assessment__exact = 'High Risk')
-        else:
-            patients = Patient.objects.prefetch_related('screening_patient').filter(screening_patient__assessment__exact = 'Low Risk')
+        selected_risk = 'Low Risk'
+    elif intermediate_risk == 'on':
+        selected_risk = 'Intermediate Risk'
+    elif high_risk == 'on':
+        selected_risk = 'High Risk'
+    else:
+        selected_risk = None
 
-    if intermediate_risk == 'on':
-        if low_risk == 'on':
-            patients = Patient.objects.prefetch_related('screening_patient').filter(screening_patient__assessment__exact = 'Low Risk') | Patient.objects.prefetch_related('screening_patient').filter(screening_patient__assessment__exact = 'Intermediate Risk')
-        elif high_risk == 'on':
-            patients = Patient.objects.prefetch_related('screening_patient').filter(screening_patient__assessment__exact = 'Intermediate Risk') | Patient.objects.prefetch_related('screening_patient').filter(screening_patient__assessment__exact = 'High Risk')
-        else:
-            patients = Patient.objects.prefetch_related('screening_patient').filter(screening_patient__assessment__exact = 'Intermediate Risk')
+    if selected_risk:
+        patients = Patient.objects.prefetch_related('screening_patient').filter(
+            screening_patient__assessment__exact=selected_risk
+        )
+    else:
+        patients = Patient.objects.prefetch_related('screening_patient').all()
 
-    if high_risk == 'on':
-        if low_risk == 'on':
-            patients = Patient.objects.prefetch_related('screening_patient').filter(screening_patient__assessment__exact = 'High Risk') | Patient.objects.prefetch_related('screening_patient').filter(screening_patient__assessment__exact = 'Low Risk')
-        elif intermediate_risk == 'on':
-            patients = Patient.objects.prefetch_related('screening_patient').filter(screening_patient__assessment__exact = 'High Risk') | Patient.objects.prefetch_related('screening_patient').filter(screening_patient__assessment__exact = 'Intermediate Risk')
-        else:
-            patients = Patient.objects.prefetch_related('screening_patient').filter(screening_patient__assessment__exact = 'High Risk')
     
     #Bone Metastasis
-    if bone_metastasis == 'on':
-        patients = Patient.objects.prefetch_related('screening_patient').filter(screening_patient__bone_metastasis_status = 'Metastasis')
+    if has_bone_metastasis == 'on':
+        patients = Patient.objects.prefetch_related('screening_patient').filter(screening_patient__bone_metastasis_status = 'With Metastasis')
+    elif no_bone_metastasis == 'on':
+        patients = Patient.objects.prefetch_related('screening_patient').filter(screening_patient__bone_metastasis_status = 'No Metastasis')
 
     #Side Effect
-    if side_effects == 'on':
-        patients = Patient.objects.prefetch_related('t_patient').filter(t_patient__side_effects__isnull=False)
+    if has_side_effects == 'on':
+        patients = Patient.objects.filter(
+            Exists(
+                Therapy.objects.filter(
+                    patient_id=OuterRef('pk')
+                ).filter(
+                    ~Q(side_effects__isnull=True) & ~Q(side_effects__exact='')
+                )
+            )
+        ).distinct()
+
+    elif no_side_effects == 'on':
+        patients_with_therapy = Patient.objects.filter(
+            Exists(
+                Therapy.objects.filter(patient_id=OuterRef('pk'))
+            )
+        )
+
+        patients = patients_with_therapy.exclude(
+            Exists(
+                Therapy.objects.filter(
+                    patient_id=OuterRef('pk')
+                ).filter(
+                    ~Q(side_effects__isnull=True) & ~Q(side_effects__exact='')
+                )
+            )
+        ).distinct()
 
     #Screening Filters
     if prostateLS == 'on':
@@ -153,6 +177,7 @@ def patientList(request):
     if liverLFU == 'on':
         patients = Patient.objects.prefetch_related('fu_patient').filter(fu_patient__gapsma_liver_lesion_status__exact= 'Present') | Patient.objects.prefetch_related('fu_patient').filter(fu_patient__fdgpetct_liver_lesion_status__exact= 'Present')
 
+    patients = patients.order_by('id')
     count = patients.count
 
     context = {'patients': patients, 'patient_count' : count}
@@ -177,8 +202,8 @@ def patientSearch(request):
     low_risk = request.GET.get('flexCheckLowRisk')
     intermediate_risk = request.GET.get('flexCheckIntermediateRisk')
     high_risk = request.GET.get('flexCheckHighRisk')
-    bone_metastasis = request.GET.get('flexCheckMetastasis')
-    side_effects = request.GET.get('flexCheckSideEffect')
+    has_bone_metastasis = request.GET.get('flexHasMetastasis')
+    has_side_effects = request.GET.get('flexHasSideEffect')
     #Screening fields
     prostateLS = request.GET.get('flexCheckProstateL')
     nodeLS = request.GET.get('flexCheckLNL')
@@ -203,35 +228,27 @@ def patientSearch(request):
 
     #Risk Assessment
     if low_risk == 'on':
-        if intermediate_risk == 'on':
-            patients = Patient.objects.prefetch_related('screening_patient').filter(screening_patient__assessment__exact = 'Low Risk') | Patient.objects.prefetch_related('screening_patient').filter(screening_patient__assessment__exact = 'Intermediate Risk')
-        elif high_risk == 'on':
-            patients = Patient.objects.prefetch_related('screening_patient').filter(screening_patient__assessment__exact = 'Low Risk') | Patient.objects.prefetch_related('screening_patient').filter(screening_patient__assessment__exact = 'High Risk')
-        else:
-            patients = Patient.objects.prefetch_related('screening_patient').filter(screening_patient__assessment__exact = 'Low Risk')
+        selected_risk = 'Low Risk'
+    elif intermediate_risk == 'on':
+        selected_risk = 'Intermediate Risk'
+    elif high_risk == 'on':
+        selected_risk = 'High Risk'
+    else:
+        selected_risk = None
 
-    if intermediate_risk == 'on':
-        if low_risk == 'on':
-            patients = Patient.objects.prefetch_related('screening_patient').filter(screening_patient__assessment__exact = 'Low Risk') | Patient.objects.prefetch_related('screening_patient').filter(screening_patient__assessment__exact = 'Intermediate Risk')
-        elif high_risk == 'on':
-            patients = Patient.objects.prefetch_related('screening_patient').filter(screening_patient__assessment__exact = 'Intermediate Risk') | Patient.objects.prefetch_related('screening_patient').filter(screening_patient__assessment__exact = 'High Risk')
-        else:
-            patients = Patient.objects.prefetch_related('screening_patient').filter(screening_patient__assessment__exact = 'Intermediate Risk')
-
-    if high_risk == 'on':
-        if low_risk == 'on':
-            patients = Patient.objects.prefetch_related('screening_patient').filter(screening_patient__assessment__exact = 'High Risk') | Patient.objects.prefetch_related('screening_patient').filter(screening_patient__assessment__exact = 'Low Risk')
-        elif intermediate_risk == 'on':
-            patients = Patient.objects.prefetch_related('screening_patient').filter(screening_patient__assessment__exact = 'High Risk') | Patient.objects.prefetch_related('screening_patient').filter(screening_patient__assessment__exact = 'Intermediate Risk')
-        else:
-            patients = Patient.objects.prefetch_related('screening_patient').filter(screening_patient__assessment__exact = 'High Risk')
+    if selected_risk:
+        patients = Patient.objects.prefetch_related('screening_patient').filter(
+            screening_patient__assessment__exact=selected_risk
+        )
+    else:
+        patients = Patient.objects.prefetch_related('screening_patient').all()
     
     #Bone Metastasis
-    if bone_metastasis == 'on':
-        patients = Patient.objects.prefetch_related('screening_patient').filter(screening_patient__bone_metastasis_status = 'Metastasis')
+    if has_bone_metastasis == 'on':
+        patients = Patient.objects.prefetch_related('screening_patient').filter(screening_patient__bone_metastasis_status = 'With Metastasis')
 
     #Side Effect
-    if side_effects == 'on':
+    if has_side_effects == 'on':
         patients = Patient.objects.prefetch_related('t_patient').filter(t_patient__side_effects__isnull=False)
 
     #Screening Filters
