@@ -3,15 +3,6 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class = "w-50" >
-    <h4>Search for Patients</h4>
-    <form method = POST action="{% url 'patientSearch' %}">
-        {% csrf_token %}
-        
-        <input class = "w-50" type="text" placeholder = "Search Patients" name = "search">
-        <button class = "btn btn-secondary" type = "submit">Search</button>
-    </form>
-</div>
 <div class="table-container mt-2 container-fluid py-4" style="background-color: rgb(231, 231, 231); border: none;">
     <h4><b>Filters</b></h4>
     <form method="GET" action=".">
@@ -36,19 +27,11 @@
                     <input class="form-check-input" type="checkbox" id="flexHasMetastasis" name="flexHasMetastasis" {% if request.GET.flexHasMetastasis %}checked{% endif %}>
                     <label class="form-check-label" for="flexHasMetastasis">Has Bone Metastasis</label>
                 </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="flexNoMetastasis" name="flexNoMetastasis" {% if request.GET.flexNoMetastasis %}checked{% endif %}>
-                    <label class="form-check-label" for="flexNoMetastasis">No Bone Metastasis</label>
-                </div>
 
                 <h5>Side Effects</h5>
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" id="flexHasSideEffect" name="flexHasSideEffect" {% if request.GET.flexHasSideEffect %}checked{% endif %}>
                     <label class="form-check-label" for="flexHasSideEffect">Has Side Effects</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="flexNoSideEffect" name="flexNoSideEffect" {% if request.GET.flexNoSideEffect %}checked{% endif %}>
-                    <label class="form-check-label" for="flexNoSideEffect">No Side Effects</label>
                 </div>
             </div>
 
@@ -156,46 +139,21 @@
                     }
                 });
             });
-
-            // Metastasis: only one of the two
-            const metastasisCheckboxes = [
-                document.getElementById("flexHasMetastasis"),
-                document.getElementById("flexNoMetastasis")
-            ];
-
-            metastasisCheckboxes.forEach((checkbox) => {
-                checkbox.addEventListener("change", function () {
-                    if (this.checked) {
-                        metastasisCheckboxes.forEach((cb) => {
-                            if (cb !== this) cb.checked = false;
-                        });
-                    }
-                });
-            });
-
-            // Side Effects: only one of the two
-            const sideEffectCheckboxes = [
-                document.getElementById("flexHasSideEffect"),
-                document.getElementById("flexNoSideEffect")
-            ];
-
-            sideEffectCheckboxes.forEach((checkbox) => {
-                checkbox.addEventListener("change", function () {
-                    if (this.checked) {
-                        sideEffectCheckboxes.forEach((cb) => {
-                            if (cb !== this) cb.checked = false;
-                        });
-                    }
-                });
-            });
         });
     </script>
     </form>
 </div>
 <div class = "mt-4 container-fluid">
     <h1 class="title">Patients</h1>
-    <a class="btn btn-success" style="background-color: #871919; border-color: #871919;" href="{% url 'addPatient' %}">Add Patient</a>
-    <div class = "container-fluid mt-4 table-container" style="border-bottom: none; width: 80%;">
+    <div class="d-flex gap-2 align-items-center">
+        <a class="btn btn-success" style="background-color: #871919; border-color: #871919;" href="{% url 'addPatient' %}">Add Patient</a>
+        <form method="POST" action="{% url 'patientSearch' %}">
+            {% csrf_token %}
+            <input type="hidden" name="search" value="">
+            <button class="btn btn-secondary" type="submit">Search for Patients</button>
+        </form>
+    </div>
+    <div class="container-fluid mt-4 table-container" style="border-bottom: none; width: 80%;">
         {% if patient_count == 1 %}
         <h3 style="color: white;">Showing {{ patient_count }} patient</h3>
         {% else %}
@@ -257,7 +215,8 @@
                 </div>
             </div>
         </div>
-        {%endfor%}
+        {% endfor %}
     </div>
+
 </div>
 {% endblock content %}
