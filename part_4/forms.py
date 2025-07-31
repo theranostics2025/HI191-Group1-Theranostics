@@ -82,6 +82,14 @@ class AddFollowUp(ModelForm):
             'sgpt' : 'SGPT (U/L)', 
             'sgot' : 'SGOT (U/L)', 
             'bilirubins' : 'Bilirubins (mg/dL)',
+            'salivary_gland_status' : 'Salivary Gland Status',
+            'salivary_gland_image' : 'Salivary Gland Image',
+            'bone_metastasis_status' : 'Bone Metastasis Status',
+            'bone_scan_image' : 'Bone Scan Image',
+            'renal_scintigraphy' : 'Renal Scintigraphy',
+            'gapsma_choices' : 'GAPSMA Choices',
+            'gapsma_img' : 'GAPSMA Image',
+            'fdgpetct_img' : 'FDG-PET/CT Image',
         }
 
 class EditFollowUp(ModelForm):
@@ -162,5 +170,13 @@ class EditFollowUp(ModelForm):
             'sgpt' : 'SGPT (U/L)', 
             'sgot' : 'SGOT (U/L)', 
             'bilirubins' : 'Bilirubins (mg/dL)',
+            'salivary_gland_status' : 'Salivary Gland Status',
+            'salivary_gland_image' : 'Salivary Gland Image',
+            'bone_metastasis_status' : 'Bone Metastasis Status',
+            'bone_scan_image' : 'Bone Scan Image',
+            'renal_scintigraphy' : 'Renal Scintigraphy',
+            'gapsma_choices' : 'GAPSMA Choices',
+            'gapsma_img' : 'GAPSMA Image',
+            'fdgpetct_img' : 'FDG-PET/CT Image',
         }
         

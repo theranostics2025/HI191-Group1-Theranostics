@@ -280,7 +280,7 @@
 
         <div class="col">
             {% if screening %}
-                <h4 class="mt-2"><b>FDG PET/CT</b></h4>
+                <h4 class="mt-2"><b>FDG-PET/CT</b></h4>
 
                 <h5><b>Prostate Glands</b></h5>
                 <strong>Lesion Status:</strong> {{screening.fdgpetct_prostate_lesion_status|default:"N/A"}}<br>
@@ -346,7 +346,7 @@
                     <h4 class="mt-2"><strong>GAPSMA</strong></h4>
                     <img src="{{ screening.gapsma_img.url }}" alt="" width="200" style="border-radius: 5px; border: solid maroon;">
 
-                    <h4 class="mt-2"><strong>FDG PET/CT</strong></h4>
+                    <h4 class="mt-2"><strong>FDG-PET/CT</strong></h4>
                     <img src="{{ screening.fdgpetct_img.url }}" alt="" width="200" style="border-radius: 5px; border: solid maroon;">
                 {% endif %}
         </div>
@@ -564,7 +564,7 @@
 
                                         <div class="col">
                                             {% if follow_up %}
-                                                <h4 class="mt-2"><b>FDG PET/CT</b></h4>
+                                                <h4 class="mt-2"><b>FDG-PET/CT</b></h4>
 
                                                 <h5><b>Prostate Glands</b></h5>
                                                 <strong>Lesion Status:</strong> {{follow_up.fdgpetct_prostate_lesion_status|default:"N/A"}}<br>
@@ -630,7 +630,7 @@
                                                     <h4 class="mt-2"><strong>GAPSMA</strong></h4>
                                                     <img src="{{ follow_up.gapsma_img.url }}" alt="" width="200" style="border-radius: 5px; border: solid maroon;">
                                 
-                                                    <h4 class="mt-2"><strong>FDG PET/CT</strong></h4>
+                                                    <h4 class="mt-2"><strong>FDG-PET/CT</strong></h4>
                                                     <img src="{{ follow_up.fdgpetct_img.url }}" alt="" width="200" style="border-radius: 5px; border: solid maroon;">
                                                 {% endif %}
                                         </div>

@@ -43,7 +43,7 @@ class AddPatient(ModelForm):
             'diagnosis_date': forms.DateInput(attrs={'type': 'date'}),
             'surgery_date': forms.DateInput(attrs={'type': 'date'}),
             'date_of_treatment': forms.DateInput(attrs={'type': 'date'}),
-            'age': forms.NumberInput(attrs={'min': '0', 'type': 'number'}),
+            'age': forms.NumberInput(attrs={'step': '1', 'min': '0', 'type': 'number'}),
             'gleason_score': forms.Select(attrs={'class': 'form-control'}),
         }
         error_messages = {
@@ -67,7 +67,7 @@ class EditPatient(ModelForm):
             'diagnosis_date': forms.DateInput(attrs={'type': 'date'}),
             'surgery_date': forms.DateInput(attrs={'type': 'date'}),
             'date_of_treatment': forms.DateInput(attrs={'type': 'date'}),
-            'age': forms.NumberInput(attrs={'min': '0', 'type': 'number'}),
+            'age': forms.NumberInput(attrs={'step': '1', 'min': '0'}),
         }
 
 class PhysicalExamFormBase(ModelForm):
@@ -104,14 +104,10 @@ class PhysicalExamFormBase(ModelForm):
                                                 "if (event.charCode === 47 && this.value.includes('/')) return false; "
                                                 "return (event.charCode === 0 || (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 47);"
                                             )}),
-            'hr': forms.NumberInput(attrs={'class': 'form-control', 'min': '0'}),
-            'pain_score': forms.NumberInput(attrs={'class': 'form-control', 'min': '0', 'max': '10', 'placeholder': '0 (no pain) to 10 (worst pain)'}),
+            'hr': forms.NumberInput(attrs={'class': 'form-control', 'step': '1', 'min': '0'}),
+            'pain_score': forms.NumberInput(attrs={'class': 'form-control', 'step': '1', 'min': '0', 'max': '10', 'placeholder': '0 (no pain) to 10 (worst pain)'}),
             'local_symptoms': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
             'systemic_symptoms': forms.Textarea(attrs={'class': 'form-control', 'rows': 3})
-        }
-        help_texts = {
-            # 'bp': 'Systolic/diastolic (e.g., 120/80)',
-            # 'pain_score': '0 (no pain) to 10 (worst pain)',
         }
         
     def clean_ecog_score(self):
@@ -274,6 +270,14 @@ class AddScreening(ModelForm):
             'sgpt' : 'SGPT (U/L)', 
             'sgot' : 'SGOT (U/L)', 
             'bilirubins' : 'Bilirubins (mg/dL)',
+            'salivary_gland_status' : 'Salivary Gland Status',
+            'salivary_gland_image' : 'Salivary Gland Image',
+            'bone_metastasis_status' : 'Bone Metastasis Status',
+            'bone_scan_image' : 'Bone Scan Image',
+            'renal_scintigraphy' : 'Renal Scintigraphy',
+            'gapsma_choices' : 'GAPSMA Choices',
+            'gapsma_img' : 'GAPSMA Image',
+            'fdgpetct_img' : 'FDG-PET/CT Image',
         }
         widgets = {
             'psa': forms.NumberInput(attrs={'min': '0', 'step': '0.01'}),

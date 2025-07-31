@@ -23,7 +23,8 @@ class AddTherapy(ModelForm):
             'diastolic' : 'Diastolic BP (mmHg)',
             'hr' : 'Heart Rate (bpm)',
             'rr' : 'Respiratory Rate (breaths/min)',
-            'saturation' : 'Oxygen Saturation (%)'
+            'saturation' : 'Oxygen Saturation (%)',
+            'side_effects': 'Side Effects'
         }
 
 class EditTherapy(ModelForm):
@@ -46,5 +47,6 @@ class EditTherapy(ModelForm):
             'diastolic' : 'Diastolic BP (mmHg)',
             'hr' : 'Heart Rate (bpm)',
             'rr' : 'Respiratory Rate (breaths/min)',
-            'saturation' : 'Oxygen Saturation (%)'
+            'saturation' : 'Oxygen Saturation (%)',
+            'side_effects': 'Side Effects'
         }
