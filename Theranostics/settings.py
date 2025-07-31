@@ -106,6 +106,7 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
 DATABASES['default'].update(db_from_env)
 
 # Password validation
