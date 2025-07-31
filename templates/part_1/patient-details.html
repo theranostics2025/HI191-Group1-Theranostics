@@ -9,7 +9,7 @@
     }
 </style>
 
-<h1 class="title text-left" style="color: black; font-size: xx-large; margin-left: 0px;"><b>{{ patient.name }}</b></h1>
+<!-- <h1 class="title text-left" style="color: black; font-size: xx-large; margin-left: 0px;"><b>{{ patient.name }}</b></h1> -->
 <div class = "container-fluid mt-1 table-container" style="background-color: transparent; border-color: transparent;">
     <div class="row">
         <div class="col">
@@ -46,7 +46,7 @@
                     <br> -->
                     <strong>Date of Physical Exam:</strong> {{ physical_exam.date_recorded }}
                     <br>
-                    <strong>Height (cm):</strong> {{ physical_exam.height|clean_float }}
+                    <strong>Height (mm):</strong> {{ physical_exam.height|clean_float }}
                     <br>
                     <strong>Weight (kg):</strong> {{ physical_exam.weight|clean_float }}
                     <br>
@@ -229,51 +229,51 @@
                 <strong>GAPSMA:</strong> {{screening.gapsma_choices}}
 
                 <h5><b>Prostate Glands</b></h5>
-                <strong>Lesion Status:</strong> {{screening.gapsma_prostate_lesion_status}}<br>
+                <strong>Lesion Status:</strong> {{screening.gapsma_prostate_lesion_status|default:"N/A"}}<br>
                 {% if screening.gapsma_prostate_lesion_status == "Present" %}
                     <strong>Location:</strong> {{screening.gapsma_prostate_location|default:"N/A"}}<br>
                     <strong>SUV:</strong> {{screening.gapsma_prostate_suv|clean_float}}<br>
-                    <strong>Size (cm):</strong> {{screening.gapsma_prostate_size|clean_float}}<br>
+                    <strong>Size (mm):</strong> {{screening.gapsma_prostate_size|clean_float}}<br>
                 {% endif %}
 
                 <h5><b>Lymph Nodes</b></h5>
-                <strong>Lesion Status:</strong> {{screening.gapsma_lymph_node_lesion_status}}<br>
+                <strong>Lesion Status:</strong> {{screening.gapsma_lymph_node_lesion_status|default:"N/A"}}<br>
                 {% if screening.gapsma_lymph_node_lesion_status == "Present" %}
                     <strong>Location:</strong> {{screening.gapsma_lymph_node_location|default:"N/A"}}<br>
                     <strong>SUV:</strong> {{screening.gapsma_lymph_node_suv|clean_float}}<br>
-                    <strong>Size (cm):</strong> {{screening.gapsma_lymph_node_size|clean_float}}<br>
+                    <strong>Size (mm):</strong> {{screening.gapsma_lymph_node_size|clean_float}}<br>
                 {% endif %}
 
                 <h5><b>Bones</b></h5>
-                <strong>Lesion Status:</strong> {{screening.gapsma_bone_lesion_status}}<br>
+                <strong>Lesion Status:</strong> {{screening.gapsma_bone_lesion_status|default:"N/A"}}<br>
                 {% if screening.gapsma_bone_lesion_status == "Present" %}
                     <strong>Location:</strong> {{screening.gapsma_bone_location|default:"N/A"}}<br>
                     <strong>SUV:</strong> {{screening.gapsma_bone_suv|clean_float}}<br>
-                    <strong>Size (cm):</strong> {{screening.gapsma_bone_size|clean_float}}<br>
+                    <strong>Size (mm):</strong> {{screening.gapsma_bone_size|clean_float}}<br>
                 {% endif %}
 
                 <h5><b>Brain</b></h5>
-                <strong>Lesion Status:</strong> {{screening.gapsma_brain_lesion_status}}<br>
+                <strong>Lesion Status:</strong> {{screening.gapsma_brain_lesion_status|default:"N/A"}}<br>
                 {% if screening.gapsma_brain_lesion_status == "Present" %}
                     <strong>Location:</strong> {{screening.gapsma_brain_location|default:"N/A"}}<br>
                     <strong>SUV:</strong> {{screening.gapsma_brain_suv|clean_float}}<br>
-                    <strong>Size (cm):</strong> {{screening.gapsma_brain_size|clean_float}}<br>
+                    <strong>Size (mm):</strong> {{screening.gapsma_brain_size|clean_float}}<br>
                 {% endif %}
 
                 <h5><b>Lungs</b></h5>
-                <strong>Lesion Status:</strong> {{screening.gapsma_lung_lesion_status}}<br>
+                <strong>Lesion Status:</strong> {{screening.gapsma_lung_lesion_status|default:"N/A"}}<br>
                 {% if screening.gapsma_lung_lesion_status == "Present" %}
                     <strong>Location:</strong> {{screening.gapsma_lung_location|default:"N/A"}}<br>
                     <strong>SUV:</strong> {{screening.gapsma_lung_suv|clean_float}}<br>
-                    <strong>Size (cm):</strong> {{screening.gapsma_lung_size|clean_float}}<br>
+                    <strong>Size (mm):</strong> {{screening.gapsma_lung_size|clean_float}}<br>
                 {% endif %}
 
                 <h5><b>Liver</b></h5>
-                <strong>Lesion Status:</strong> {{screening.gapsma_liver_lesion_status}}<br>
+                <strong>Lesion Status:</strong> {{screening.gapsma_liver_lesion_status|default:"N/A"}}<br>
                 {% if screening.gapsma_liver_lesion_status == "Present" %}
                     <strong>Location:</strong> {{screening.gapsma_liver_location|default:"N/A"}}<br>
                     <strong>SUV:</strong> {{screening.gapsma_liver_suv|clean_float}}<br>
-                    <strong>Size (cm): </strong> {{screening.gapsma_liver_size|clean_float}}<br>
+                    <strong>Size (mm): </strong> {{screening.gapsma_liver_size|clean_float}}<br>
                 {% endif %}
             {% endif %}
         </div>
@@ -283,51 +283,51 @@
                 <h4 class="mt-2"><b>FDG PET/CT</b></h4>
 
                 <h5><b>Prostate Glands</b></h5>
-                <strong>Lesion Status:</strong> {{screening.fdgpetct_prostate_lesion_status}}<br>
+                <strong>Lesion Status:</strong> {{screening.fdgpetct_prostate_lesion_status|default:"N/A"}}<br>
                 {% if screening.fdgpetct_prostate_lesion_status == "Present" %}
                     <strong>Location:</strong> {{screening.fdgpetct_prostate_location|default:"N/A"}}<br>
                     <strong>SUV:</strong> {{screening.fdgpetct_prostate_suv|clean_float}}<br>
-                    <strong>Size (cm):</strong> {{screening.fdgpetct_prostate_size|clean_float}}<br>
+                    <strong>Size (mm):</strong> {{screening.fdgpetct_prostate_size|clean_float}}<br>
                 {% endif %}
 
                 <h5><b>Lymph Nodes</b></h5>
-                <strong>Lesion Status:</strong> {{screening.fdgpetct_lymph_node_lesion_status}}<br>
+                <strong>Lesion Status:</strong> {{screening.fdgpetct_lymph_node_lesion_status|default:"N/A"}}<br>
                 {% if screening.fdgpetct_lymph_node_lesion_status == "Present" %}
                     <strong>Location:</strong> {{screening.fdgpetct_lymph_node_location|default:"N/A"}}<br>
                     <strong>SUV:</strong> {{screening.fdgpetct_lymph_node_suv|clean_float}}<br>
-                    <strong>Size (cm):</strong> {{screening.fdgpetct_lymph_node_size|clean_float}}<br>
+                    <strong>Size (mm):</strong> {{screening.fdgpetct_lymph_node_size|clean_float}}<br>
                 {% endif %}
 
                 <h5><b>Bones</b></h5>
-                <strong>Lesion Status:</strong> {{screening.fdgpetct_bone_lesion_status}}<br>
+                <strong>Lesion Status:</strong> {{screening.fdgpetct_bone_lesion_status|default:"N/A"}}<br>
                 {% if screening.fdgpetct_bone_lesion_status == "Present" %}
                     <strong>Location:</strong> {{screening.fdgpetct_bone_location|default:"N/A"}}<br>
                     <strong>SUV:</strong> {{screening.fdgpetct_bone_suv|clean_float}}<br>
-                    <strong>Size (cm):</strong> {{screening.fdgpetct_bone_size|clean_float}}<br>
+                    <strong>Size (mm):</strong> {{screening.fdgpetct_bone_size|clean_float}}<br>
                 {% endif %}
 
                 <h5><b>Brain</b></h5>
-                <strong>Lesion Status:</strong> {{screening.fdgpetct_brain_lesion_status}}<br>
+                <strong>Lesion Status:</strong> {{screening.fdgpetct_brain_lesion_status|default:"N/A"}}<br>
                 {% if screening.fdgpetct_brain_lesion_status == "Present" %}
                     <strong>Location:</strong> {{screening.fdgpetct_brain_location|default:"N/A"}}<br>
                     <strong>SUV:</strong> {{screening.fdgpetct_brain_suv|clean_float}}<br>
-                    <strong>Size (cm):</strong> {{screening.fdgpetct_brain_size|clean_float}}<br>
+                    <strong>Size (mm):</strong> {{screening.fdgpetct_brain_size|clean_float}}<br>
                 {% endif %}
 
                 <h5><b>Lungs</b></h5>
-                <strong>Lesion Status:</strong> {{screening.fdgpetct_lung_lesion_status}}<br>
+                <strong>Lesion Status:</strong> {{screening.fdgpetct_lung_lesion_status|default:"N/A"}}<br>
                 {% if screening.fdgpetct_lung_lesion_status == "Present" %}
                     <strong>Location:</strong> {{screening.fdgpetct_lung_location|default:"N/A"}}<br>
                     <strong>SUV:</strong> {{screening.fdgpetct_lung_suv|clean_float}}<br>
-                    <strong>Size (cm):</strong> {{screening.fdgpetct_lung_size|clean_float}}<br>
+                    <strong>Size (mm):</strong> {{screening.fdgpetct_lung_size|clean_float}}<br>
                 {% endif %}
 
                 <h5><b>Liver</b></h5>
-                <strong>Lesion Status:</strong> {{screening.fdgpetct_liver_lesion_status}}<br>
+                <strong>Lesion Status:</strong> {{screening.fdgpetct_liver_lesion_status|default:"N/A"}}<br>
                 {% if screening.fdgpetct_liver_lesion_status == "Present" %}
                     <strong>Location:</strong> {{screening.fdgpetct_liver_location|default:"N/A"}}<br>
                     <strong>SUV:</strong> {{screening.fdgpetct_liver_suv|clean_float}}<br>
-                    <strong>Size (cm):</strong> {{screening.fdgpetct_liver_size|clean_float}}<br>
+                    <strong>Size (mm):</strong> {{screening.fdgpetct_liver_size|clean_float}}<br>
                 {% endif %}
             {% endif %}
         </div>
@@ -353,9 +353,9 @@
     </div>  
     <div class = "row overflow-auto shadow mt-5 rounded border border-dark pb-5" style="height: 500px; background-color: rgb(245, 245, 245);">
         <div class = "col">
-            <h4 class="mt-2"><b>Post Therapy</b></h4>
-            <a href="{% url 'addPostTherapy' patient.slug %}" class="mr-1 btn btn-success mt-1">Add Therapy</a>
-            <h4 class="mt-2 text-center font-weight-bold">Post Therapies Done</h4>
+            <h4 class="mt-2"><b>Post-Therapy</b></h4>
+            <a href="{% url 'addPostTherapy' patient.slug %}" class="mr-1 btn btn-success mt-1">Add Post-Therapy</a>
+            <h4 class="mt-2 text-center font-weight-bold">Post-Therapies Done</h4>
             <div class="accordion mx-auto" id="accordionPanelsStayOpenExample" style="width: 90%;">
                 <div class="accordion-item">
                     {% for post_therapy in post_therapy %}
@@ -375,11 +375,11 @@
                                             <br>
                                             <strong>with Spect/CT:</strong> {{post_therapy.with_spect_ct}}
                                             <br>
-                                            <strong>Lesions:</strong> {{post_therapy.lesions}}
+                                            <strong>Lesions:</strong> {{post_therapy.lesions|default:"None"}}
                                             <br> 
                                             <strong>Bone Lesion Details:</strong> {{post_therapy.bone_lesion_details}}
                                             <br>
-                                            <h5><b>Dosimetry</b></h5>
+                                            <h5><b>Dosimetry (Gy)</b></h5>
                                             <strong>Salivary Gland:</strong> {{post_therapy.salivary_gland|clean_float}}
                                             <br>
                                             <strong>Left Kidney:</strong> {{post_therapy.kidney_left|clean_float}}
@@ -428,9 +428,9 @@
     </div>  
     <div class = "row overflow-auto shadow mt-5 rounded border border-dark pb-5" style="height: 500px; background-color: rgb(245, 245, 245);">
         <div class = "col">
-            <h4 class="mt-2"><b>Follow Up</b></h4>
-            <a href="{% url 'addFollowUp' patient.slug %}" class="flex-direction mr-1 btn btn-success mt-1">Add Follow Up</a>
-            <h4 class="mt-2 text-center font-weight-bold">Follow Ups Done</h4>
+            <h4 class="mt-2"><b>Follow-Up</b></h4>
+            <a href="{% url 'addFollowUp' patient.slug %}" class="flex-direction mr-1 btn btn-success mt-1">Add Follow-Up</a>
+            <h4 class="mt-2 text-center font-weight-bold">Follow-Ups Done</h4>
             <div class="accordion mx-auto" id="accordionPanelsStayOpenExample" style="width: 100%;">
                 <div class="accordion-item">
                     {% for follow_up in follow_up %}
@@ -447,32 +447,32 @@
                                                 {% if follow_up %}
                                                     <strong>Date:</strong> {{follow_up.date_of_follow_up}}
                                                     <br>
-                                                    <strong>PSA:</strong> {{follow_up.psa|clean_float}}
+                                                    <strong>PSA (ng/mL):</strong> {{screening.psa|clean_float}}
                                                     <br>
-                                                    <strong>Creatinine:</strong> {{follow_up.creatinine|clean_float}}           
+                                                    <strong>Creatinine (mg/dL):</strong> {{screening.creatinine|clean_float}}
                                                     <br>
                                                     <hr style="margin: 8px 0;">
                                                     <h5 class="should-not-apply"><b>Complete Blood Count</b></h5>
-                                                    <strong>WBC:</strong> {{follow_up.wbc|clean_float}}
+                                                    <strong>WBC (billion cells/L):</strong> {{screening.wbc|clean_float}}
                                                     <br>
-                                                    <strong>RBC:</strong> {{follow_up.rbc|clean_float}}
+                                                    <strong>RBC (trillion cells/L):</strong> {{screening.rbc|clean_float}}
                                                     <br>
-                                                    <strong>Hemoglobin Levels:</strong> {{ follow_up.hemoglobin|clean_float }}
+                                                    <strong>Hemoglobin Levels (g/L):</strong> {{ screening.hemoglobin|clean_float }}
                                                     <br>
-                                                    <strong>Hematrocrit:</strong> {{follow_up.hematocrit|clean_float}}
+                                                    <strong>Hematrocrit (%):</strong> {{screening.hematocrit|clean_float}}
                                                     <br>
-                                                    <strong>Platelet:</strong> {{follow_up.platelet|clean_float}}
+                                                    <strong>Platelet (billion/L):</strong> {{screening.platelet|clean_float}}
                                                     <br>
                                                     <hr style="margin: 8px 0;">
-                                                    <strong>Lactate Hydrogenase:</strong> {{follow_up.lactate_hydrogenase|clean_float}}
+                                                    <strong>Lactate Hydrogenase (IU/L):</strong> {{screening.lactate_hydrogenase|clean_float}}
                                                     <br>
-                                                    <strong>Alkaline Phophatase:</strong> {{follow_up.alkaline_phosphatase|clean_float}}
+                                                    <strong>Alkaline Phophatase (IU/L):</strong> {{screening.alkaline_phosphatase|clean_float}}
                                                     <br>
-                                                    <strong>SGPT:</strong> {{follow_up.sgpt|clean_float}}
+                                                    <strong>SGPT (U/L):</strong> {{screening.sgpt|clean_float}}
                                                     <br>
-                                                    <strong>SGOT:</strong> {{follow_up.sgot|clean_float}}
+                                                    <strong>SGOT (U/L):</strong> {{screening.sgot|clean_float}}
                                                     <br>
-                                                    <strong>Bilirubins:</strong> {{follow_up.bilirubins|clean_float}}
+                                                    <strong>Bilirubins (mg/dL):</strong> {{screening.bilirubins|clean_float}}
                                                     <br>
                                                     <h5><b>Salivary Glands</b></h5>
                                                     <strong>Salivary Gland Status:</strong> {{follow_up.salivary_gland_status|clean_float}}
@@ -483,9 +483,9 @@
                                                     <h2><strong>PLAN</strong></h2>
                                                     {{follow_up.plan}}
                                                     <br>
-                                                    <a href="{% url 'editFollowUp' slug=patient.slug id=follow_up.id %}" class="mr-1 mt-1"><button href="{% url 'editFollowUp' slug=patient.slug id=follow_up.id %}" style="margin-top: 20px;"class="btn btn-success" type="button">Edit Follow Up</button></a>
+                                                    <a href="{% url 'editFollowUp' slug=patient.slug id=follow_up.id %}" class="mr-1 mt-1"><button href="{% url 'editFollowUp' slug=patient.slug id=follow_up.id %}" style="margin-top: 20px;"class="btn btn-success" type="button">Edit Follow-Up</button></a>
                                                     <br>
-                                                    <button type="button" class="btn btn-danger mr-1" style="margin-top: 10px;" data-bs-toggle="modal" href="#deleteFUPopup{{follow_up.id}}">Delete Follow Up</button>
+                                                    <button type="button" class="btn btn-danger mr-1" style="margin-top: 10px;" data-bs-toggle="modal" href="#deleteFUPopup{{follow_up.id}}">Delete Follow-Up</button>
                                                     <div class="modal fade" id="deleteFUPopup{{follow_up.id}}" tabindex="-1" role="dialog" aria-labelledby="deletePatientLabel" aria-hidden="true">
                                                         <div class="modal-dialog" style="display: flex; margin-top: 10%;" role="document">
                                                         <div class="modal-content">
@@ -511,53 +511,53 @@
                                             {% if follow_up %}
                                                 <h4 class="mt-2"><b>GAPSMA</b></h4>
                                                 <strong>GAPSMA:</strong> {{follow_up.gapsma_choices}}
-
+                                                
                                                 <h5><b>Prostate Glands</b></h5>
-                                                <strong>Lesion Status:</strong> {{follow_up.gapsma_prostate_lesion_status}}<br>
+                                                <strong>Lesion Status:</strong> {{follow_up.gapsma_prostate_lesion_status|default:"N/A"}}<br>
                                                 {% if follow_up.gapsma_prostate_lesion_status == "Present" %}
                                                     <strong>Location:</strong> {{follow_up.gapsma_prostate_location|default:"N/A"}}<br>
                                                     <strong>SUV:</strong> {{follow_up.gapsma_prostate_suv|clean_float}}<br>
-                                                    <strong>Size:</strong> {{follow_up.gapsma_prostate_size|clean_float}}<br>
+                                                    <strong>Size (mm):</strong> {{follow_up.gapsma_prostate_size|clean_float}}<br>
                                                 {% endif %}
 
                                                 <h5><b>Lymph Nodes</b></h5>
-                                                <strong>Lesion Status:</strong> {{follow_up.gapsma_lymph_node_lesion_status}}<br>
+                                                <strong>Lesion Status:</strong> {{follow_up.gapsma_lymph_node_lesion_status|default:"N/A"}}<br>
                                                 {% if follow_up.gapsma_lymph_node_lesion_status == "Present" %}
                                                     <strong>Location:</strong> {{follow_up.gapsma_lymph_node_location|default:"N/A"}}<br>
                                                     <strong>SUV:</strong> {{follow_up.gapsma_lymph_node_suv|clean_float}}<br>
-                                                    <strong>Size:</strong> {{follow_up.gapsma_lymph_node_size|clean_float}}<br>
+                                                    <strong>Size (mm):</strong> {{follow_up.gapsma_lymph_node_size|clean_float}}<br>
                                                 {% endif %}
 
                                                 <h5><b>Bones</b></h5>
-                                                <strong>Lesion Status:</strong> {{follow_up.gapsma_bone_lesion_status}}<br>
+                                                <strong>Lesion Status:</strong> {{follow_up.gapsma_bone_lesion_status|default:"N/A"}}<br>
                                                 {% if follow_up.gapsma_bone_lesion_status == "Present" %}
                                                     <strong>Location:</strong> {{follow_up.gapsma_bone_location|default:"N/A"}}<br>
                                                     <strong>SUV:</strong> {{follow_up.gapsma_bone_suv|clean_float}}<br>
-                                                    <strong>Size:</strong> {{follow_up.gapsma_bone_size|clean_float}}<br>
+                                                    <strong>Size (mm):</strong> {{follow_up.gapsma_bone_size|clean_float}}<br>
                                                 {% endif %}
 
                                                 <h5><b>Brain</b></h5>
-                                                <strong>Lesion Status:</strong> {{follow_up.gapsma_brain_lesion_status}}<br>
+                                                <strong>Lesion Status:</strong> {{follow_up.gapsma_brain_lesion_status|default:"N/A"}}<br>
                                                 {% if follow_up.gapsma_brain_lesion_status == "Present" %}
                                                     <strong>Location:</strong> {{follow_up.gapsma_brain_location|default:"N/A"}}<br>
                                                     <strong>SUV:</strong> {{follow_up.gapsma_brain_suv|clean_float}}<br>
-                                                    <strong>Size:</strong> {{follow_up.gapsma_brain_size|clean_float}}<br>
+                                                    <strong>Size (mm):</strong> {{follow_up.gapsma_brain_size|clean_float}}<br>
                                                 {% endif %}
 
                                                 <h5><b>Lungs</b></h5>
-                                                <strong>Lesion Status:</strong> {{follow_up.gapsma_lung_lesion_status}}<br>
+                                                <strong>Lesion Status:</strong> {{follow_up.gapsma_lung_lesion_status|default:"N/A"}}<br>
                                                 {% if follow_up.gapsma_lung_lesion_status == "Present" %}
                                                     <strong>Location:</strong> {{follow_up.gapsma_lung_location|default:"N/A"}}<br>
                                                     <strong>SUV:</strong> {{follow_up.gapsma_lung_suv|clean_float}}<br>
-                                                    <strong>Size:</strong> {{follow_up.gapsma_lung_size|clean_float}}<br>
+                                                    <strong>Size (mm):</strong> {{follow_up.gapsma_lung_size|clean_float}}<br>
                                                 {% endif %}
 
                                                 <h5><b>Liver</b></h5>
-                                                <strong>Lesion Status:</strong> {{follow_up.gapsma_liver_lesion_status}}<br>
+                                                <strong>Lesion Status:</strong> {{follow_up.gapsma_liver_lesion_status|default:"N/A"}}<br>
                                                 {% if follow_up.gapsma_liver_lesion_status == "Present" %}
                                                     <strong>Location:</strong> {{follow_up.gapsma_liver_location|default:"N/A"}}<br>
                                                     <strong>SUV:</strong> {{follow_up.gapsma_liver_suv|clean_float}}<br>
-                                                    <strong>Size:</strong> {{follow_up.gapsma_liver_size|clean_float}}<br>
+                                                    <strong>Size (mm):</strong> {{follow_up.gapsma_liver_size|clean_float}}<br>
                                                 {% endif %}
                                             {% endif %}
                                         </div>
@@ -567,51 +567,51 @@
                                                 <h4 class="mt-2"><b>FDG PET/CT</b></h4>
 
                                                 <h5><b>Prostate Glands</b></h5>
-                                                <strong>Lesion Status:</strong> {{follow_up.fdgpetct_prostate_lesion_status}}<br>
+                                                <strong>Lesion Status:</strong> {{follow_up.fdgpetct_prostate_lesion_status|default:"N/A"}}<br>
                                                 {% if follow_up.fdgpetct_prostate_lesion_status == "Present" %}
                                                     <strong>Location:</strong> {{follow_up.fdgpetct_prostate_location|default:"N/A"}}<br>
                                                     <strong>SUV:</strong> {{follow_up.fdgpetct_prostate_suv|clean_float}}<br>
-                                                    <strong>Size:</strong> {{follow_up.fdgpetct_prostate_size|clean_float}}<br>
+                                                    <strong>Size (mm):</strong> {{follow_up.fdgpetct_prostate_size|clean_float}}<br>
                                                 {% endif %}
 
                                                 <h5><b>Lymph Nodes</b></h5>
-                                                <strong>Lesion Status:</strong> {{follow_up.fdgpetct_lymph_node_lesion_status}}<br>
+                                                <strong>Lesion Status:</strong> {{follow_up.fdgpetct_lymph_node_lesion_status|default:"N/A"}}<br>
                                                 {% if follow_up.fdgpetct_lymph_node_lesion_status == "Present" %}
                                                     <strong>Location:</strong> {{follow_up.fdgpetct_lymph_node_location|default:"N/A"}}<br>
                                                     <strong>SUV:</strong> {{follow_up.fdgpetct_lymph_node_suv|clean_float}}<br>
-                                                    <strong>Size:</strong> {{follow_up.fdgpetct_lymph_node_size|clean_float}}<br>
+                                                    <strong>Size (mm):</strong> {{follow_up.fdgpetct_lymph_node_size|clean_float}}<br>
                                                 {% endif %}
 
                                                 <h5><b>Bones</b></h5>
-                                                <strong>Lesion Status:</strong> {{follow_up.fdgpetct_bone_lesion_status}}<br>
+                                                <strong>Lesion Status:</strong> {{follow_up.fdgpetct_bone_lesion_status|default:"N/A"}}<br>
                                                 {% if follow_up.fdgpetct_bone_lesion_status == "Present" %}
                                                     <strong>Location:</strong> {{follow_up.fdgpetct_bone_location|default:"N/A"}}<br>
                                                     <strong>SUV:</strong> {{follow_up.fdgpetct_bone_suv|clean_float}}<br>
-                                                    <strong>Size:</strong> {{follow_up.fdgpetct_bone_size|clean_float}}<br>
+                                                    <strong>Size (mm):</strong> {{follow_up.fdgpetct_bone_size|clean_float}}<br>
                                                 {% endif %}
 
                                                 <h5><b>Brain</b></h5>
-                                                <strong>Lesion Status:</strong> {{follow_up.fdgpetct_brain_lesion_status}}<br>
+                                                <strong>Lesion Status:</strong> {{follow_up.fdgpetct_brain_lesion_status|default:"N/A"}}<br>
                                                 {% if follow_up.fdgpetct_brain_lesion_status == "Present" %}
                                                     <strong>Location:</strong> {{follow_up.fdgpetct_brain_location|default:"N/A"}}<br>
                                                     <strong>SUV:</strong> {{follow_up.fdgpetct_brain_suv|clean_float}}<br>
-                                                    <strong>Size:</strong> {{follow_up.fdgpetct_brain_size|clean_float}}<br>
+                                                    <strong>Size (mm):</strong> {{follow_up.fdgpetct_brain_size|clean_float}}<br>
                                                 {% endif %}
 
                                                 <h5><b>Lungs</b></h5>
-                                                <strong>Lesion Status:</strong> {{follow_up.fdgpetct_lung_lesion_status}}<br>
+                                                <strong>Lesion Status:</strong> {{follow_up.fdgpetct_lung_lesion_status|default:"N/A"}}<br>
                                                 {% if follow_up.fdgpetct_lung_lesion_status == "Present" %}
                                                     <strong>Location:</strong> {{follow_up.fdgpetct_lung_location|default:"N/A"}}<br>
                                                     <strong>SUV:</strong> {{follow_up.fdgpetct_lung_suv|clean_float}}<br>
-                                                    <strong>Size:</strong> {{follow_up.fdgpetct_lung_size|clean_float}}<br>
+                                                    <strong>Size (mm):</strong> {{follow_up.fdgpetct_lung_size|clean_float}}<br>
                                                 {% endif %}
 
                                                 <h5><b>Liver</b></h5>
-                                                <strong>Lesion Status:</strong> {{follow_up.fdgpetct_liver_lesion_status}}<br>
+                                                <strong>Lesion Status:</strong> {{follow_up.fdgpetct_liver_lesion_status|default:"N/A"}}<br>
                                                 {% if follow_up.fdgpetct_liver_lesion_status == "Present" %}
                                                     <strong>Location:</strong> {{follow_up.fdgpetct_liver_location|default:"N/A"}}<br>
                                                     <strong>SUV:</strong> {{follow_up.fdgpetct_liver_suv|clean_float}}<br>
-                                                    <strong>Size:</strong> {{follow_up.fdgpetct_liver_size|clean_float}}<br>
+                                                    <strong>Size (mm):</strong> {{follow_up.fdgpetct_liver_size|clean_float}}<br>
                                                 {% endif %}
                                             {% endif %}
                                         </div>

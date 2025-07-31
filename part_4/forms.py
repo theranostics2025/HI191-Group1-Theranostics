@@ -69,6 +69,7 @@ class AddFollowUp(ModelForm):
             'fdgpetct_liver_size': forms.NumberInput(attrs={'min': '0', 'step': '0.01'}),
         }
         labels = {
+            'date_of_follow_up': 'Date of Follow-Up',
             'psa': 'PSA (ng/mL)',
             'creatinine': 'Creatinine (mg/dL)',
             'wbc': 'WBC (billion cells/L)',

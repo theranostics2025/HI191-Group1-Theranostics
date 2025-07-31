@@ -16,14 +16,11 @@
 
         <!-- Right Side: Button Group -->
         <div class="d-flex align-items-center gap-2 mt-2 mt-md-0">
-            <a class="btn btn-secondary" href="{% url 'patientList' %}">Go Back</a>
-
             <form method="POST" action="{% url 'patientSearch' %}">
                 {% csrf_token %}
                 <input type="hidden" name="search" value="">
                 <button class="btn btn-secondary" type="submit">Clear Search</button>
             </form>
-
             <a class="btn btn-success" style="background-color: #871919; border-color: #871919;" href="{% url 'addPatient' %}">Add Patient</a>
         </div>
     </div>

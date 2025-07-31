@@ -91,11 +91,11 @@ def patientList(request):
 
     # Post-Therapy Imaging
     post_therapy_filters = {
-        'flexCheckProstateLPT': Q(pt_patient__lesions='Prostate'),
-        'flexCheckLNLPT': Q(pt_patient__lesions='Lymph Nodes'),
-        'flexCheckBoneLPT': Q(pt_patient__lesions='Bones'),
-        'flexCheckLungLPT': Q(pt_patient__lesions='Lungs'),
-        'flexCheckLiverLPT': Q(pt_patient__lesions='Liver'),
+        'flexCheckProstateLPT': Q(pt_patient__lesions__icontains='Prostate'),
+        'flexCheckLNLPT': Q(pt_patient__lesions__icontains='Lymph Nodes'),
+        'flexCheckBoneLPT': Q(pt_patient__lesions__icontains='Bones'),
+        'flexCheckLungLPT': Q(pt_patient__lesions__icontains='Lungs'),
+        'flexCheckLiverLPT': Q(pt_patient__lesions__icontains='Liver'),
     }
 
     for key, condition in post_therapy_filters.items():
@@ -117,7 +117,7 @@ def patientList(request):
             patients = patients.filter(condition)
 
     # Finalize
-    patients = patients.order_by('id')
+    patients = patients.distinct().order_by('id')
     count = patients.count()
 
     context = {'patients': patients, 'patient_count': count}

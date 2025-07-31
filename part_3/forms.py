@@ -14,7 +14,7 @@ class AddPostTherapy(ModelForm):
             'kidney_right': forms.NumberInput(attrs={'step': '0.01', 'min': '0'}) 
         }
         labels = {
-            'date_of_post_therapy': 'Date of Post Therapy',
+            'date_of_post_therapy': 'Date of Post-Therapy',
             'with_spect_ct': 'With SPECT/CT',
             'post_therapy_scan_hours': 'Therapy Scan Duration (in hours)',
             'bone_lesion_details': 'Bone Lesion Details',
@@ -22,6 +22,7 @@ class AddPostTherapy(ModelForm):
             'salivary_gland': 'Salivary Gland', 
             'kidney_left': 'Kidney Left', 
             'kidney_right': 'Kidney Right',
+            'dosimetry_image': 'Dosimetry Image'
         }
 
 class EditPostTherapy(ModelForm):
@@ -35,6 +36,7 @@ class EditPostTherapy(ModelForm):
             'kidney_right': forms.NumberInput(attrs={'step': '0.01', 'min': '0'}) 
         }
         labels = {
+            'date_of_post_therapy': 'Date of Post-Therapy',
             'with_spect_ct': 'With SPECT/CT',
             'post_therapy_scan_hours': 'Therapy Scan Duration (in Hours)',
             'bone_lesion_details': 'Bone Lesion Details',
@@ -42,4 +44,5 @@ class EditPostTherapy(ModelForm):
             'salivary_gland': 'Salivary Gland', 
             'kidney_left': 'Kidney Left', 
             'kidney_right': 'Kidney Right',
+            'dosimetry_image': 'Dosimetry Image'
         }

@@ -16,9 +16,9 @@ class PostTherapy(models.Model):
     id = models.AutoField(primary_key=True)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='pt_patient')
     date_of_post_therapy = models.DateField()
-    post_therapy_scan_hours = models.PositiveIntegerField() # accept only positive integers only
+    post_therapy_scan_hours = models.PositiveIntegerField() # accept positive integers only
     with_spect_ct = models.BooleanField()
-    lesions = MultiSelectField(max_length=120, choices = LESIONS) #MAKE SURE MULTIPLE CHOICE FIELD FOR FORMS
+    lesions = MultiSelectField(max_length=120, choices = LESIONS, blank=True, null=True) #MAKE SURE MULTIPLE CHOICE FIELD FOR FORMS
     bone_lesion_details = models.TextField()
     lesion_image = models.ImageField(upload_to="images/")#image
 
