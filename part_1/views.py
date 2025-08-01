@@ -49,12 +49,16 @@ def patientList(request):
         'flexCheckIntermediateRisk': 'Intermediate Risk',
         'flexCheckHighRisk': 'High Risk'
     }
+
     selected_risk = next(
-        (label for key, label in risk_types.items() if request.GET.get(key) == 'on'), None
+        (label for key, label in risk_types.items() if request.GET.get(key) == 'on'),
+        None
     )
+
     if selected_risk:
         patients = patients.filter(
-            screening_patient__assessment__exact=selected_risk
+            Q(screening_patient__assessment__exact=selected_risk) |
+            Q(fu_patient__assessment__exact=selected_risk)
         )
 
     # Metastasis
