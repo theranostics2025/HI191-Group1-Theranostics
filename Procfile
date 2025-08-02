@@ -1,1 +1,1 @@
-web: python manage.py migrate && python manage.py collectstatic --no-input && gunicorn 'Theranostics.wsgi'
+web: python manage.py migrate && python manage.py createsuperuser --noinput && python manage.py collectstatic --no-input && gunicorn 'Theranostics.wsgi'
