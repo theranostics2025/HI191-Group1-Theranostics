@@ -30,11 +30,11 @@ ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
     '.railway.app',
-    'hi191-group1-theranostics-production.up.railway.app'
+    'hi191-group1-theranostics-2025-production.up.railway.app'
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://hi191-group1-theranostics-production.up.railway.app',
+    'https://hi191-group1-theranostics-2025-production.up.railway.app',
     'https://*.railway.app'
 ]
 
