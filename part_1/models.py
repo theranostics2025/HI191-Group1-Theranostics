@@ -46,15 +46,22 @@ class Patient(models.Model):
 
     #auto-add slugs
     def save(self, *args1, **args2):
-        # Save slug first to get unique id (self.id)
-        if not self.id:
+        is_new = self.id is None
+
+        if is_new:
             super().save(*args1, **args2)
 
-        # Save slug with unique id
-        if not self.slug:
-            self.slug = f"{slugify(self.name)}-{self.id}"
+        new_slug = f"{slugify(self.name)}-{self.id}"
 
-        return super().save(*args1, **args2)
+        if not self.slug or self.slug != new_slug:
+            self.slug = new_slug
+            super().save(update_fields=["slug"])
+
+        if not is_new and self.slug == new_slug:
+            return super().save(*args1, **args2)
+
+        return None
+
 
 class PhysicalExam(models.Model):
     ECOG_CHOICES = [

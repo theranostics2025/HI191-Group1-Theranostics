@@ -64,7 +64,8 @@ def patientList(request):
     # Metastasis
     if request.GET.get('flexHasMetastasis') == 'on':
         patients = patients.filter(
-            screening_patient__bone_metastasis_status='With Metastasis'
+            Q(screening_patient__bone_metastasis_status='With Metastasis') |
+            Q(fu_patient__bone_metastasis_status='With Metastasis')
         )
 
     # Side Effects
@@ -246,15 +247,22 @@ def addPhysicalExam(request, slug):
 @login_required
 def editPhysicalExam(request, slug, id):
     physical_exam = PhysicalExam.objects.get(id=id)
+
     if request.method == "POST":
         form = EditPhysicalExam(request.POST, instance=physical_exam)
         if form.is_valid():
             form.save()
-        return HttpResponseRedirect(reverse_lazy('patientDetails', kwargs={"slug":slug}))
+            return HttpResponseRedirect(reverse_lazy('patientDetails', kwargs={"slug": slug}))
+        else:
+            # Form is invalid
+            context = {'form': form}
+            return render(request, "part_1/edit-physical-exam.html", context)
     else:
         form = EditPhysicalExam(instance=physical_exam)
-        context = {'form' : form}
-        return render(request, "part_1/edit-physical-exam.html", context)
+
+    context = {'form': form}
+    return render(request, "part_1/edit-physical-exam.html", context)
+
 
 @login_required 
 def deletePhysicalExam(request, slug, id):
@@ -289,15 +297,21 @@ def addTherapy(request, slug):
 @login_required
 def editTherapy(request, slug, id):
     therapy = Therapy.objects.get(id=id)
+
     if request.method == "POST":
         form = EditTherapy(request.POST, instance=therapy)
         if form.is_valid():
             form.save()
-        return HttpResponseRedirect(reverse_lazy('patientDetails', kwargs={"slug":slug}))
+            return HttpResponseRedirect(reverse_lazy('patientDetails', kwargs={"slug": slug}))
+        else:
+            # Form is invalid
+            context = {'form': form}
+            return render(request, "part_2/edit-therapy.html", context)
     else:
         form = EditTherapy(instance=therapy)
-        context = {'form' : form}
-        return render(request, "part_2/edit-therapy.html", context)
+
+    context = {'form': form}
+    return render(request, "part_2/edit-therapy.html", context)
 
 @login_required
 def deleteTherapy(request, slug, id):

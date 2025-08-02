@@ -25,8 +25,9 @@ class Therapy(models.Model):
     premedications = models.CharField(max_length=120, null=True, blank=True)
     medications = models.CharField(max_length=120, null=True, blank=True)
     furosemide = models.BooleanField()
-    systolic = models.PositiveIntegerField() # accept positive integers only
-    diastolic = models.PositiveIntegerField() # accept positive integers only
+    # systolic = models.PositiveIntegerField() # accept positive integers only
+    # diastolic = models.PositiveIntegerField() # accept positive integers only
+    bp = models.CharField(max_length=120)
     hr = models.PositiveIntegerField() # accept positive integers only
     rr = models.PositiveIntegerField() # accept positive integers only
     # saturation = models.PositiveIntegerField(blank=True, null=True) # accept positive integers only
