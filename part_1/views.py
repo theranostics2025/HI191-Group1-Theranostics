@@ -171,7 +171,6 @@ def addPatient(request):
     context = {'form': form}
     return render(request, "part_1/add-patient.html", context)
 
-
 @login_required
 def editPatient(request, slug):
     patient = Patient.objects.get(slug=slug)
@@ -187,7 +186,6 @@ def editPatient(request, slug):
 
     context = {'form': form}
     return render(request, "part_1/edit-patient.html", context)
-
 
 @login_required
 def deletePatient(request, pk):
