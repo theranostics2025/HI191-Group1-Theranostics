@@ -177,17 +177,18 @@ def editPatient(request, slug):
     patient = Patient.objects.get(slug=slug)
 
     if request.method == "POST":
-        form = EditPatient(request.POST, instance=patient)
+        form = EditPatient(request.POST, request.FILES, instance=patient)
 
         if form.is_valid():
+            if 'histopath_result' in request.FILES and patient.histopath_result:
+                patient.histopath_result.delete(save=False)
             form.save()
-
-        return HttpResponseRedirect(reverse_lazy('patientList'))
+            return HttpResponseRedirect(reverse_lazy('patientList'))
     else:
         form = EditPatient(instance=patient)
 
-        context = {'form' : form}
-        return render(request, "part_1/edit-patient.html", context)
+    context = {'form': form}
+    return render(request, "part_1/edit-patient.html", context)
 
 @login_required
 def deletePatient(request, pk):
