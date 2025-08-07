@@ -180,8 +180,6 @@ def editPatient(request, slug):
         form = EditPatient(request.POST, request.FILES, instance=patient)
 
         if form.is_valid():
-            if 'histopath_result' in request.FILES and patient.histopath_result:
-                patient.histopath_result.delete(save=False)
             form.save()
             return HttpResponseRedirect(reverse_lazy('patientList'))
     else:
@@ -189,6 +187,7 @@ def editPatient(request, slug):
 
     context = {'form': form}
     return render(request, "part_1/edit-patient.html", context)
+
 
 @login_required
 def deletePatient(request, pk):
