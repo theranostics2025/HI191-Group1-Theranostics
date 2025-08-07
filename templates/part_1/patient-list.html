@@ -116,7 +116,11 @@
             </div>
         </div>
 
-        <div class="d-flex justify-content-center gap-2 mt-4">
+        <p class="mt-4" style="font-size: 0.9em; font-style: italic;">
+            <strong>Note:</strong> Filters apply only to the latest form entry for each section, if available.
+        </p>
+
+        <div class="d-flex justify-content-center gap-2">
             <button type="submit" class="btn btn-danger">Submit</button>
             <a href="{% url 'patientList' %}" class="btn btn-secondary">Clear All</a>
         </div>
