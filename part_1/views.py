@@ -52,6 +52,8 @@ def patientList(request):
         latest_therapy_id=Subquery(latest_therapy.values('id')[:1]),
         latest_pt_id=Subquery(latest_pt.values('id')[:1]),
         latest_fu_id=Subquery(latest_fu.values('id')[:1]),
+        latest_fu_assessment=Subquery(latest_fu.values('assessment')[:1]),
+        latest_fu_metastasis=Subquery(latest_fu.values('bone_metastasis_status')[:1])
     )
 
     # Assessment Type (Only one of them is possible)
@@ -68,15 +70,15 @@ def patientList(request):
 
     if selected_risk:
         patients = patients.filter(
-            Q(screening_patient__assessment__exact=selected_risk) |
-            Q(fu_patient__assessment__exact=selected_risk)
+            Q(latest_fu_assessment=selected_risk) |
+            Q(latest_fu_assessment__isnull=True, screening_patient__assessment=selected_risk)
         )
 
     # Metastasis
     if request.GET.get('flexHasMetastasis') == 'on':
         patients = patients.filter(
-            Q(screening_patient__bone_metastasis_status='With Metastasis') |
-            Q(fu_patient__bone_metastasis_status='With Metastasis')
+            Q(latest_fu_metastasis='With Metastasis') |
+            Q(latest_fu_metastasis__isnull=True, screening_patient__bone_metastasis_status='With Metastasis')
         )
 
     # Side Effects
