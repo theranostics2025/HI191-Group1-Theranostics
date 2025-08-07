@@ -174,18 +174,15 @@ def addPatient(request):
 @login_required
 def editPatient(request, slug):
     patient = Patient.objects.get(slug=slug)
-
     if request.method == "POST":
         form = EditPatient(request.POST, request.FILES, instance=patient)
-
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse_lazy('patientList'))
+        return HttpResponseRedirect(reverse_lazy('patientList'))
     else:
         form = EditPatient(instance=patient)
-
-    context = {'form': form}
-    return render(request, "part_1/edit-patient.html", context)
+        context = {'form': form}
+        return render(request, "part_1/edit-patient.html", context)
 
 @login_required
 def deletePatient(request, pk):
@@ -212,7 +209,7 @@ def addScreening(request, slug):
 def editScreening(request, slug, id):
     physical_exam = Screening.objects.get(id=id)
     if request.method == "POST":
-        form = EditScreening(request.POST, instance=physical_exam)
+        form = EditScreening(request.POST, request.FILES, instance=physical_exam)
         if form.is_valid():
             form.save()
         return HttpResponseRedirect(reverse_lazy('patientDetails', kwargs={"slug":slug}))
@@ -232,7 +229,7 @@ def addPhysicalExam(request, slug):
     patient = Patient.objects.get(slug=slug)
     form = AddPhysicalExam
     if request.method == "POST":
-        form = AddPhysicalExam(request.POST)
+        form = AddPhysicalExam(request.POST, request.FILES)
         if form.is_valid():
             build = form.save(False)
             build.patient = patient
@@ -247,7 +244,7 @@ def editPhysicalExam(request, slug, id):
     physical_exam = PhysicalExam.objects.get(id=id)
 
     if request.method == "POST":
-        form = EditPhysicalExam(request.POST, instance=physical_exam)
+        form = EditPhysicalExam(request.POST, request.FILES, instance=physical_exam)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse_lazy('patientDetails', kwargs={"slug": slug}))
@@ -282,7 +279,7 @@ def addTherapy(request, slug):
     patient = Patient.objects.get(slug=slug)
     form = AddTherapy()
     if request.method == "POST":
-        form = AddTherapy(request.POST)
+        form = AddTherapy(request.POST, request.FILES)
         if form.is_valid():
             build = form.save(False)
             build.patient = patient
@@ -297,7 +294,7 @@ def editTherapy(request, slug, id):
     therapy = Therapy.objects.get(id=id)
 
     if request.method == "POST":
-        form = EditTherapy(request.POST, instance=therapy)
+        form = EditTherapy(request.POST, request.FILES, instance=therapy)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse_lazy('patientDetails', kwargs={"slug": slug}))
@@ -344,7 +341,7 @@ def addPostTherapy(request, slug):
 def editPostTherapy(request, slug, id):
     post_therapy = PostTherapy.objects.get(id=id)
     if request.method == "POST":
-        form = EditPostTherapy(request.POST, instance=post_therapy)
+        form = EditPostTherapy(request.POST, request.FILES, instance=post_therapy)
         if form.is_valid():
             form.save()
         return HttpResponseRedirect(reverse_lazy('patientDetails', kwargs={"slug":slug}))
@@ -386,7 +383,7 @@ def addFollowUp(request, slug):
 def editFollowUp(request, slug, id):
     follow_up = FollowUp.objects.get(id=id)
     if request.method == "POST":
-        form = EditFollowUp(request.POST, instance=follow_up)
+        form = EditFollowUp(request.POST, request.FILES, instance=follow_up)
         if form.is_valid():
             form.save()
         return HttpResponseRedirect(reverse_lazy('patientDetails', kwargs={"slug":slug}))
