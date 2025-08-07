@@ -16,7 +16,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test as userPassesTest
 
-from django.db.models import Exists, OuterRef, Q
+from django.db.models import Exists, OuterRef, Q, F, Subquery
 
 from django.core.paginator import Paginator
 
@@ -42,6 +42,17 @@ def register(request):
 @login_required
 def patientList(request):
     patients = Patient.objects.all()
+
+    # Get only latest therapy, post-therapy, and follow-up IDs 
+    latest_therapy = Therapy.objects.filter(patient_id=OuterRef('pk')).order_by('-id')
+    latest_pt = PostTherapy.objects.filter(patient_id=OuterRef('pk')).order_by('-id')
+    latest_fu = FollowUp.objects.filter(patient_id=OuterRef('pk')).order_by('-id')
+
+    patients = patients.annotate(
+        latest_therapy_id=Subquery(latest_therapy.values('id')[:1]),
+        latest_pt_id=Subquery(latest_pt.values('id')[:1]),
+        latest_fu_id=Subquery(latest_fu.values('id')[:1]),
+    )
 
     # Assessment Type (Only one of them is possible)
     risk_types = {
@@ -73,7 +84,7 @@ def patientList(request):
         patients = patients.filter(
             Exists(
                 Therapy.objects.filter(
-                    patient_id=OuterRef('pk')
+                    id=OuterRef('latest_therapy_id')
                 ).filter(
                     ~Q(side_effects__isnull=True) & ~Q(side_effects__exact='')
                 )
@@ -96,11 +107,11 @@ def patientList(request):
 
     # Post-Therapy Imaging
     post_therapy_filters = {
-        'flexCheckProstateLPT': Q(pt_patient__lesions__icontains='Prostate'),
-        'flexCheckLNLPT': Q(pt_patient__lesions__icontains='Lymph Nodes'),
-        'flexCheckBoneLPT': Q(pt_patient__lesions__icontains='Bones'),
-        'flexCheckLungLPT': Q(pt_patient__lesions__icontains='Lungs'),
-        'flexCheckLiverLPT': Q(pt_patient__lesions__icontains='Liver'),
+        'flexCheckProstateLPT': Q(pt_patient__id=F('latest_pt_id')) & Q(pt_patient__lesions__icontains='Prostate'),
+        'flexCheckLNLPT': Q(pt_patient__id=F('latest_pt_id')) & Q(pt_patient__lesions__icontains='Lymph Nodes'),
+        'flexCheckBoneLPT': Q(pt_patient__id=F('latest_pt_id')) & Q(pt_patient__lesions__icontains='Bones'),
+        'flexCheckLungLPT': Q(pt_patient__id=F('latest_pt_id')) & Q(pt_patient__lesions__icontains='Lungs'),
+        'flexCheckLiverLPT': Q(pt_patient__id=F('latest_pt_id')) & Q(pt_patient__lesions__icontains='Liver'),
     }
 
     for key, condition in post_therapy_filters.items():
@@ -109,12 +120,24 @@ def patientList(request):
 
     # Follow-up Imaging
     followup_filters = {
-        'flexCheckProstateLFU': Q(fu_patient__gapsma_prostate_lesion_status='Present') | Q(fu_patient__fdgpetct_prostate_lesion_status='Present'),
-        'flexCheckLNLFU': Q(fu_patient__gapsma_lymph_node_lesion_status='Present') | Q(fu_patient__fdgpetct_lymph_node_lesion_status='Present'),
-        'flexCheckBoneLFU': Q(fu_patient__gapsma_bone_lesion_status='Present') | Q(fu_patient__fdgpetct_bone_lesion_status='Present'),
-        'flexCheckBrainLFU': Q(fu_patient__gapsma_brain_lesion_status='Present') | Q(fu_patient__fdgpetct_brain_lesion_status='Present'),
-        'flexCheckLungLFU': Q(fu_patient__gapsma_lung_lesion_status='Present') | Q(fu_patient__fdgpetct_lung_lesion_status='Present'),
-        'flexCheckLiverLFU': Q(fu_patient__gapsma_liver_lesion_status='Present') | Q(fu_patient__fdgpetct_liver_lesion_status='Present'),
+        'flexCheckProstateLFU': Q(fu_patient__id=F('latest_fu_id')) & (
+            Q(fu_patient__gapsma_prostate_lesion_status='Present') | Q(fu_patient__fdgpetct_prostate_lesion_status='Present')
+        ),
+        'flexCheckLNLFU': Q(fu_patient__id=F('latest_fu_id')) & (
+            Q(fu_patient__gapsma_lymph_node_lesion_status='Present') | Q(fu_patient__fdgpetct_lymph_node_lesion_status='Present')
+        ),
+        'flexCheckBoneLFU': Q(fu_patient__id=F('latest_fu_id')) & (
+            Q(fu_patient__gapsma_bone_lesion_status='Present') | Q(fu_patient__fdgpetct_bone_lesion_status='Present')
+        ),
+        'flexCheckBrainLFU': Q(fu_patient__id=F('latest_fu_id')) & (
+            Q(fu_patient__gapsma_brain_lesion_status='Present') | Q(fu_patient__fdgpetct_brain_lesion_status='Present')
+        ),
+        'flexCheckLungLFU': Q(fu_patient__id=F('latest_fu_id')) & (
+            Q(fu_patient__gapsma_lung_lesion_status='Present') | Q(fu_patient__fdgpetct_lung_lesion_status='Present')
+        ),
+        'flexCheckLiverLFU': Q(fu_patient__id=F('latest_fu_id')) & (
+            Q(fu_patient__gapsma_liver_lesion_status='Present') | Q(fu_patient__fdgpetct_liver_lesion_status='Present')
+        ),
     }
 
     for key, condition in followup_filters.items():
@@ -143,11 +166,11 @@ def patientDetails(request, slug):
 
 @login_required
 def patientSearch(request): 
-    patients = Patient.objects.all()    
+    patients = Patient.objects.all().order_by('id')    
     count = patients.count
     if request.method == "POST":
         search = request.POST['search']
-        results = Patient.objects.filter(name__contains=search)
+        results = Patient.objects.filter(name__icontains=search).order_by('id')
         count = results.count
         context = {'search': search, 'results': results, 'patient_count' : count}
         return render(request, 'part_1/patient-search-results.html', context)
